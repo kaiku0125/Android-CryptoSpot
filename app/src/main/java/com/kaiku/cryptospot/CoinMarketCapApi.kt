@@ -13,5 +13,8 @@ interface CoinMarketCapApi {
     ): CoinMarketCapResponse
 
     @GET("v1/cryptocurrency/quotes/latest")
-    fun getCurrentPrice(@Query("symbol") symbol: String): Call<CoinMarketCapResponse>
+    fun getCurrentPrice(
+        @Query("symbol") symbol: String
+    ): Call<CoinMarketCapResponse>
+
 }

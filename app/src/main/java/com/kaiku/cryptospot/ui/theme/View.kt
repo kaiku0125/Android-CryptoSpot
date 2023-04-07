@@ -1,6 +1,5 @@
 package com.kaiku.cryptospot.ui.theme
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -76,16 +75,24 @@ fun connect(){
 
     val coinMarketCapApi = retrofit.create(CoinMarketCapApi::class.java)
 
-
     try {
         Log.e(TAG, "connect: start")
-        val call = coinMarketCapApi.getCurrentPrice("BTC")
+        val call = coinMarketCapApi.getCurrentPrice("BTC,ETH,BNB")
+//        val call = coinMarketCapApi.getListCryptoPrices(listOf("BTC","ETH","BNB"))
+
+
         call.enqueue(object : Callback<CoinMarketCapResponse> {
             override fun onResponse(call: Call<CoinMarketCapResponse>, response: Response<CoinMarketCapResponse>) {
                 val coinMarketCapResponse = response.body()
                 Log.e(TAG, "onResponse: body -> ${coinMarketCapResponse.toString()}")
+
                 val bitcoinPrice = coinMarketCapResponse?.data?.get("BTC")?.quote?.get("USD")?.price
-                Log.e(TAG, "onResponse: price -> $bitcoinPrice")
+                val ethcoinPrice = coinMarketCapResponse?.data?.get("ETH")?.quote?.get("USD")?.price
+                val bnbcoinPrice = coinMarketCapResponse?.data?.get("BNB")?.quote?.get("USD")?.price
+
+                Log.e(TAG, "onResponse: BTC -> $bitcoinPrice")
+                Log.e(TAG, "onResponse: ETH -> $ethcoinPrice")
+                Log.e(TAG, "onResponse: BNB -> $bnbcoinPrice")
 //                Log.e(TAG, "onResponse: 666666666666")
                 // Use the Bitcoin price data
             }
