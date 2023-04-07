@@ -1,6 +1,7 @@
 package com.kaiku.cryptospot.ui.theme
 
 import android.util.Log
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kaiku.cryptospot.CoinMarketCapApi
 import com.kaiku.cryptospot.data.CoinMarketCapResponse
 import kotlinx.coroutines.Dispatchers
