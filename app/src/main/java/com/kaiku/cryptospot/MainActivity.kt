@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kaiku.cryptospot.ui.theme.CryptoSpotTheme
+import com.kaiku.cryptospot.ui.theme.MainView
+
 //adb connect 127.0.0.1:62001
 class MainActivity : ComponentActivity() {
     private val TAG = "MainActivity"
@@ -23,18 +25,17 @@ class MainActivity : ComponentActivity() {
             CryptoSpotTheme (darkTheme = true){
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+
+                    MainView()
+
                 }
             }
         }
 
     }
 
-
-    @Composable
-    fun Greeting(name: String) {
-        Text(text = "Hello $name!")
-        Log.e(TAG, "Greeting: 7777")
+    override fun onResume() {
+        super.onResume()
     }
 }
 
