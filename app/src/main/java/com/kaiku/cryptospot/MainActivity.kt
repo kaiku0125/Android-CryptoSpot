@@ -1,34 +1,34 @@
 package com.kaiku.cryptospot
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.kaiku.cryptospot.ui.theme.CryptoSpotTheme
-import com.kaiku.cryptospot.ui.theme.MainView
+import com.kaiku.cryptospot.ui.theme.EntryScreen
+import org.amobile.mqtt_k.prefs.Prefs
 
 //adb connect 127.0.0.1:62001
+
+private const val TAG = "MainActivity"
+
 class MainActivity : ComponentActivity() {
-    private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Prefs.load(this)
 
         setContent {
-            CryptoSpotTheme (darkTheme = true){
+            CryptoSpotTheme(darkTheme = true) {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-
-                    MainView()
-
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    EntryScreen()
                 }
             }
         }

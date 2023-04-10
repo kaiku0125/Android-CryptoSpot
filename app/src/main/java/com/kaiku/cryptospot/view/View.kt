@@ -1,7 +1,6 @@
 package com.kaiku.cryptospot.ui.theme
 
 import android.util.Log
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
@@ -9,10 +8,15 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.internal.composableLambda
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.kaiku.cryptospot.CoinMarketCapApi
 import com.kaiku.cryptospot.data.CoinMarketCapResponse
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +24,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import org.amobile.mqtt_k.prefs.Prefs
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,14 +33,37 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val TAG = "MainView"
 private const val MY_API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
+private const val COIN_MARKET_CAP_BASE_URL = "https://pro-api.coinmarketcap.com/"
+
 @Composable
-fun MainView() {
+fun EntryScreen(){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "HomeView"){
+        composable("HomeView"){
+            HomeView(navController)
+        }
+
+        composable("LoginView"){
+            LoginView(navController)
+        }
+    }
+
+    if (Prefs.apiKey.isEmpty())
+        navController.navigate("LoginView")
+    else
+        navController.navigate("HomeView")
+}
+@Composable
+fun HomeView(nav : NavController) {
     Scaffold(topBar = { MyTopBar() }) { padding ->
 
         Button(modifier = Modifier
             .padding(padding)
             .padding(start = 20.dp, top = 50.dp),
-            onClick = { GlobalScope.launch(Dispatchers.IO) { connect() } }) {
+            onClick = {
+//                GlobalScope.launch(Dispatchers.IO) { connect() }
+                nav.navigate("LoginView")
+            }) {
             Text(text = "test")
         }
 
@@ -70,7 +98,7 @@ fun connect(){
     val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://pro-api.coinmarketcap.com/")
+        .baseUrl(COIN_MARKET_CAP_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .build()
