@@ -6,9 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.kaiku.cryptospot.ui.theme.CryptoSpotTheme
-import com.kaiku.cryptospot.ui.theme.EntryScreen
+import com.kaiku.cryptospot.ui.theme.HomeView
+import com.kaiku.cryptospot.ui.theme.LoginView
 import org.amobile.mqtt_k.prefs.Prefs
 
 //adb connect 127.0.0.1:62001
@@ -37,6 +42,25 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+    }
+
+    @Composable
+    fun EntryScreen(){
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "HomeView"){
+            composable("HomeView"){
+                HomeView(navController)
+            }
+
+            composable("LoginView"){
+                LoginView(navController)
+            }
+        }
+
+        if (Prefs.apiKey.isEmpty())
+            navController.navigate("LoginView")
+        else
+            navController.navigate("HomeView")
     }
 }
 
