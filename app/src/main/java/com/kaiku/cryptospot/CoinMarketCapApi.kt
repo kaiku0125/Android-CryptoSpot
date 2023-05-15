@@ -19,10 +19,10 @@ interface CoinMarketCapApi {
     ): Call<CoinMarketCapResponse>
 
     @GET("v1/cryptocurrency/listings/latest")
-    fun getCryptoListings(
+    suspend fun getCryptoListings(
         @Query("start") start: Int = 1,
         @Query("limit") limit: Int = 100,
         @Query("convert") convert: String = "USD"
-    ): Call<CoinMarketCapResponse2>
+    ): CoinMarketCapResponse2
 
 }

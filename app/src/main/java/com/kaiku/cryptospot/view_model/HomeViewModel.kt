@@ -1,12 +1,10 @@
-package com.kaiku.cryptospot
+package com.kaiku.cryptospot.view_model
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 
-
 private const val TAG = "CryptoViewModel"
-
-class CryptoViewModel(ctx: Context) : ViewModel() {
+class HomeViewModel(ctx: Context) : ViewModel() {
 
 
 }

@@ -14,7 +14,9 @@ import androidx.navigation.compose.rememberNavController
 import com.kaiku.cryptospot.ui.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.ui.theme.HomeView
 import com.kaiku.cryptospot.ui.theme.LoginView
+import com.kaiku.cryptospot.view.FindCryptoView
 import org.amobile.mqtt_k.prefs.Prefs
+import timber.log.Timber
 
 //adb connect 127.0.0.1:62001
 
@@ -24,6 +26,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(BuildConfig.DEBUG)
+            Timber.plant(MultiTagTree())
         Prefs.load(this)
 
         setContent {
@@ -54,6 +58,10 @@ class MainActivity : ComponentActivity() {
 
             composable("LoginView"){
                 LoginView(navController)
+            }
+
+            composable("FindCryptoView"){
+                FindCryptoView(navController)
             }
         }
 
