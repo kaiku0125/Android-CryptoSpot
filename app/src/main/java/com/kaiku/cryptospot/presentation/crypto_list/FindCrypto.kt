@@ -1,6 +1,5 @@
 package com.kaiku.cryptospot.view
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -12,10 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.kaiku.cryptospot.view_model.CryptoListViewModel
-import com.kaiku.cryptospot.view_model.CryptoListViewModelFactory
+import com.kaiku.cryptospot.presentation.crypto_list.CryptoListViewModel
 import timber.log.Timber
 
 private const val TAG = "FindCrypto"
@@ -23,7 +21,7 @@ private const val TAG = "FindCrypto"
 @Composable
 fun FindCryptoView(nav: NavController) {
     val ctx = LocalContext.current
-    val viewModel: CryptoListViewModel = viewModel(factory = CryptoListViewModelFactory(ctx))
+    val viewModel : CryptoListViewModel = hiltViewModel()
     val mCryptoList = viewModel.apiCryptoList.observeAsState(emptyList())
 
 

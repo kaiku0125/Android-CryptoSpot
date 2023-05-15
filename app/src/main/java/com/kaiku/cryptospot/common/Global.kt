@@ -1,5 +1,4 @@
-package com.kaiku.cryptospot
-
+package com.kaiku.cryptospot.common
 
 private const val SYMBOL = "【】"
 private const val ARROW = "➔"

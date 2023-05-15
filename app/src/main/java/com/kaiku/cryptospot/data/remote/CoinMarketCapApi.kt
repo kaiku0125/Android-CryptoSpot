@@ -1,7 +1,7 @@
-package com.kaiku.cryptospot
+package com.kaiku.cryptospot.data.remote
 
-import com.kaiku.cryptospot.data.CoinMarketCapResponse
-import com.kaiku.cryptospot.data.CoinMarketCapResponse2
+import com.kaiku.cryptospot.domain.model.CoinMarketCapResponse
+import com.kaiku.cryptospot.domain.model.CoinMarketCapResponse2
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

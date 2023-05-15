@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.ui.theme
+package com.kaiku.cryptospot.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

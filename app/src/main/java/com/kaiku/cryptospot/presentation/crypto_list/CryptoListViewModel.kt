@@ -1,22 +1,21 @@
-package com.kaiku.cryptospot.view_model
+package com.kaiku.cryptospot.presentation.crypto_list
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kaiku.cryptospot.model.MainRepository
+import com.kaiku.cryptospot.data.repository.MainRepositoryImpl
+import com.kaiku.cryptospot.domain.repository.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
-private const val TAG = "CryptoListViewModel"
-
-class CryptoListViewModel(private val ctx: Context) : ViewModel() {
-    private val mainRepository: MainRepository = MainRepository(ctx)
-
+@HiltViewModel
+class CryptoListViewModel @Inject constructor(
+    private val mainRepository: MainRepository
+) : ViewModel() {
 
     private val _apiCryptoList: MutableLiveData<List<String>> = MutableLiveData(emptyList())
     val apiCryptoList : LiveData<List<String>> = _apiCryptoList

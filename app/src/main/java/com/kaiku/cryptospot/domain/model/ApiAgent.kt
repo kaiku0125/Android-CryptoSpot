@@ -1,8 +1,7 @@
-package com.kaiku.cryptospot.model
+package com.kaiku.cryptospot.domain.model
 
-import android.content.Context
-import com.kaiku.cryptospot.CoinMarketCapApi
-import com.kaiku.cryptospot.Global
+import com.kaiku.cryptospot.data.remote.CoinMarketCapApi
+import com.kaiku.cryptospot.common.Global
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.amobile.mqtt_k.prefs.Prefs

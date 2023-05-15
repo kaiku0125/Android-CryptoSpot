@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot
+package com.kaiku.cryptospot.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,10 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.kaiku.cryptospot.ui.theme.CryptoSpotTheme
+import com.kaiku.cryptospot.BuildConfig
+import com.kaiku.cryptospot.MultiTagTree
+import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.ui.theme.HomeView
 import com.kaiku.cryptospot.ui.theme.LoginView
 import com.kaiku.cryptospot.view.FindCryptoView
+import dagger.hilt.android.AndroidEntryPoint
 import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
 
@@ -22,6 +25,7 @@ import timber.log.Timber
 
 private const val TAG = "MainActivity"
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

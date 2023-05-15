@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.data
+package com.kaiku.cryptospot.domain.model
 
 data class CoinMarketCapResponse(
     val data : Map<String, CryptoCurrency>

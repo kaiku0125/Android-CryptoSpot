@@ -1,27 +1,14 @@
-package com.kaiku.cryptospot.model
+package com.kaiku.cryptospot.data.repository
 
-import android.content.Context
-import android.provider.ContactsContract.AggregationExceptions
-import android.util.Log
-import com.kaiku.cryptospot.CoinMarketCapApi
-import com.kaiku.cryptospot.Global
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import org.amobile.mqtt_k.prefs.Prefs
-import retrofit2.Retrofit
-import retrofit2.awaitResponse
-import retrofit2.converter.gson.GsonConverterFactory
+import com.kaiku.cryptospot.data.remote.CoinMarketCapApi
+import com.kaiku.cryptospot.domain.repository.MainRepository
 import timber.log.Timber
-import java.sql.Time
-import kotlin.math.log
+import javax.inject.Inject
 
-private const val TAG = "MainRepository"
+class MainRepositoryImpl @Inject constructor(
+    private val api: CoinMarketCapApi
+) : MainRepository{
 
-class MainRepository(private val ctx: Context) {
-    private val api: CoinMarketCapApi = ApiAgent.getInstance()
     var cryptoList: List<String> = emptyList()
 
 //    suspend fun requestCryptoList(): List<String> {
@@ -65,7 +52,7 @@ class MainRepository(private val ctx: Context) {
 //        return cryptoList
 //    }
 
-    suspend fun requestCryptoList(): List<String> {
+    override suspend fun requestCryptoList(): List<String> {
         Timber.e("Method start")
         val response = api.getCryptoListings()
 
@@ -82,7 +69,7 @@ class MainRepository(private val ctx: Context) {
         return cryptoList
     }
 
-    suspend fun requestObserverList(symbol: String) {
+    override suspend fun requestObserverList(symbol: String) {
 
     }
 

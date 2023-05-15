@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.data
+package com.kaiku.cryptospot.domain.model
 
 data class CoinMarketCapResponse2(
     val data: List<CryptoListing>,
