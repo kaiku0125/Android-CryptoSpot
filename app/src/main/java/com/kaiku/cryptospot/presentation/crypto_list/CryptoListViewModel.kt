@@ -1,42 +1,51 @@
 package com.kaiku.cryptospot.presentation.crypto_list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kaiku.cryptospot.data.repository.MainRepositoryImpl
-import com.kaiku.cryptospot.domain.repository.MainRepository
+import com.kaiku.cryptospot.common.Resource
+import com.kaiku.cryptospot.domain.use_case.GetCryptoListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class CryptoListViewModel @Inject constructor(
-    private val mainRepository: MainRepository
+    private val getCryptoListUseCase: GetCryptoListUseCase
 ) : ViewModel() {
 
-    private val _apiCryptoList: MutableLiveData<List<String>> = MutableLiveData(emptyList())
-    val apiCryptoList : LiveData<List<String>> = _apiCryptoList
+    private val _apiCryptoListState = mutableStateOf(CryptoListState())
+    val apiCryptoListState: State<CryptoListState> = _apiCryptoListState
 
 
     init {
-        Timber.e("list -> ${apiCryptoList.value?.size}")
-
+        Timber.e("list -> ${apiCryptoListState.value.cryptoList.size}")
     }
 
     fun refreshCryptoList() {
-        Timber.e("refresh start!")
-        viewModelScope.launch(Dispatchers.IO) {
-            Timber.e("Scope start -----")
-            val data = mainRepository.requestCryptoList()
-            Timber.e(" ~ middle ~ ")
-            _apiCryptoList.postValue(data)
+        Timber.e("refresh crypto list")
+        getCryptoListUseCase().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    Timber.e("Success ! ${result.data?.size}")
+                    _apiCryptoListState.value =
+                        CryptoListState(cryptoList = result.data ?: emptyList())
+                }
+                is Resource.Error -> {
+                    _apiCryptoListState.value =
+                        CryptoListState(error = result.message ?: "An unexpected error occurred.")
+                }
+                is Resource.Loading -> {
+                    Timber.e("Loading")
+                    _apiCryptoListState.value = CryptoListState(isLoading = true)
 
-            Timber.e("Scope end -----")
-        }
-        Timber.e("refresh end!")
+                }
+            }
+        }.launchIn(viewModelScope)
+
     }
 
     suspend fun saveCryptoListToDb() {

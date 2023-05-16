@@ -16,10 +16,6 @@ class Prefs {
 
         fun load(ctx: Context) {
             apiKey = Shared.get(ctx, KEY_APIKEY, apiKey)
-            Log.e(
-                TAG, "Load user prefs: \n" +
-                        "   API key ➔ $apiKey"
-            )
             Timber.e("Load user prefs: \n\t\tAPI key ➔ $apiKey")
 
         }

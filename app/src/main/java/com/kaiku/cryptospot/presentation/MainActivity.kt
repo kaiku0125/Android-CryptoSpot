@@ -6,7 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -16,7 +20,7 @@ import com.kaiku.cryptospot.MultiTagTree
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.ui.theme.HomeView
 import com.kaiku.cryptospot.ui.theme.LoginView
-import com.kaiku.cryptospot.view.FindCryptoView
+import com.kaiku.cryptospot.view.FindCryptoScreen
 import dagger.hilt.android.AndroidEntryPoint
 import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
@@ -30,7 +34,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG)
             Timber.plant(MultiTagTree())
         Prefs.load(this)
 
@@ -50,29 +54,47 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
+        Timber.e("main activity onResume")
     }
 
     @Composable
-    fun EntryScreen(){
+    fun EntryScreen() {
+        Timber.e("entry screen")
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = "HomeView"){
-            composable("HomeView"){
+        val hasApiKey = remember {
+            mutableStateOf(Prefs.apiKey.isNotBlank())
+        }
+        Timber.e("Dose user has key ? ${hasApiKey.value}")
+        NavHost(
+            navController = navController,
+            startDestination = if (hasApiKey.value) "HomeView" else "LoginView"
+        ) {
+            composable("HomeView") {
                 HomeView(navController)
             }
 
-            composable("LoginView"){
+            composable("LoginView") {
                 LoginView(navController)
+
             }
 
-            composable("FindCryptoView"){
-                FindCryptoView(navController)
+            composable("FindCryptoView") {
+                FindCryptoScreen(navController)
             }
         }
 
-        if (Prefs.apiKey.isEmpty())
-            navController.navigate("LoginView")
-        else
-            navController.navigate("HomeView")
+
+    }
+
+    override fun onPause() {
+        Timber.e("main onPause")
+        super.onPause()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // TODO: onBackPressed may cause invoke onResume twice
+
     }
 }
 

@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 import org.amobile.mqtt_k.prefs.Prefs
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import timber.log.Timber
 import javax.inject.Singleton
 
@@ -37,12 +38,11 @@ object AppModule {
         }
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
-        return Retrofit.Builder()
-            .baseUrl(Global.COIN_MARKET_CAP_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-            .create(CoinMarketCapApi::class.java)
+        return Retrofit.Builder().apply {
+            baseUrl(Global.COIN_MARKET_CAP_BASE_URL)
+            addConverterFactory(GsonConverterFactory.create())
+            client(client)
+        }.build().create(CoinMarketCapApi::class.java)
 
     }
 
