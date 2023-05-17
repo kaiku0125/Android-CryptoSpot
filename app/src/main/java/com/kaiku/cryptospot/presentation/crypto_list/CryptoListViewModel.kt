@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kaiku.cryptospot.common.Resource
+import com.kaiku.cryptospot.domain.model.CryptoListingData
 import com.kaiku.cryptospot.domain.use_case.GetCryptoListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

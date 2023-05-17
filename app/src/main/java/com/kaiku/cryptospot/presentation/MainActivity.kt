@@ -6,9 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -17,10 +15,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kaiku.cryptospot.BuildConfig
 import com.kaiku.cryptospot.MultiTagTree
+import com.kaiku.cryptospot.presentation.home.HomeScreen
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
-import com.kaiku.cryptospot.ui.theme.HomeView
 import com.kaiku.cryptospot.ui.theme.LoginView
-import com.kaiku.cryptospot.view.FindCryptoScreen
+import com.kaiku.cryptospot.view.CryptoListScreen
 import dagger.hilt.android.AndroidEntryPoint
 import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
@@ -70,7 +68,7 @@ class MainActivity : ComponentActivity() {
             startDestination = if (hasApiKey.value) "HomeView" else "LoginView"
         ) {
             composable("HomeView") {
-                HomeView(navController)
+                HomeScreen(navController)
             }
 
             composable("LoginView") {
@@ -79,7 +77,7 @@ class MainActivity : ComponentActivity() {
             }
 
             composable("FindCryptoView") {
-                FindCryptoScreen(navController)
+                CryptoListScreen(navController)
             }
         }
 

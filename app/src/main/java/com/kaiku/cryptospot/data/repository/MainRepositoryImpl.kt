@@ -1,6 +1,7 @@
 package com.kaiku.cryptospot.data.repository
 
 import com.kaiku.cryptospot.data.remote.CoinMarketCapApi
+import com.kaiku.cryptospot.data.remote.dto.crypto_list.CryptoListResponse
 import com.kaiku.cryptospot.domain.repository.MainRepository
 import timber.log.Timber
 import javax.inject.Inject
@@ -67,6 +68,10 @@ class MainRepositoryImpl @Inject constructor(
 
         Timber.e("Method end")
         return cryptoList
+    }
+
+    override suspend fun requestCryptoList2(): CryptoListResponse {
+        return  api.getCryptoListings()
     }
 
     override suspend fun requestObserverList(symbol: String) {

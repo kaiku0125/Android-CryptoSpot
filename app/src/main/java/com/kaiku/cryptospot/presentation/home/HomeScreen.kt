@@ -1,6 +1,5 @@
-package com.kaiku.cryptospot.ui.theme
+package com.kaiku.cryptospot.presentation.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -11,23 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.kaiku.cryptospot.data.remote.CoinMarketCapApi
-import com.kaiku.cryptospot.common.Global
-import com.kaiku.cryptospot.domain.model.CoinMarketCapResponse
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 
-private const val MY_API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
-
 @Composable
-fun HomeView(nav: NavController) {
-    Timber.e("login to home view")
+fun HomeScreen(nav: NavController) {
+    Timber.e("Now in home view")
     Scaffold(topBar = { MyTopBar(nav) }) { padding ->
 
         Button(modifier = Modifier

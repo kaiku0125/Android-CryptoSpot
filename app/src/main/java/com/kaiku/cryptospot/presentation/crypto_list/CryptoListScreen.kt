@@ -28,7 +28,7 @@ private const val TAG = "FindCrypto"
 
 // TODO: Screen rotate maybe failed
 @Composable
-fun FindCryptoScreen(nav: NavController) {
+fun CryptoListScreen(nav: NavController) {
     val viewModel: CryptoListViewModel = hiltViewModel()
     val listState = viewModel.apiCryptoListState.value
 
@@ -50,7 +50,7 @@ fun FindCryptoScreen(nav: NavController) {
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
             itemsIndexed(listState.cryptoList) { index, info ->
-                InfoItem(index = index, info = info)
+                InfoItem(index = index, info = info.symbol)
             }
         }
 
