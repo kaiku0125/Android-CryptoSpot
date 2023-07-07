@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import org.amobile.mqtt_k.prefs.Prefs
 
 private const val TAG = "Login"
+private const val API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
 
 @Composable
 fun LoginView(nav :NavController) {

@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.kaiku.cryptospot.presentation.theme.figma_12ssp
 import timber.log.Timber
 
 @Composable
@@ -26,7 +27,10 @@ fun HomeScreen(nav: NavController) {
 //                nav.navigate("LoginView")
             }
         ) {
-            Text(text = "test")
+            Text(
+                text = "test",
+                style = MaterialTheme.typography.figma_12ssp
+            )
         }
 
     }
