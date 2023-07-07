@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.rememberUpdatedState
@@ -27,6 +28,7 @@ import timber.log.Timber
 private const val TAG = "FindCrypto"
 
 // TODO: Screen rotate maybe failed
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CryptoListScreen(nav: NavController) {
     val viewModel: CryptoListViewModel = hiltViewModel()
@@ -55,9 +57,7 @@ fun CryptoListScreen(nav: NavController) {
         }
 
         if (listState.error.isNotBlank()) {
-            Snackbar() {
-                Text(text = listState.error.trim())
-            }
+            Timber.e(listState.error.trim())
         }
 
         if (listState.isLoading) {
@@ -81,8 +81,7 @@ fun InfoItem(index: Int, info: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
-        shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        shape = RoundedCornerShape(8.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "編號 : ${(index + 1).toString()}", fontWeight = FontWeight.Bold)

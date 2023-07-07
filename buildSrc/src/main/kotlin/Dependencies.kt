@@ -22,6 +22,8 @@ object Dependencies {
      * Material 3
      */
     const val COMPOSE_MATERIAL =  "androidx.compose.material:material:${Versions.COMPOSE_MATERIAL}"
+    const val COMPOSE_MATERIAL3 = "androidx.compose.material3:material3:${Versions.COMPOSE_MATERIAL3}"
+    const val COMPOSE_MATERIAL3_WINDOW = "androidx.compose.material3:material3-window-size-class:${Versions.COMPOSE_MATERIAL3}"
 
 
 

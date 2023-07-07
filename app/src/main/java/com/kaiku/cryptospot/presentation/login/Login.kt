@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -14,10 +15,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import org.amobile.mqtt_k.prefs.Prefs
+import timber.log.Timber
 
-private const val TAG = "Login"
 private const val API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginView(nav :NavController) {
     Scaffold(topBar = { LoginTopBar() }) { paddingValues ->
@@ -31,6 +33,7 @@ fun LoginView(nav :NavController) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserInputAPI(nav: NavController) {
     val ctx = LocalContext.current
@@ -40,14 +43,14 @@ fun UserInputAPI(nav: NavController) {
             value = textValue,
             onValueChange = { newValue ->
                 if(newValue.matches("^[a-zA-Z0-9.-]*$".toRegex())){
-                    Log.e(TAG, "EnterAPIView: is valid")
+                    Timber.e( "EnterAPIView: is valid")
                     textValue = newValue
                 }
             },
             label = { Text("輸入您的CoinMarketCap API 私鑰") }
         )
         OutlinedButton(onClick = {
-            Log.d(TAG, "User entered: $textValue")
+            Timber.d("User entered: $textValue")
             Prefs.apiKey = textValue
             Prefs.save(ctx)
             nav.navigate("HomeView")
@@ -89,9 +92,10 @@ fun Test2() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginTopBar() {
-    TopAppBar(
+    CenterAlignedTopAppBar(
         title = {
             Text(
                 text = "輸入您的 API key",
