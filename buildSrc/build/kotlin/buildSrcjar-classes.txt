@@ -1,0 +1,1 @@
+C:\Users\Kaiku\Desktop\CryptoSpot\buildSrc\build\classes\kotlin\main\Dependencies.class;C:\Users\Kaiku\Desktop\CryptoSpot\buildSrc\build\classes\kotlin\main\Versions.class
