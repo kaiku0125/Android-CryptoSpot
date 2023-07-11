@@ -30,7 +30,7 @@ fun HomeScreen(nav: NavController) {
             Button(
                 modifier = Modifier.padding(start = 20.dp, top = 50.dp),
                 onClick = {
-//                nav.navigate("LoginView")
+                    nav.navigate("PocketHW")
                 }
             ) {
                 Text(

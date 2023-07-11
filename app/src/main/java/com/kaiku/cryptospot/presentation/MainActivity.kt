@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kaiku.cryptospot.BuildConfig
 import com.kaiku.cryptospot.MultiTagTree
 import com.kaiku.cryptospot.presentation.home.HomeScreen
+import com.kaiku.cryptospot.presentation.pocket_hw.PocketHomeworkScreen
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.ui.theme.LoginView
 import com.kaiku.cryptospot.view.CryptoListScreen
@@ -78,6 +79,10 @@ class MainActivity : ComponentActivity() {
 
             composable("FindCryptoView") {
                 CryptoListScreen(navController)
+            }
+
+            composable("PocketHW"){
+                PocketHomeworkScreen(navController)
             }
         }
 
