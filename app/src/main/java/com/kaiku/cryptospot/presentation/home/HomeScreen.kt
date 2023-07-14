@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.kaiku.cryptospot.navigation.NavRoute
 import com.kaiku.cryptospot.presentation.theme.figma_12ssp
 import com.kaiku.cryptospot.presentation.theme.figma_15ssp
 import timber.log.Timber
@@ -67,7 +68,7 @@ fun MyTopBar(nav: NavController) {
         },
         modifier = Modifier.fillMaxWidth(),
         actions = {
-            IconButton(onClick = { nav.navigate("FindCryptoView") }) {
+            IconButton(onClick = { nav.navigate(NavRoute.FIND_CRYPTO_VIEW) }) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }

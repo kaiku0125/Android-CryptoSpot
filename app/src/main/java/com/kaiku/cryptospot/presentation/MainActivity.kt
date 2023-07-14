@@ -3,6 +3,9 @@ package com.kaiku.cryptospot.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,11 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kaiku.cryptospot.BuildConfig
 import com.kaiku.cryptospot.MultiTagTree
+import com.kaiku.cryptospot.navigation.NavRoute
 import com.kaiku.cryptospot.presentation.home.HomeScreen
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.ui.theme.LoginView
@@ -55,28 +59,60 @@ class MainActivity : ComponentActivity() {
         Timber.e("main activity onResume")
     }
 
+    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun EntryScreen() {
         Timber.e("entry screen")
-        val navController = rememberNavController()
+        val navController = rememberAnimatedNavController()
         val hasApiKey = remember {
             mutableStateOf(Prefs.apiKey.isNotBlank())
         }
         Timber.e("Dose user has key ? ${hasApiKey.value}")
-        NavHost(
+
+        AnimatedNavHost(
             navController = navController,
-            startDestination = if (hasApiKey.value) "HomeView" else "LoginView"
+            startDestination = if (hasApiKey.value) NavRoute.HOME_VIEW else NavRoute.LOGIN_VIEW
         ) {
-            composable("HomeView") {
+            composable(
+                route = NavRoute.HOME_VIEW,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { -it },
+                        animationSpec = tween(300)
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { -it },
+                        animationSpec = tween(300)
+                    ) + fadeOut(animationSpec = tween(300))
+                }
+            ) {
                 HomeScreen(navController)
             }
 
-            composable("LoginView") {
+            composable(
+                route = NavRoute.LOGIN_VIEW
+            ) {
                 LoginView(navController)
 
             }
 
-            composable("FindCryptoView") {
+            composable(
+                route = NavRoute.FIND_CRYPTO_VIEW,
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it },
+                        animationSpec = tween(300)
+                    ) + fadeIn(animationSpec = tween(300))
+                },
+                exitTransition = {
+                    slideOutHorizontally(
+                        targetOffsetX = { it },
+                        animationSpec = tween(300)
+                    ) + fadeOut(animationSpec = tween(300))
+                }
+            ) {
                 CryptoListScreen(navController)
             }
         }

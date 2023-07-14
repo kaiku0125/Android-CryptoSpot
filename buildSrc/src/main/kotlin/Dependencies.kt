@@ -11,6 +11,7 @@ object Dependencies {
     const val COMPOSE_UI = "androidx.compose.ui:ui:${Versions.COMPOSE}"
     const val COMPOSE_UI_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
     const val COMPOSE_LIVEDATA = "androidx.compose.runtime:runtime-livedata:${Versions.COMPOSE}"
+    const val COMPOSE_NAV_ANIMATION = "com.google.accompanist:accompanist-navigation-animation:${Versions.NAV_ANIMATION}"
     /**
      * Compose ui test
      */
