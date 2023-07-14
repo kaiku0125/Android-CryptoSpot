@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -22,6 +24,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
+import com.kaiku.cryptospot.navigation.HomeDestination
+import com.kaiku.cryptospot.navigation.INavImpl
 import com.kaiku.cryptospot.presentation.crypto_list.CryptoListViewModel
 import timber.log.Timber
 
@@ -30,7 +34,9 @@ private const val TAG = "FindCrypto"
 // TODO: Screen rotate maybe failed
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CryptoListScreen(nav: NavController) {
+fun CryptoListScreen(
+//    nav: NavController
+) {
     val viewModel: CryptoListViewModel = hiltViewModel()
     val listState = viewModel.apiCryptoListState.value
 
@@ -43,6 +49,24 @@ fun CryptoListScreen(nav: NavController) {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(text = "加密貨幣市值排行")
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            INavImpl.to(HomeDestination.route)
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                }
+            )
+
+
+        }
     ) { paddingValues ->
 
         LazyColumn(

@@ -14,6 +14,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.kaiku.cryptospot.navigation.HomeDestination
+import com.kaiku.cryptospot.navigation.INavImpl
 import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
 
@@ -21,21 +23,25 @@ private const val API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginView(nav :NavController) {
+fun LoginView(
+//    nav :NavController
+) {
     Scaffold(topBar = { LoginTopBar() }) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            UserInputAPI(nav)
+            UserInputAPI()
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserInputAPI(nav: NavController) {
+fun UserInputAPI(
+//    nav: NavController
+) {
     val ctx = LocalContext.current
     var textValue by remember { mutableStateOf(Prefs.apiKey) }
     Column {
@@ -53,7 +59,8 @@ fun UserInputAPI(nav: NavController) {
             Timber.d("User entered: $textValue")
             Prefs.apiKey = textValue
             Prefs.save(ctx)
-            nav.navigate("HomeView")
+            INavImpl.to(HomeDestination.route)
+//            nav.navigate("HomeView")
         }, shape = RoundedCornerShape(10.dp)) {
             Text("完成")
         }

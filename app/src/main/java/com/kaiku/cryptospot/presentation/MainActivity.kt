@@ -13,12 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import androidx.navigation.compose.composable
+//import com.google.accompanist.navigation.animation.AnimatedNavHost
+//import com.google.accompanist.navigation.animation.composable
+//import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kaiku.cryptospot.BuildConfig
 import com.kaiku.cryptospot.MultiTagTree
-import com.kaiku.cryptospot.navigation.NavRoute
+import com.kaiku.cryptospot.navigation.*
 import com.kaiku.cryptospot.presentation.home.HomeScreen
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.ui.theme.LoginView
@@ -63,62 +64,75 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun EntryScreen() {
         Timber.e("entry screen")
-        val navController = rememberAnimatedNavController()
+//        val navController = rememberAnimatedNavController()
         val hasApiKey = remember {
             mutableStateOf(Prefs.apiKey.isNotBlank())
         }
         Timber.e("Dose user has key ? ${hasApiKey.value}")
 
-        AnimatedNavHost(
-            navController = navController,
-            startDestination = if (hasApiKey.value) NavRoute.HOME_VIEW else NavRoute.LOGIN_VIEW
-        ) {
-            composable(
-                route = NavRoute.HOME_VIEW,
-                enterTransition = {
-                    slideInHorizontally(
-                        initialOffsetX = { -it },
-                        animationSpec = tween(300)
-                    ) + fadeIn(animationSpec = tween(300))
-                },
-                exitTransition = {
-                    slideOutHorizontally(
-                        targetOffsetX = { -it },
-                        animationSpec = tween(300)
-                    ) + fadeOut(animationSpec = tween(300))
-                }
-            ) {
-                HomeScreen(navController)
+        NavigationEffect(
+            startDestination = if (hasApiKey.value) HomeDestination.route else LoginDestination.route){
+            composable(HomeDestination.route) {
+                HomeScreen()
             }
-
-            composable(
-                route = NavRoute.LOGIN_VIEW
-            ) {
-                LoginView(navController)
-
+            composable(LoginDestination.route) {
+                LoginView()
             }
-
-            composable(
-                route = NavRoute.FIND_CRYPTO_VIEW,
-                enterTransition = {
-                    slideInHorizontally(
-                        initialOffsetX = { it },
-                        animationSpec = tween(300)
-                    ) + fadeIn(animationSpec = tween(300))
-                },
-                exitTransition = {
-                    slideOutHorizontally(
-                        targetOffsetX = { it },
-                        animationSpec = tween(300)
-                    ) + fadeOut(animationSpec = tween(300))
-                }
-            ) {
-                CryptoListScreen(navController)
+            composable(FindCryptoDestination.route) {
+                CryptoListScreen()
             }
         }
 
+//        AnimatedNavHost(
+//            navController = navController,
+//            startDestination = if (hasApiKey.value) NavRoute.HOME_VIEW else NavRoute.LOGIN_VIEW
+//        ) {
+//            composable(
+//                route = NavRoute.HOME_VIEW,
+//                enterTransition = {
+//                    slideInHorizontally(
+//                        initialOffsetX = { -it },
+//                        animationSpec = tween(300)
+//                    ) + fadeIn(animationSpec = tween(300))
+//                },
+//                exitTransition = {
+//                    slideOutHorizontally(
+//                        targetOffsetX = { -it },
+//                        animationSpec = tween(300)
+//                    ) + fadeOut(animationSpec = tween(300))
+//                }
+//            ) {
+//                HomeScreen(navController)
+//            }
+//
+//            composable(
+//                route = NavRoute.LOGIN_VIEW
+//            ) {
+//                LoginView(navController)
+//
+//            }
+//
+//            composable(
+//                route = NavRoute.FIND_CRYPTO_VIEW,
+//                enterTransition = {
+//                    slideInHorizontally(
+//                        initialOffsetX = { it },
+//                        animationSpec = tween(300)
+//                    ) + fadeIn(animationSpec = tween(300))
+//                },
+//                exitTransition = {
+//                    slideOutHorizontally(
+//                        targetOffsetX = { it },
+//                        animationSpec = tween(300)
+//                    ) + fadeOut(animationSpec = tween(300))
+//                }
+//            ) {
+//                CryptoListScreen(navController)
+//            }
+//        }
 
     }
+
 
     override fun onPause() {
         Timber.e("main onPause")

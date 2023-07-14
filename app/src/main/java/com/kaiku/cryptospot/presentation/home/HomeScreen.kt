@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.kaiku.cryptospot.navigation.FindCryptoDestination
+import com.kaiku.cryptospot.navigation.INavImpl
 import com.kaiku.cryptospot.navigation.NavRoute
 import com.kaiku.cryptospot.presentation.theme.figma_12ssp
 import com.kaiku.cryptospot.presentation.theme.figma_15ssp
@@ -19,10 +21,12 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(nav: NavController) {
+fun HomeScreen(
+//    nav: NavController
+) {
     Timber.e("Now in home view")
     Scaffold(
-        topBar = { MyTopBar(nav) }
+        topBar = { MyTopBar() }
     ) { innerPadding ->
 
         Column(
@@ -56,7 +60,9 @@ fun HomeScreen(nav: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTopBar(nav: NavController) {
+fun MyTopBar(
+//    nav: NavController
+) {
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -68,7 +74,12 @@ fun MyTopBar(nav: NavController) {
         },
         modifier = Modifier.fillMaxWidth(),
         actions = {
-            IconButton(onClick = { nav.navigate(NavRoute.FIND_CRYPTO_VIEW) }) {
+            IconButton(
+                onClick = {
+                    INavImpl.to(FindCryptoDestination.route)
+//                    nav.navigate(NavRoute.FIND_CRYPTO_VIEW)
+                }
+            ) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
