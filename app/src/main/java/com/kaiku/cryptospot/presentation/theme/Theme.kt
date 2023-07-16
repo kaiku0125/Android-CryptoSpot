@@ -67,7 +67,10 @@ private val LightColorPalette = lightColorScheme(
 )
 
 @Composable
-fun CryptoSpotTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun CryptoSpotTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
 //    val systemUiController = rememberSystemUiController()
 //    val colors = if (darkTheme) {
 //        systemUiController.setStatusBarColor(
@@ -88,7 +91,7 @@ fun CryptoSpotTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
 //    }
 
     val useDynamicColors = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val colors = when{
+    val colors = when {
         useDynamicColors && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
         useDynamicColors && darkTheme.not() -> dynamicLightColorScheme(LocalContext.current)
         darkTheme -> DarkColorPalette
@@ -96,9 +99,9 @@ fun CryptoSpotTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
     }
 
     MaterialTheme(
-            colorScheme = colors,
-            typography = Typography,
-            shapes = Shapes,
-            content = content
+        colorScheme = colors,
+        typography = Typography,
+        shapes = Shapes,
+        content = content
     )
 }

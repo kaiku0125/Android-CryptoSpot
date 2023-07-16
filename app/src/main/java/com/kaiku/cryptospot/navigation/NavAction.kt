@@ -1,6 +1,6 @@
 package com.kaiku.cryptospot.navigation
 
-interface INav {
+interface NavAction {
 
     /**
      * 出栈
@@ -19,7 +19,8 @@ interface INav {
      * @param inclusive 是否也弹出popUpToRoute
      * @param isSingleTop Boolean
      */
-    fun to(
+    fun
+            to(
         route: String,
         popUpToRoute: String? = null,
         inclusive: Boolean = false,

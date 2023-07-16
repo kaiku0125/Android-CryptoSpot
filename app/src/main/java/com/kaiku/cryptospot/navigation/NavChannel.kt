@@ -1,5 +1,6 @@
 package com.kaiku.cryptospot.navigation
 
+import com.kaiku.cryptospot.navigation.data.NavIntent
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

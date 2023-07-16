@@ -1,6 +1,5 @@
-package com.kaiku.cryptospot.ui.theme
+package com.kaiku.cryptospot.presentation.login
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,9 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.kaiku.cryptospot.navigation.HomeDestination
-import com.kaiku.cryptospot.navigation.INavImpl
+import com.kaiku.cryptospot.navigation.ScreenNavigator
 import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
 
@@ -23,9 +21,7 @@ private const val API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginView(
-//    nav :NavController
-) {
+fun LoginScreen() {
     Scaffold(topBar = { LoginTopBar() }) { paddingValues ->
         Column(
             modifier = Modifier
@@ -39,9 +35,7 @@ fun LoginView(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserInputAPI(
-//    nav: NavController
-) {
+fun UserInputAPI() {
     val ctx = LocalContext.current
     var textValue by remember { mutableStateOf(Prefs.apiKey) }
     Column {
@@ -59,7 +53,7 @@ fun UserInputAPI(
             Timber.d("User entered: $textValue")
             Prefs.apiKey = textValue
             Prefs.save(ctx)
-            INavImpl.to(HomeDestination.route)
+            ScreenNavigator.to(HomeDestination.route)
 //            nav.navigate("HomeView")
         }, shape = RoundedCornerShape(10.dp)) {
             Text("完成")
@@ -75,7 +69,7 @@ fun Test1() {
             checked = checkedValue,
             onCheckedChange = { checkedValue = it }
         )
-        Button(onClick = { Log.d("TAG", "User checked: $checkedValue") }) {
+        Button(onClick = { Timber.d("User checked: $checkedValue") }) {
             Text("Submit")
         }
     }
@@ -93,7 +87,7 @@ fun Test2() {
             selected = selectedValue == "Option 2",
             onClick = { selectedValue = "Option 2" }
         )
-        Button(onClick = { Log.d("TAG", "User selected: $selectedValue") }) {
+        Button(onClick = { Timber.d("User selected: $selectedValue") }) {
             Text("Submit")
         }
     }

@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.navigation
+package com.kaiku.cryptospot.navigation.data
 
 sealed class NavIntent{
     /**

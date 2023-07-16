@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.view
+package com.kaiku.cryptospot.presentation.crypto_list
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,10 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavController
 import com.kaiku.cryptospot.navigation.HomeDestination
-import com.kaiku.cryptospot.navigation.INavImpl
-import com.kaiku.cryptospot.presentation.crypto_list.CryptoListViewModel
+import com.kaiku.cryptospot.navigation.ScreenNavigator
 import timber.log.Timber
 
 private const val TAG = "FindCrypto"
@@ -34,18 +32,18 @@ private const val TAG = "FindCrypto"
 // TODO: Screen rotate maybe failed
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CryptoListScreen(
-//    nav: NavController
-) {
+fun CryptoListScreen() {
     val viewModel: CryptoListViewModel = hiltViewModel()
     val listState = viewModel.apiCryptoListState.value
 
-    OnLifecycleEvent(onEvent = { owner, event ->
-        if (event == Lifecycle.Event.ON_RESUME) {
-            Timber.e("onResume ....")
-            viewModel.refreshCryptoList()
+    OnLifecycleEvent(
+        onEvent = { owner, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                Timber.e("onResume ....")
+                viewModel.refreshCryptoList()
+            }
         }
-    })
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -57,7 +55,7 @@ fun CryptoListScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            INavImpl.to(HomeDestination.route)
+                            ScreenNavigator.back(HomeDestination.route)
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -115,7 +113,9 @@ fun InfoItem(index: Int, info: String) {
 }
 
 @Composable
-fun OnLifecycleEvent(onEvent: (owner: LifecycleOwner, event: Lifecycle.Event) -> Unit) {
+fun OnLifecycleEvent(
+    onEvent: (owner: LifecycleOwner, event: Lifecycle.Event) -> Unit
+) {
     val eventHandler = rememberUpdatedState(onEvent)
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
 

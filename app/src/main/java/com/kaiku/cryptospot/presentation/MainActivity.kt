@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,17 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.composable
-//import com.google.accompanist.navigation.animation.AnimatedNavHost
-//import com.google.accompanist.navigation.animation.composable
-//import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+//import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kaiku.cryptospot.BuildConfig
 import com.kaiku.cryptospot.MultiTagTree
 import com.kaiku.cryptospot.navigation.*
+import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreen
 import com.kaiku.cryptospot.presentation.home.HomeScreen
+import com.kaiku.cryptospot.presentation.login.LoginScreen
+import com.kaiku.cryptospot.presentation.test.*
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
-import com.kaiku.cryptospot.ui.theme.LoginView
-import com.kaiku.cryptospot.view.CryptoListScreen
+import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
+import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
 import dagger.hilt.android.AndroidEntryPoint
 import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
@@ -42,13 +43,12 @@ class MainActivity : ComponentActivity() {
         Prefs.load(this)
 
         setContent {
-            CryptoSpotTheme(darkTheme = true) {
-                // A surface container using the 'background' color from the theme
+            CryptoSpotTheme() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    EntryScreen()
+                    NavScreen()
                 }
             }
         }
@@ -62,74 +62,52 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalAnimationApi::class)
     @Composable
-    fun EntryScreen() {
-        Timber.e("entry screen")
-//        val navController = rememberAnimatedNavController()
+    fun NavScreen() {
+        Timber.e("Init nav screen")
+
         val hasApiKey = remember {
             mutableStateOf(Prefs.apiKey.isNotBlank())
         }
-        Timber.e("Dose user has key ? ${hasApiKey.value}")
+        Timber.e("Does user has key ? ${hasApiKey.value}")
 
         NavigationEffect(
-            startDestination = if (hasApiKey.value) HomeDestination.route else LoginDestination.route){
-            composable(HomeDestination.route) {
+            startDestination = if (hasApiKey.value) HomeDestination.route else LoginDestination.route
+        ) {
+
+            composable(
+                route = HomeDestination.route,
+                enterTransition = { screenSlideEnter(fromLeft = true) },
+                exitTransition = { screenSlideExit(toLeft = true) }
+            ) {
                 HomeScreen()
             }
             composable(LoginDestination.route) {
-                LoginView()
+                LoginScreen()
             }
-            composable(FindCryptoDestination.route) {
+            composable(
+                route = FindCryptoDestination.route,
+                enterTransition = { screenSlideEnter(fromLeft = false) },
+                exitTransition = { screenSlideExit(toLeft = false) }
+            ) {
                 CryptoListScreen()
             }
-        }
 
-//        AnimatedNavHost(
-//            navController = navController,
-//            startDestination = if (hasApiKey.value) NavRoute.HOME_VIEW else NavRoute.LOGIN_VIEW
-//        ) {
-//            composable(
-//                route = NavRoute.HOME_VIEW,
-//                enterTransition = {
-//                    slideInHorizontally(
-//                        initialOffsetX = { -it },
-//                        animationSpec = tween(300)
-//                    ) + fadeIn(animationSpec = tween(300))
-//                },
-//                exitTransition = {
-//                    slideOutHorizontally(
-//                        targetOffsetX = { -it },
-//                        animationSpec = tween(300)
-//                    ) + fadeOut(animationSpec = tween(300))
-//                }
-//            ) {
-//                HomeScreen(navController)
-//            }
-//
-//            composable(
-//                route = NavRoute.LOGIN_VIEW
-//            ) {
-//                LoginView(navController)
-//
-//            }
-//
-//            composable(
-//                route = NavRoute.FIND_CRYPTO_VIEW,
-//                enterTransition = {
-//                    slideInHorizontally(
-//                        initialOffsetX = { it },
-//                        animationSpec = tween(300)
-//                    ) + fadeIn(animationSpec = tween(300))
-//                },
-//                exitTransition = {
-//                    slideOutHorizontally(
-//                        targetOffsetX = { it },
-//                        animationSpec = tween(300)
-//                    ) + fadeOut(animationSpec = tween(300))
-//                }
-//            ) {
-//                CryptoListScreen(navController)
-//            }
-//        }
+            composable(
+                route = TestDestination.route,
+                arguments = TestDestination.arguments,
+                enterTransition = { screenSlideEnter(fromLeft = false) },
+                exitTransition = { screenSlideExit(toLeft = false) }
+            ) {
+                val channelID = it.arguments?.getString(TestScreenTag.CHANNEL_ID) ?: return@composable
+                val score = it.arguments?.getInt(TestScreenTag.SCORE) ?: return@composable
+                val isTesting = it.arguments?.getBoolean(TestScreenTag.IS_TESTING) ?: return@composable
+                TestScreen(
+                    channelID = channelID,
+                    score = score,
+                    isTesting = isTesting
+                )
+            }
+        }
 
     }
 
