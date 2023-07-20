@@ -22,6 +22,7 @@ import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreen
 import com.kaiku.cryptospot.presentation.home.HomeScreen
 import com.kaiku.cryptospot.presentation.login.LoginScreen
 import com.kaiku.cryptospot.presentation.test.*
+import com.kaiku.cryptospot.presentation.pocket_hw.PocketHomeworkScreen
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
@@ -107,6 +108,7 @@ class MainActivity : ComponentActivity() {
                     isTesting = isTesting
                 )
             }
+
         }
 
     }
