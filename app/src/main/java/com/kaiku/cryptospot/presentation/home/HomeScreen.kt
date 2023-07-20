@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.navigation.FindCryptoDestination
+import com.kaiku.cryptospot.navigation.PocketHomeworkDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.navigation.TestDestination
 import com.kaiku.cryptospot.presentation.theme.figma_12ssp
@@ -48,11 +49,11 @@ fun HomeScreen() {
             Button(
                 modifier = Modifier.padding(start = 20.dp, top = 30.dp),
                 onClick = {
-
+                    ScreenNavigator.to(PocketHomeworkDestination.route)
                 }
             ) {
                 Text(
-                    text = "figma_15ssp",
+                    text = "pocket_hw",
                     style = MaterialTheme.typography.figma_15ssp
                 )
             }

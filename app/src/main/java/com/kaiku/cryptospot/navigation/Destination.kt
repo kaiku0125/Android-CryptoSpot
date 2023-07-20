@@ -20,6 +20,8 @@ object LoginDestination : Destination("login")
 
 object FindCryptoDestination : Destination("find_crypto")
 
+object PocketHomeworkDestination : Destination("pocket_hw")
+
 object TestDestination : Destination(
     path = "test",
     arguments = listOf(

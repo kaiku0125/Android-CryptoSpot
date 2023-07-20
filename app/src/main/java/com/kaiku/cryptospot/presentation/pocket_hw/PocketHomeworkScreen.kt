@@ -58,9 +58,7 @@ fun PocketHomeworkScreen() {
                     indication = null
                 ) {
                     hideKeyboard.value = true
-                },
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+                }
         ) {
             Text(text = "sdfsdf")
             Spacer(
@@ -78,6 +76,19 @@ fun PocketHomeworkScreen() {
                     .background(color = Color.Red)
                     .height(20.dp)
             )
+
+            val entry1 = Pair("Key1", "Entry1")
+            val entry2 = Pair("Key2", "Entry2")
+            val entry3 = Pair("Key3", "Entry3")
+            SampleSpinner(
+                listOf(entry1, entry2, entry3),
+                preselected = entry2,
+                onSelectionChanged = { selected ->
+                    Timber.e("selected : $selected")
+                }
+            )
+
+
         }
     }
 }

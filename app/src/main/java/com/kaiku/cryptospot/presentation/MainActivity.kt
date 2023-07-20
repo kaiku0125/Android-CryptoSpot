@@ -109,6 +109,14 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+            composable(
+                route = PocketHomeworkDestination.route,
+                enterTransition = { screenSlideEnter(fromLeft = false) },
+                exitTransition = { screenSlideExit(toLeft = false) }
+            ) {
+                PocketHomeworkScreen()
+            }
+
         }
 
     }
