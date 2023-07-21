@@ -1,109 +1,109 @@
 package com.kaiku.cryptospot.customView.spinner
 
+import android.graphics.Color.parseColor
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.kaiku.cryptospot.common.Debug.isDropDown
+import com.kaiku.cryptospot.common.recomposeHighlighter
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 @Composable
 fun PocketSpinner(
-    list: List<String> = listOf("當日有效", "長效單")
+    modifier: Modifier,
+    list: List<String> = listOf("當日有效", "長效單"),
+    onValidTypeChange: (String) -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val density = LocalDensity.current
+    var spinnerWidth by remember { mutableStateOf(0.dp) }
+
     var currentOrderText by rememberSaveable { mutableStateOf(list[0]) }
     var expanded by remember { mutableStateOf(false) }
-//    var menuSize by remember { mutableStateOf(0f) }
 
-    val onUserClick: () -> Unit = {
+
+    val onSpinnerClick: () -> Unit = {
         expanded = expanded.not()
     }
 
-    val offset = animateFloatAsState(
-        targetValue = if (expanded) 10f else 0f,
-        animationSpec = tween(
-            easing = FastOutSlowInEasing,
-            durationMillis = 500
-        )
-    )
+    val calculate: (LayoutCoordinates) -> Unit = remember {
+        {
+            scope.launch {
+                spinnerWidth = with(density) {
+                    it.size.width.toDp()
+                }
+                if (isDropDown) Timber.e("width : $spinnerWidth")
+            }
+        }
+    }
 
     val rotateAnimation = animateFloatAsState(
         targetValue = if (expanded) 180f else 0f,
         animationSpec = tween(
-            easing = LinearEasing,
-            durationMillis = 300
+            easing = LinearEasing
         )
     )
 
     val foldAnimation = animateFloatAsState(
         targetValue = if (expanded) (20 + list.size * 30f) else 0f,
         animationSpec = tween(
-            easing = FastOutSlowInEasing,
-            durationMillis = 300
+            easing = FastOutSlowInEasing
         )
     )
 
     Column(
-        modifier = Modifier
-            .width(180.dp)
-            .background(Color(android.graphics.Color.parseColor("#1E1E1E")))
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color(parseColor("#1E1E1E")))
+            .onGloballyPositioned {
+                calculate.invoke(it)
+            }
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(32.dp)
                 .background(
-                    color = androidx.compose.ui.graphics.Color.White,
+                    color = Color.White,
                     shape = RoundedCornerShape(8.dp)
                 )
+                .recomposeHighlighter(isDropDown)
         ) {
             ConstraintLayout(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(1.dp)
                     .background(
-                        color = Color(android.graphics.Color.parseColor("#1E1E1E")),
+                        color = Color(parseColor("#1E1E1E")),
                         shape = RoundedCornerShape(8.dp)
                     )
                     .clickable {
-                        onUserClick.invoke()
+                        onSpinnerClick.invoke()
                     }
+
             ) {
                 val (text, icon) = createRefs()
                 Text(
@@ -112,7 +112,7 @@ fun PocketSpinner(
                         start.linkTo(parent.start, margin = 8.dp)
                         centerVerticallyTo(parent)
                     },
-                    color = androidx.compose.ui.graphics.Color.White
+                    color = Color.White
                 )
                 IconButton(
                     modifier = Modifier.constrainAs(icon) {
@@ -120,7 +120,7 @@ fun PocketSpinner(
                         centerVerticallyTo(parent)
                     },
                     onClick = {
-                        onUserClick.invoke()
+                        onSpinnerClick.invoke()
                     }
                 ) {
                     Icon(
@@ -147,17 +147,25 @@ fun PocketSpinner(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
-                    .width(180.dp)
+                    .width(spinnerWidth)
                     .height(foldAnimation.value.dp)
                     .padding(1.dp)
                     .background(
-                        color = Color(android.graphics.Color.parseColor("#1E1E1E")),
+                        color = Color(parseColor("#1E1E1E")),
                         shape = RoundedCornerShape(8.dp)
-                    ),
+                    )
+                    .recomposeHighlighter(isDropDown),
+
+
 //                    .onGloballyPositioned {
-//                        menuSize = (it.size.height + list.size * 2).toFloat()
+//                        scope.launch {
+//                            menuSize = it.size.height.toFloat()
+//
+//                        }
+//
+////                        menuSize = (it.size.height + list.size * 2).toFloat()
 //                    },
-                offset = DpOffset(x = 0.dp, y = offset.value.dp)
+                offset = DpOffset(x = 0.dp, y = 10.dp)
             ) {
 
                 list.forEach { title ->
@@ -175,8 +183,10 @@ fun PocketSpinner(
                         },
                         modifier = Modifier.height(30.dp),
                         onClick = {
-                            expanded = false
+                            onSpinnerClick.invoke()
+//                            expanded = false
                             currentOrderText = title
+                            onValidTypeChange.invoke(currentOrderText)
                         },
                     )
                 }
@@ -195,7 +205,9 @@ fun PocketSpinner(
 @Composable
 private fun MenuSample_Preview() {
     MaterialTheme {
-        PocketSpinner()
+        PocketSpinner(modifier = Modifier) {
+
+        }
 
     }
 }

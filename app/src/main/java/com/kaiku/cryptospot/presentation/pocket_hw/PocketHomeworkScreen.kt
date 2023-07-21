@@ -1,37 +1,25 @@
 package com.kaiku.cryptospot.presentation.pocket_hw
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.kaiku.cryptospot.customView.spinner.PocketSpinner
-import com.kaiku.cryptospot.customView.tab.CustomTab
-import com.kaiku.cryptospot.customView.tab.PocketTab
-import timber.log.Timber
+import com.kaiku.cryptospot.customView.tab.CustomTabFillMaxWidth
+import com.kaiku.cryptospot.navigation.HomeDestination
+import com.kaiku.cryptospot.navigation.ScreenNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PocketHomeworkScreen() {
-    val hideKeyboard = remember { mutableStateOf(false) }
-    val interactionSource = remember { MutableInteractionSource() }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -44,7 +32,14 @@ fun PocketHomeworkScreen() {
                     )
                 },
                 navigationIcon = {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    IconButton(
+                        onClick = {
+                            ScreenNavigator.back(HomeDestination.route)
+                        }
+                    ) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+
                 },
             )
 
@@ -53,152 +48,138 @@ fun PocketHomeworkScreen() {
         Column(
             modifier = Modifier
                 .padding(paddingValues)
+                .padding(10.dp)
                 .fillMaxSize()
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null
-                ) {
-                    hideKeyboard.value = true
-                }
         ) {
-            Text(text = "sdfsdf")
-            Spacer(
-                modifier = Modifier
-                    .background(color = Color.Red)
-                    .height(20.dp)
-            )
-            PocketSpinner()
 
-            val entry1 = Pair("Key1", "Entry1")
-            val entry2 = Pair("Key2", "Entry2")
-            val entry3 = Pair("Key3", "Entry3")
-            SampleSpinner(
-                listOf(entry1, entry2, entry3),
-                preselected = entry2,
-                onSelectionChanged = { selected ->
-                    Timber.e("selected : $selected")
-                }
-            )
-            PocketTextField(
-                hideKeyboard = hideKeyboard.value
-            ) {
-                hideKeyboard.value = false
-            }
+            TabView()
 
             Spacer(
                 modifier = Modifier
-                    .background(color = Color.Red)
-                    .height(20.dp)
+                    .fillMaxWidth()
+                    .height(12.dp)
             )
 
+            ValidTimeSpinnerView()
 
-            val index = remember{ mutableStateOf(0) }
-            CustomTab(
-                selectedItemIndex = index.value,
-                items = listOf("一般單", "觸價單"),
-                onClick = {
-                    index.value = it
-                }
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(12.dp)
             )
 
+            ValidTimeWithDateSpinnerView()
 
 
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PocketTextField(
-    icon: ImageVector = Icons.Default.Email,
-    labelText: String = "LabelText",
-    placeholder: String = "placeHolder",
-    hideKeyboard: Boolean,
-    onFocusClear: () -> Unit
-) {
+private fun TabView() {
+    val index = remember { mutableStateOf(0) }
 
-    val text = remember { mutableStateOf(TextFieldValue("")) }
-    val focusManager = LocalFocusManager.current
-
-    OutlinedTextField(
-        modifier = Modifier.height(70.dp),
-        value = text.value,
-        onValueChange = {
-            text.value = it
-        },
-        label = { Text(text = labelText) },
-        placeholder = { Text(text = placeholder) },
-        leadingIcon = {
-            Row(
-                modifier = Modifier
-                    .fillMaxHeight(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.width(5.dp))
-                Icon(
-                    imageVector = icon,
-                    contentDescription = null,
-                    modifier = Modifier.padding(horizontal = 10.dp)
-                )
-                Divider(
-                    modifier = Modifier
-                        .height(40.dp)
-                        .padding()
-                        .width(1.dp),
-                    color = Color.Yellow,
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-            }
-        },
-        trailingIcon = {
-            IconButton(onClick = { text.value = TextFieldValue("") }) {
-                Icon(
-                    imageVector = Icons.Filled.Close,
-                    contentDescription = null,
-                    modifier = Modifier.size(15.dp)
-                )
-            }
-        },
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(onDone = {
-            focusManager.clearFocus()
-        }),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            containerColor = Color.DarkGray
-        )
-
+    CustomTabFillMaxWidth(
+        modifier = Modifier.fillMaxWidth(),
+        selectedItemIndex = index.value,
+        items = listOf("一般單", "觸價單"),
+        onClick = {
+            index.value = it
+        }
     )
-    if (hideKeyboard) {
-        focusManager.clearFocus()
-        onFocusClear.invoke()
-    }
-
-
 }
 
 @Composable
-fun OutlinedTextFieldBackground(
-    color: Color,
-    content: @Composable () -> Unit
-) {
-    // This box just wraps the background and the OutlinedTextField
-    Box {
-        // This box works as background
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .padding(top = 8.dp) // adding some space to the label
-                .background(
-                    color,
-                    // rounded corner to match with the OutlinedTextField
-                    shape = RoundedCornerShape(4.dp)
-                )
+private fun ValidTimeSpinnerView() {
+    ConstraintLayout(
+        modifier = Modifier
+            .background(Color.DarkGray)
+            .fillMaxWidth()
+    ) {
+
+        val startGuide = createGuidelineFromStart(0.25f)
+
+        val (text, spinner) = createRefs()
+
+        Text(
+            text = "有效期",
+            modifier = Modifier.constrainAs(text) {
+                start.linkTo(parent.start)
+                centerVerticallyTo(parent)
+            }
         )
-        // OutlineTextField will be the content...
-        content()
+
+        PocketSpinner(
+            modifier = Modifier
+                .constrainAs(spinner) {
+                    start.linkTo(startGuide)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                }
+        ) {
+
+        }
+
     }
 }
+
+@Composable
+private fun ValidTimeWithDateSpinnerView() {
+    ConstraintLayout(
+        modifier = Modifier
+            .background(Color.DarkGray)
+            .fillMaxWidth()
+    ) {
+        var showDatePicker by remember { mutableStateOf(false) }
+        val startGuide = createGuidelineFromStart(0.25f)
+
+        val endGuide = createGuidelineFromStart(0.6f)
+
+        val (text, spinner, textField) = createRefs()
+
+        Text(
+            text = "有效期",
+            modifier = Modifier.constrainAs(text) {
+                start.linkTo(parent.start)
+                centerVerticallyTo(parent)
+            }
+        )
+
+        PocketSpinner(
+            modifier = Modifier
+                .constrainAs(spinner) {
+                    if (showDatePicker) {
+                        start.linkTo(startGuide)
+                        end.linkTo(endGuide)
+                        width = Dimension.fillToConstraints
+                    } else {
+                        start.linkTo(startGuide)
+                        end.linkTo(parent.end)
+                        width = Dimension.fillToConstraints
+                    }
+
+                }
+
+        ) {
+            showDatePicker = it == "長效單"
+        }
+
+        if (showDatePicker) {
+            BasicTextField(
+                value = "temp",
+                onValueChange = {},
+                modifier = Modifier.constrainAs(textField) {
+                    start.linkTo(endGuide)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                }
+            )
+
+        }
+
+
+    }
+}
+
+
+

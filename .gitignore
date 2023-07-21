@@ -6,9 +6,11 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
+/.idea/deploymentTargetDropDown.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
+/buildSrc
 /captures
 .externalNativeBuild
 .cxx
