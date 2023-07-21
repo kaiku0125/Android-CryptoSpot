@@ -1,97 +1,37 @@
 package com.kaiku.cryptospot.presentation.pocket_hw
 
+import android.graphics.Color.parseColor
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.ArrowDropDown
-import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 
-@Composable
-fun DropDownList(
-    requestToOpen: Boolean = false,
-//    request: (Boolean) -> Unit,
-//    selectedString: (String) -> Unit
-) {
-    val isExpanded = remember { mutableStateOf(false) }
 
-    DropdownMenu(
-        expanded = isExpanded.value,
-        onDismissRequest = {
 
-        }
-    ) {
-        DropdownMenuItem(
-            text = { Text(text = "Sdfsdf") },
-            onClick = { /*TODO*/ }
-        )
-
-        DropdownMenuItem(
-            text = { Text(text = "werwerwer") },
-            onClick = { /*TODO*/ }
-        )
-    }
-
-}
-
-@Composable
-fun MenuSample() {
-    var expanded by remember { mutableStateOf(false) }
-
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .wrapContentSize(Alignment.TopStart)) {
-        IconButton(onClick = { expanded = true }) {
-            Icon(Icons.Default.MoreVert, contentDescription = "Localized description")
-        }
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            DropdownMenuItem(
-                text = { Text("Edit") },
-                onClick = { /* Handle edit! */ },
-                leadingIcon = {
-                    Icon(
-                        Icons.Outlined.Edit,
-                        contentDescription = null
-                    )
-                })
-            DropdownMenuItem(
-                text = { Text("Settings") },
-                onClick = { /* Handle settings! */ },
-                leadingIcon = {
-                    Icon(
-                        Icons.Outlined.Settings,
-                        contentDescription = null
-                    )
-                })
-            Divider()
-            DropdownMenuItem(
-                text = { Text("Send Feedback") },
-                onClick = { /* Handle send feedback! */ },
-                leadingIcon = {
-                    Icon(
-                        Icons.Outlined.Email,
-                        contentDescription = null
-                    )
-                },
-                trailingIcon = { Text("F11", textAlign = TextAlign.Center) })
-        }
-    }
-}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,15 +45,25 @@ fun SampleSpinner(
     var selected by remember { mutableStateOf(preselected) }
     var expanded by remember { mutableStateOf(false) } // initial value
 
-    Box {
+    Box(
+        modifier = Modifier.background(Color(parseColor("#1E1E1E")))
+    ) {
         Column {
             OutlinedTextField(
                 value = (selected.second),
                 onValueChange = { },
-                label = { Text(text = "My List") },
-                modifier = Modifier.fillMaxWidth(),
-                trailingIcon = { Icon(Icons.Outlined.ArrowDropDown, null) },
-                readOnly = true
+                modifier = Modifier
+                    .height(50.dp)
+                    .fillMaxWidth(),
+                trailingIcon = {
+                    Icon(Icons.Outlined.ArrowDropDown, null)
+                },
+                readOnly = true,
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    textColor = Color.White,
+                    containerColor = Color(parseColor("#414141"))
+                ),
+                shape = RoundedCornerShape(8.dp)
             )
             DropdownMenu(
                 modifier = Modifier.fillMaxWidth(),
@@ -133,7 +83,8 @@ fun SampleSpinner(
                                 text = (entry.second),
                                 modifier = Modifier
                                     .wrapContentWidth()
-                                    .align(Alignment.Start))
+                                    .align(Alignment.Start)
+                            )
                         }
                     )
                 }
@@ -153,7 +104,6 @@ fun SampleSpinner(
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
 fun SampleSpinner_Preview() {
@@ -170,3 +120,4 @@ fun SampleSpinner_Preview() {
         )
     }
 }
+

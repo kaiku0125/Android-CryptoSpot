@@ -15,7 +15,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
@@ -23,7 +22,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.kaiku.cryptospot.customView.spinner.PocketSpinner
+import com.kaiku.cryptospot.customView.tab.CustomTab
+import com.kaiku.cryptospot.customView.tab.PocketTab
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,16 +67,7 @@ fun PocketHomeworkScreen() {
                     .background(color = Color.Red)
                     .height(20.dp)
             )
-            PocketTextField(
-                hideKeyboard = hideKeyboard.value
-            ) {
-                hideKeyboard.value = false
-            }
-            Spacer(
-                modifier = Modifier
-                    .background(color = Color.Red)
-                    .height(20.dp)
-            )
+            PocketSpinner()
 
             val entry1 = Pair("Key1", "Entry1")
             val entry2 = Pair("Key2", "Entry2")
@@ -87,6 +79,28 @@ fun PocketHomeworkScreen() {
                     Timber.e("selected : $selected")
                 }
             )
+            PocketTextField(
+                hideKeyboard = hideKeyboard.value
+            ) {
+                hideKeyboard.value = false
+            }
+
+            Spacer(
+                modifier = Modifier
+                    .background(color = Color.Red)
+                    .height(20.dp)
+            )
+
+
+            val index = remember{ mutableStateOf(0) }
+            CustomTab(
+                selectedItemIndex = index.value,
+                items = listOf("一般單", "觸價單"),
+                onClick = {
+                    index.value = it
+                }
+            )
+
 
 
         }
