@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph
+import androidx.navigation.navigation
 //import androidx.navigation.compose.composable
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -21,6 +23,7 @@ import com.kaiku.cryptospot.navigation.*
 import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreen
 import com.kaiku.cryptospot.presentation.home.HomeScreen
 import com.kaiku.cryptospot.presentation.login.LoginScreen
+import com.kaiku.cryptospot.presentation.pocket_hw.FirstDestination
 import com.kaiku.cryptospot.presentation.test.*
 import com.kaiku.cryptospot.presentation.pocket_hw.PocketHomeworkScreen
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
@@ -49,7 +52,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavScreen()
+                    NavScreenGraph()
                 }
             }
         }
@@ -60,67 +63,6 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         Timber.e("main activity onResume")
     }
-
-    @OptIn(ExperimentalAnimationApi::class)
-    @Composable
-    fun NavScreen() {
-        Timber.e("Init nav screen")
-
-        val hasApiKey = remember {
-            mutableStateOf(Prefs.apiKey.isNotBlank())
-        }
-        Timber.e("Does user has key ? ${hasApiKey.value}")
-
-        NavigationEffect(
-            startDestination = if (hasApiKey.value) HomeDestination.route else LoginDestination.route
-        ) {
-
-            composable(
-                route = HomeDestination.route,
-                enterTransition = { screenSlideEnter(fromLeft = true) },
-                exitTransition = { screenSlideExit(toLeft = true) }
-            ) {
-                HomeScreen()
-            }
-            composable(LoginDestination.route) {
-                LoginScreen()
-            }
-            composable(
-                route = FindCryptoDestination.route,
-                enterTransition = { screenSlideEnter(fromLeft = false) },
-                exitTransition = { screenSlideExit(toLeft = false) }
-            ) {
-                CryptoListScreen()
-            }
-
-            composable(
-                route = TestDestination.route,
-                arguments = TestDestination.arguments,
-                enterTransition = { screenSlideEnter(fromLeft = false) },
-                exitTransition = { screenSlideExit(toLeft = false) }
-            ) {
-                val channelID = it.arguments?.getString(TestScreenTag.CHANNEL_ID) ?: return@composable
-                val score = it.arguments?.getInt(TestScreenTag.SCORE) ?: return@composable
-                val isTesting = it.arguments?.getBoolean(TestScreenTag.IS_TESTING) ?: return@composable
-                TestScreen(
-                    channelID = channelID,
-                    score = score,
-                    isTesting = isTesting
-                )
-            }
-
-            composable(
-                route = PocketHomeworkDestination.route,
-                enterTransition = { screenSlideEnter(fromLeft = false) },
-                exitTransition = { screenSlideExit(toLeft = false) }
-            ) {
-                PocketHomeworkScreen()
-            }
-
-        }
-
-    }
-
 
     override fun onPause() {
         Timber.e("main onPause")
@@ -134,5 +76,64 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun NavScreenGraph() {
+    Timber.e("Init nav screen graph")
+
+    val hasApiKey = remember {
+        mutableStateOf(Prefs.apiKey.isNotBlank())
+    }
+    Timber.e("Does user has key ? ${hasApiKey.value}")
+
+    NavigationEffect(
+        startDestination = if (hasApiKey.value) HomeDestination.route else LoginDestination.route
+    ) {
+
+        composable(
+            route = HomeDestination.route,
+            enterTransition = { screenSlideEnter(fromLeft = true) },
+            exitTransition = { screenSlideExit(toLeft = true) }
+        ) {
+            HomeScreen()
+        }
+        composable(LoginDestination.route) {
+            LoginScreen()
+        }
+        composable(
+            route = FindCryptoDestination.route,
+            enterTransition = { screenSlideEnter(fromLeft = false) },
+            exitTransition = { screenSlideExit(toLeft = false) }
+        ) {
+            CryptoListScreen()
+        }
+
+        composable(
+            route = TestDestination.route,
+            arguments = TestDestination.arguments,
+            enterTransition = { screenSlideEnter(fromLeft = false) },
+            exitTransition = { screenSlideExit(toLeft = false) }
+        ) {
+            val channelID = it.arguments?.getString(TestScreenTag.CHANNEL_ID) ?: return@composable
+            val score = it.arguments?.getInt(TestScreenTag.SCORE) ?: return@composable
+            val isTesting = it.arguments?.getBoolean(TestScreenTag.IS_TESTING) ?: return@composable
+            TestScreen(
+                channelID = channelID,
+                score = score,
+                isTesting = isTesting
+            )
+        }
+
+        composable(
+            route = PocketHomeworkDestination.route,
+            enterTransition = { screenSlideEnter(fromLeft = false) },
+            exitTransition = { screenSlideExit(toLeft = false) }
+        ) {
+            PocketHomeworkScreen()
+        }
+
+
+    }
+}
 
 

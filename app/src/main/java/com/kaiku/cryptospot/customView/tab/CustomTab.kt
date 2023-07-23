@@ -83,22 +83,23 @@ fun CustomTabFillMaxWidth(
 ) {
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current
-    var tabWidth by remember { mutableStateOf(0.dp) }
+    var wholeWidth by remember { mutableStateOf(0.dp) }
+    val tabWidth = wholeWidth / items.size
 
     val calculate: (LayoutCoordinates) -> Unit = remember {
         {
             scope.launch {
-                tabWidth = with(density) {
+                wholeWidth = with(density) {
                     it.size.width.toDp()
                 }
-                if (isCustomTab) Timber.e("width : $tabWidth")
+                if (isCustomTab) Timber.e("width : $wholeWidth")
             }
         }
     }
 
 
     val indicatorOffset: Dp by animateDpAsState(
-        targetValue = tabWidth / 2 * selectedItemIndex,
+        targetValue = tabWidth * selectedItemIndex,
         animationSpec = tween(
             easing = LinearEasing,
             durationMillis = 200
@@ -117,7 +118,7 @@ fun CustomTabFillMaxWidth(
             },
     ) {
         MyTabIndicator(
-            indicatorWidth = tabWidth / 2,
+            indicatorWidth = tabWidth,
             indicatorOffset = indicatorOffset,
             indicatorColor = Color.White,
             shape = shape
@@ -133,7 +134,7 @@ fun CustomTabFillMaxWidth(
                 MyTabItem(
                     isSelected = isSelected,
                     shape = shape,
-                    tabWidth = tabWidth / 2,
+                    tabWidth = tabWidth,
                     text = text,
                 ) {
                     onClick(index)
