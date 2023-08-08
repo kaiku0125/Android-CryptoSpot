@@ -1,5 +1,6 @@
 package com.kaiku.cryptospot.presentation
 
+//import androidx.navigation.compose.composable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,31 +12,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph
-import androidx.navigation.navigation
-//import androidx.navigation.compose.composable
 import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kaiku.cryptospot.BuildConfig
 import com.kaiku.cryptospot.MultiTagTree
 import com.kaiku.cryptospot.navigation.*
 import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreen
 import com.kaiku.cryptospot.presentation.home.HomeScreen
 import com.kaiku.cryptospot.presentation.login.LoginScreen
-import com.kaiku.cryptospot.presentation.pocket_hw.FirstDestination
-import com.kaiku.cryptospot.presentation.test.*
 import com.kaiku.cryptospot.presentation.pocket_hw.PocketHomeworkScreen
+import com.kaiku.cryptospot.presentation.test.*
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
 import dagger.hilt.android.AndroidEntryPoint
 import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
-
-//adb connect 127.0.0.1:62001
-
-private const val TAG = "MainActivity"
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

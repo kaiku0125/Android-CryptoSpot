@@ -7,13 +7,9 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
-import com.kaiku.cryptospot.presentation.home.MyTopBar
-import com.kaiku.cryptospot.presentation.theme.figma_12ssp
-import com.kaiku.cryptospot.presentation.theme.figma_15ssp
-import timber.log.Timber
+import com.kaiku.cryptospot.presentation.theme.text_15sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +42,7 @@ fun TestScreen(
         ) {
             Text(
                 text = "$channelID,__ $score,__ $isTesting",
-                style = MaterialTheme.typography.figma_12ssp
+                style = MaterialTheme.typography.text_15sp
             )
 
         }

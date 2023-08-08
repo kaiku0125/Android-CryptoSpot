@@ -13,8 +13,8 @@ import com.kaiku.cryptospot.navigation.FindCryptoDestination
 import com.kaiku.cryptospot.navigation.PocketHomeworkDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.navigation.TestDestination
-import com.kaiku.cryptospot.presentation.theme.figma_12ssp
-import com.kaiku.cryptospot.presentation.theme.figma_15ssp
+import com.kaiku.cryptospot.presentation.theme.text_15sp
+import com.kaiku.cryptospot.presentation.theme.text_16ssp_bold
 import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,7 +29,7 @@ fun HomeScreen() {
             modifier = Modifier.padding(innerPadding)
         ) {
             Button(
-                modifier = Modifier.padding(start = 20.dp, top = 50.dp),
+                modifier = Modifier.padding(start = 20.dp, top = 10.dp),
                 onClick = {
                     ScreenNavigator.to(
                         TestDestination(
@@ -41,20 +41,20 @@ fun HomeScreen() {
                 }
             ) {
                 Text(
-                    text = "test",
-                    style = MaterialTheme.typography.figma_12ssp
+                    text = "Nav bundle測試",
+                    style = MaterialTheme.typography.text_15sp
                 )
             }
 
             Button(
-                modifier = Modifier.padding(start = 20.dp, top = 30.dp),
+                modifier = Modifier.padding(start = 20.dp, top = 10.dp),
                 onClick = {
                     ScreenNavigator.to(PocketHomeworkDestination.route)
                 }
             ) {
                 Text(
-                    text = "pocket_hw",
-                    style = MaterialTheme.typography.figma_15ssp
+                    text = "Tab與Spinner實作",
+                    style = MaterialTheme.typography.text_16ssp_bold
                 )
             }
         }

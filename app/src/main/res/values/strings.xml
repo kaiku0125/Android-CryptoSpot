@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CryptoSpot</string>
+
+    // spinner
+    <string name="spinner_item_btc">下拉選單BTC</string>
+    <string name="spinner_item_eth">下拉選單ETH</string>
+    <string name="spinner_item_ada">下拉選單ADA</string>
+
 </resources>

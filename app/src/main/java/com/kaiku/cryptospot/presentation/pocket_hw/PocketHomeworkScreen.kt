@@ -2,31 +2,32 @@ package com.kaiku.cryptospot.presentation.pocket_hw
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.google.accompanist.navigation.animation.composable
-import com.kaiku.cryptospot.customView.spinner.PocketSpinner
+import com.kaiku.cryptospot.R
+import com.kaiku.cryptospot.customView.spinner.SpinnerComponent
+import com.kaiku.cryptospot.customView.spinner.data.CryptoSpinnerType
 import com.kaiku.cryptospot.customView.tab.CustomTabFillMaxWidth
 import com.kaiku.cryptospot.navigation.HomeDestination
-import com.kaiku.cryptospot.navigation.LoginDestination
-import com.kaiku.cryptospot.navigation.NavigationEffect
 import com.kaiku.cryptospot.navigation.ScreenNavigator
-import com.kaiku.cryptospot.presentation.home.HomeScreen
-import com.kaiku.cryptospot.utils.ScreenAnimation
+import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
+import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @SuppressLint("UnrememberedMutableState")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,34 +62,52 @@ fun PocketHomeworkScreen() {
         var index by remember { mutableStateOf(0) }
 
 
-        Column(
+        ConstraintLayout(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(10.dp)
                 .fillMaxSize()
         ) {
 
-            TabView() {
+            val (tabRegion, firstRegion, secondRegion) = createRefs()
+
+            TabView(
+                modifier = Modifier.constrainAs(tabRegion) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top)
+                }
+            ) {
                 scope.launch {
                     index = it
-
                 }
             }
 
-            Timber.e("index : $index")
-
-            AnimatedVisibility(visible = index == 0) {
-                if (index == 0) {
-                    FirstScreen()
+            AnimatedVisibility(
+                visible = index == 0,
+                enter = screenSlideEnter(fromLeft = true),
+                exit = screenSlideExit(toLeft = true),
+                modifier = Modifier.constrainAs(firstRegion){
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(tabRegion.bottom)
                 }
-                Timber.e("show first screen")
+
+            ) {
+                FirstTabSpinnerView()
             }
 
-            AnimatedVisibility(visible = index == 1) {
-                if (index == 1) {
-                    SecondScreen()
+            AnimatedVisibility(
+                visible = index == 1,
+                enter = screenSlideEnter(fromLeft = false),
+                exit = screenSlideExit(toLeft = false),
+                modifier = Modifier.constrainAs(secondRegion){
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(tabRegion.bottom)
                 }
-                Timber.e("show second screen")
+            ) {
+                SecondTabSpinnerView()
             }
 
         }
@@ -97,12 +116,13 @@ fun PocketHomeworkScreen() {
 
 @Composable
 fun TabView(
+    modifier: Modifier = Modifier,
     onTabClick: (Int) -> Unit
 ) {
     val index = remember { mutableStateOf(0) }
 
     CustomTabFillMaxWidth(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         selectedItemIndex = index.value,
         items = listOf("一般單", "觸價單"),
         onClick = {
@@ -113,7 +133,7 @@ fun TabView(
 }
 
 @Composable
-fun ValidTimeSpinnerView() {
+fun ChoseCryptoSpinnerView() {
     ConstraintLayout(
         modifier = Modifier
             .background(Color.DarkGray)
@@ -124,22 +144,32 @@ fun ValidTimeSpinnerView() {
 
         val (text, spinner) = createRefs()
 
+        val currentCryptoItem = remember { mutableStateOf(CryptoSpinnerType.getAll()[0]) }
+
         Text(
-            text = "有效期",
+            text = "加密貨幣",
             modifier = Modifier.constrainAs(text) {
                 start.linkTo(parent.start)
                 centerVerticallyTo(parent)
             }
         )
 
-        PocketSpinner(
+        SpinnerComponent(
             modifier = Modifier
                 .constrainAs(spinner) {
                     start.linkTo(startGuide)
                     end.linkTo(parent.end)
                     width = Dimension.fillToConstraints
-                }
+                },
+            list = CryptoSpinnerType.getAll(),
+            currentItem = currentCryptoItem.value
         ) {
+            currentCryptoItem.value = when (it.position) {
+                CryptoSpinnerType.SpinnerBTC.position -> CryptoSpinnerType.SpinnerBTC
+                CryptoSpinnerType.SpinnerETH.position -> CryptoSpinnerType.SpinnerETH
+                CryptoSpinnerType.SpinnerADA.position -> CryptoSpinnerType.SpinnerADA
+                else -> CryptoSpinnerType.SpinnerBTC
+            }
 
         }
 
@@ -147,7 +177,7 @@ fun ValidTimeSpinnerView() {
 }
 
 @Composable
-fun ValidTimeWithDateSpinnerView() {
+fun ChoseCryptoSpinnerWithTextFieldView() {
     ConstraintLayout(
         modifier = Modifier
             .background(Color.DarkGray)
@@ -160,15 +190,17 @@ fun ValidTimeWithDateSpinnerView() {
 
         val (text, spinner, textField) = createRefs()
 
+        val currentCryptoItem = remember { mutableStateOf(CryptoSpinnerType.getAll()[0]) }
+
         Text(
-            text = "有效期",
+            text = "加密貨幣註釋",
             modifier = Modifier.constrainAs(text) {
                 start.linkTo(parent.start)
                 centerVerticallyTo(parent)
             }
         )
 
-        PocketSpinner(
+        SpinnerComponent(
             modifier = Modifier
                 .constrainAs(spinner) {
                     if (showDatePicker) {
@@ -180,55 +212,47 @@ fun ValidTimeWithDateSpinnerView() {
                         end.linkTo(parent.end)
                         width = Dimension.fillToConstraints
                     }
-
-                }
-
+                },
+            list = CryptoSpinnerType.getAll(),
+            currentItem = currentCryptoItem.value
         ) {
-            showDatePicker = it == "長效單"
-        }
-
-        AnimatedVisibility(
-            visible = showDatePicker,
-            modifier = Modifier.constrainAs(textField) {
-                start.linkTo(endGuide)
-                end.linkTo(parent.end)
-                width = Dimension.fillToConstraints
+            showDatePicker = it.position == CryptoSpinnerType.SpinnerETH.position
+            currentCryptoItem.value = when (it.position) {
+                CryptoSpinnerType.SpinnerBTC.position -> CryptoSpinnerType.SpinnerBTC
+                CryptoSpinnerType.SpinnerETH.position -> CryptoSpinnerType.SpinnerETH
+                CryptoSpinnerType.SpinnerADA.position -> CryptoSpinnerType.SpinnerADA
+                else -> CryptoSpinnerType.SpinnerBTC
             }
-        ) {
+        }
 
-            BasicTextField(
-                value = "temp",
-                onValueChange = {},
-                Modifier.background(Color.Blue)
-            )
+        if (showDatePicker) {
+            Box(modifier = Modifier
+                .constrainAs(textField) {
+                    start.linkTo(endGuide, margin = 8.dp)
+                    end.linkTo(parent.end)
+                    width = Dimension.fillToConstraints
+                }
+                .height(30.dp)
+                .clip(MaterialTheme.shapes.medium)
+                .background(colorResource(id = R.color.black))
+                .clickable {
+
+                },
+                contentAlignment = Alignment.Center
+            ) {
+                BasicTextField(
+                    value = "註記",
+                    enabled = false,
+                    onValueChange = {},
+                    textStyle = MaterialTheme.typography.labelMedium.copy(
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                    )
+                )
+            }
 
         }
 
-    }
-}
-
-
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun sdf() {
-    NavigationEffect(
-        startDestination = FirstDestination.route
-    ) {
-        composable(
-            route = FirstDestination.route,
-            enterTransition = { ScreenAnimation.screenSlideEnter(fromLeft = true) },
-            exitTransition = { ScreenAnimation.screenSlideExit(toLeft = true) }
-        ) {
-            FirstScreen()
-        }
-
-        composable(
-            route = SecondDestination.route,
-            enterTransition = { ScreenAnimation.screenSlideEnter(fromLeft = false) },
-            exitTransition = { ScreenAnimation.screenSlideExit(toLeft = false) }
-        ) {
-            SecondScreen()
-        }
     }
 }
 

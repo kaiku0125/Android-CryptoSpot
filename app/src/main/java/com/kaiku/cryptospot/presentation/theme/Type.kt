@@ -16,16 +16,16 @@ val Typography = Typography(
 )
 
 
-val Typography.figma_12ssp: TextStyle
+val Typography.text_15sp: TextStyle
     get() {
         return TextStyle(
             fontSize = 15.sp
         )
     }
-val Typography.figma_15ssp: TextStyle
+val Typography.text_16ssp_bold: TextStyle
     get() {
         return TextStyle(
-            fontSize = 25.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
     }

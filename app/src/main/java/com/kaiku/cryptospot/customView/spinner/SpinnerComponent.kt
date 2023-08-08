@@ -1,6 +1,7 @@
 package com.kaiku.cryptospot.customView.spinner
 
 import android.graphics.Color.parseColor
+import android.widget.Spinner
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -21,27 +22,30 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.kaiku.cryptospot.common.Debug.isDropDown
+import com.kaiku.cryptospot.common.Debug.isSpinner
 import com.kaiku.cryptospot.common.recomposeHighlighter
+import com.kaiku.cryptospot.customView.spinner.data.CryptoSpinnerType
+import com.kaiku.cryptospot.customView.spinner.data.SpinnerType
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
 @Composable
-fun PocketSpinner(
-    modifier: Modifier,
-    list: List<String> = listOf("當日有效", "長效單"),
-    onValidTypeChange: (String) -> Unit
+fun SpinnerComponent(
+    modifier: Modifier = Modifier,
+    list: List<SpinnerType>,
+    currentItem : SpinnerType = list[0],
+    onTypeChange: (SpinnerType) -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     val density = LocalDensity.current
+    val scope = rememberCoroutineScope()
     var spinnerWidth by remember { mutableStateOf(0.dp) }
 
-    var currentOrderText by rememberSaveable { mutableStateOf(list[0]) }
     var expanded by remember { mutableStateOf(false) }
 
 
@@ -55,7 +59,7 @@ fun PocketSpinner(
                 spinnerWidth = with(density) {
                     it.size.width.toDp()
                 }
-                if (isDropDown) Timber.e("width : $spinnerWidth")
+                if (isSpinner) Timber.e("width : $spinnerWidth")
             }
         }
     }
@@ -90,7 +94,7 @@ fun PocketSpinner(
                     color = Color.White,
                     shape = RoundedCornerShape(8.dp)
                 )
-                .recomposeHighlighter(isDropDown)
+                .recomposeHighlighter(isSpinner)
         ) {
             ConstraintLayout(
                 modifier = Modifier
@@ -107,7 +111,7 @@ fun PocketSpinner(
             ) {
                 val (text, icon) = createRefs()
                 Text(
-                    text = currentOrderText,
+                    text = stringResource(id = currentItem.description),
                     modifier = Modifier.constrainAs(text) {
                         start.linkTo(parent.start, margin = 8.dp)
                         centerVerticallyTo(parent)
@@ -154,9 +158,7 @@ fun PocketSpinner(
                         color = Color(parseColor("#1E1E1E")),
                         shape = RoundedCornerShape(8.dp)
                     )
-                    .recomposeHighlighter(isDropDown),
-
-
+                    .recomposeHighlighter(isSpinner),
 //                    .onGloballyPositioned {
 //                        scope.launch {
 //                            menuSize = it.size.height.toFloat()
@@ -168,7 +170,7 @@ fun PocketSpinner(
                 offset = DpOffset(x = 0.dp, y = 10.dp)
             ) {
 
-                list.forEach { title ->
+                list.forEach { type ->
                     DropdownMenuItem(
                         text = {
                             Box(
@@ -176,7 +178,7 @@ fun PocketSpinner(
                                 contentAlignment = Alignment.CenterStart
                             ) {
                                 Text(
-                                    text = title,
+                                    text = stringResource(id = type.description),
                                     color = Color.White,
                                 )
                             }
@@ -184,10 +186,8 @@ fun PocketSpinner(
                         modifier = Modifier.height(30.dp),
                         onClick = {
                             onSpinnerClick.invoke()
-//                            expanded = false
-                            currentOrderText = title
-                            onValidTypeChange.invoke(currentOrderText)
-                        },
+                            onTypeChange.invoke(type)
+                        }
                     )
                 }
 
@@ -203,10 +203,17 @@ fun PocketSpinner(
 
 @Preview(showBackground = true)
 @Composable
-private fun MenuSample_Preview() {
-    MaterialTheme {
-        PocketSpinner(modifier = Modifier) {
+private fun SpinnerComponentPreview() {
 
+    var currentCryptoItem by remember { mutableStateOf(CryptoSpinnerType.getAll()[0]) }
+
+    MaterialTheme {
+        SpinnerComponent(
+            modifier = Modifier,
+            list = CryptoSpinnerType.getAll(),
+            currentItem = currentCryptoItem
+        ) {
+            currentCryptoItem = it as CryptoSpinnerType
         }
 
     }

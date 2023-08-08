@@ -7,15 +7,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FirstScreen() {
-    Column(modifier = Modifier.fillMaxSize()) {
+fun FirstTabSpinnerView(modifier: Modifier = Modifier) {
+    Column(modifier = modifier.fillMaxSize()) {
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(12.dp)
         )
 
-        ValidTimeSpinnerView()
+        ChoseCryptoSpinnerView()
 
         Spacer(
             modifier = Modifier
@@ -23,19 +23,19 @@ fun FirstScreen() {
                 .height(12.dp)
         )
 
-        ValidTimeWithDateSpinnerView()
+        ChoseCryptoSpinnerWithTextFieldView()
     }
 }
 
 @Composable
-fun SecondScreen() {
-    Column(modifier = Modifier.fillMaxSize()) {
+fun SecondTabSpinnerView(modifier: Modifier = Modifier) {
+    Column(modifier = modifier.fillMaxSize()) {
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(12.dp)
         )
-        ValidTimeWithDateSpinnerView()
+        ChoseCryptoSpinnerWithTextFieldView()
 
 
 
@@ -53,6 +53,6 @@ fun SecondScreen() {
                 .height(12.dp)
         )
 
-        ValidTimeSpinnerView()
+        ChoseCryptoSpinnerWithTextFieldView()
     }
 }
