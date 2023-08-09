@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
-fun CryptoTab(
+fun CryptoTabComponent(
     selectedItemIndex: Int,
     items: List<TabType>,
     modifier: Modifier = Modifier,
@@ -77,7 +77,7 @@ fun CryptoTab(
 }
 
 @Composable
-fun CryptoTabFillMaxWidth(
+fun CryptoTabFillMaxWidthComponent(
     selectedItemIndex: Int,
     items: List<TabType>,
     modifier: Modifier = Modifier,
@@ -221,7 +221,7 @@ private fun CryptoTabPreview() {
 
     val currentItem = remember { mutableStateOf(CryptoTabType.getAll()[0]) }
 
-    CryptoTab(
+    CryptoTabComponent(
         selectedItemIndex = currentItem.value.position,
         items = CryptoTabType.getAll(),
         onClick = {
@@ -242,7 +242,7 @@ private fun CryptoTabFillMaxWidthPreview() {
 
     val currentItem = remember { mutableStateOf(CryptoTabType.getAll()[0]) }
 
-    CryptoTabFillMaxWidth(
+    CryptoTabFillMaxWidthComponent(
         modifier = Modifier.fillMaxWidth(),
         selectedItemIndex = currentItem.value.position,
         items = CryptoTabType.getAll(),

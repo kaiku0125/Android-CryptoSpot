@@ -22,7 +22,7 @@ import androidx.constraintlayout.compose.Dimension
 import com.kaiku.cryptospot.R
 import com.kaiku.cryptospot.customView.spinner.SpinnerComponent
 import com.kaiku.cryptospot.customView.spinner.data.CryptoSpinnerType
-import com.kaiku.cryptospot.customView.tab.CryptoTabFillMaxWidth
+import com.kaiku.cryptospot.customView.tab.CryptoTabFillMaxWidthComponent
 import com.kaiku.cryptospot.customView.tab.CryptoTabWithBadgeComponent
 import com.kaiku.cryptospot.customView.tab.data.BadgeTabType
 import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
@@ -147,7 +147,7 @@ fun TabView(
 ) {
     val currentItem = remember { mutableStateOf(CryptoTabType.getAll()[0]) }
 
-    CryptoTabFillMaxWidth(
+    CryptoTabFillMaxWidthComponent(
         modifier = modifier.fillMaxWidth(),
         selectedItemIndex = currentItem.value.position,
         items = CryptoTabType.getAll(),
