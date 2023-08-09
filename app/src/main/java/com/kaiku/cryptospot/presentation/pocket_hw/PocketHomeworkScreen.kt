@@ -7,7 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +27,7 @@ import com.kaiku.cryptospot.customView.tab.CryptoTabFillMaxWidthComponent
 import com.kaiku.cryptospot.customView.tab.CryptoTabWithBadgeComponent
 import com.kaiku.cryptospot.customView.tab.data.BadgeTabType
 import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
+import com.kaiku.cryptospot.customView.topappbar.ScaffoldTopAppBarWithBackNavComponent
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
@@ -36,29 +38,27 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PocketHomeworkScreen() {
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "titleScreen",
-                        color = Color.White
-                    )
-                },
-                navigationIcon = {
+            ScaffoldTopAppBarWithBackNavComponent(
+                titleText = "口袋作業",
+                needInformation = true,
+                actions = {
                     IconButton(
-                        onClick = {
-                            ScreenNavigator.back(HomeDestination.route)
-                        }
-                    ) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                        onClick = { /*TODO*/ }) {
+                        Icon(imageVector = Icons.Filled.Lock, contentDescription = "lock")
                     }
-
+                    IconButton(
+                        onClick = { /*TODO*/ }
+                    ) {
+                        Icon(imageVector = Icons.Default.Settings, contentDescription = "setting")
+                    }
                 },
+                onNavigationClick = {
+                    ScreenNavigator.back(HomeDestination.route)
+                }
             )
-
         }
     ) { paddingValues ->
         val scope = rememberCoroutineScope()
@@ -74,7 +74,7 @@ fun PocketHomeworkScreen() {
 
             val (tabSmallRegion, tabSwitchRegion, firstRegion, secondRegion) = createRefs()
 
-            var currentItem by remember{ mutableStateOf(BadgeTabType.getAll()[0]) }
+            var currentItem by remember { mutableStateOf(BadgeTabType.getAll()[0]) }
 
             CryptoTabWithBadgeComponent(
                 modifier = Modifier.constrainAs(tabSmallRegion) {
@@ -85,7 +85,7 @@ fun PocketHomeworkScreen() {
                 selectedItemIndex = currentItem.position,
                 items = BadgeTabType.getAll(),
                 onClick = {
-                    currentItem = when(it.position){
+                    currentItem = when (it.position) {
                         BadgeTabType.TabOne.position -> BadgeTabType.TabOne
                         BadgeTabType.TabTwo.position -> BadgeTabType.TabTwo
                         BadgeTabType.TabThree.position -> BadgeTabType.TabThree
