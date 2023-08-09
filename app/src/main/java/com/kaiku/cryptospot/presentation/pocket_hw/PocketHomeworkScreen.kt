@@ -22,7 +22,10 @@ import androidx.constraintlayout.compose.Dimension
 import com.kaiku.cryptospot.R
 import com.kaiku.cryptospot.customView.spinner.SpinnerComponent
 import com.kaiku.cryptospot.customView.spinner.data.CryptoSpinnerType
-import com.kaiku.cryptospot.customView.tab.CustomTabFillMaxWidth
+import com.kaiku.cryptospot.customView.tab.CryptoTabFillMaxWidth
+import com.kaiku.cryptospot.customView.tab.CryptoTabWithBadgeComponent
+import com.kaiku.cryptospot.customView.tab.data.BadgeTabType
+import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
@@ -69,13 +72,36 @@ fun PocketHomeworkScreen() {
                 .fillMaxSize()
         ) {
 
-            val (tabRegion, firstRegion, secondRegion) = createRefs()
+            val (tabSmallRegion, tabSwitchRegion, firstRegion, secondRegion) = createRefs()
 
-            TabView(
-                modifier = Modifier.constrainAs(tabRegion) {
+            var currentItem by remember{ mutableStateOf(BadgeTabType.getAll()[0]) }
+
+            CryptoTabWithBadgeComponent(
+                modifier = Modifier.constrainAs(tabSmallRegion) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     top.linkTo(parent.top)
+                },
+                selectedItemIndex = currentItem.position,
+                items = BadgeTabType.getAll(),
+                onClick = {
+                    currentItem = when(it.position){
+                        BadgeTabType.TabOne.position -> BadgeTabType.TabOne
+                        BadgeTabType.TabTwo.position -> BadgeTabType.TabTwo
+                        BadgeTabType.TabThree.position -> BadgeTabType.TabThree
+                        BadgeTabType.TabFour.position -> BadgeTabType.TabFour
+                        else -> BadgeTabType.TabOne
+                    }
+                }
+            )
+
+
+
+            TabView(
+                modifier = Modifier.constrainAs(tabSwitchRegion) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(tabSmallRegion.bottom, margin = 10.dp)
                 }
             ) {
                 scope.launch {
@@ -87,10 +113,10 @@ fun PocketHomeworkScreen() {
                 visible = index == 0,
                 enter = screenSlideEnter(fromLeft = true),
                 exit = screenSlideExit(toLeft = true),
-                modifier = Modifier.constrainAs(firstRegion){
+                modifier = Modifier.constrainAs(firstRegion) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                    top.linkTo(tabRegion.bottom)
+                    top.linkTo(tabSwitchRegion.bottom)
                 }
 
             ) {
@@ -101,10 +127,10 @@ fun PocketHomeworkScreen() {
                 visible = index == 1,
                 enter = screenSlideEnter(fromLeft = false),
                 exit = screenSlideExit(toLeft = false),
-                modifier = Modifier.constrainAs(secondRegion){
+                modifier = Modifier.constrainAs(secondRegion) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                    top.linkTo(tabRegion.bottom)
+                    top.linkTo(tabSwitchRegion.bottom)
                 }
             ) {
                 SecondTabSpinnerView()
@@ -119,15 +145,20 @@ fun TabView(
     modifier: Modifier = Modifier,
     onTabClick: (Int) -> Unit
 ) {
-    val index = remember { mutableStateOf(0) }
+    val currentItem = remember { mutableStateOf(CryptoTabType.getAll()[0]) }
 
-    CustomTabFillMaxWidth(
+    CryptoTabFillMaxWidth(
         modifier = modifier.fillMaxWidth(),
-        selectedItemIndex = index.value,
-        items = listOf("一般單", "觸價單"),
+        selectedItemIndex = currentItem.value.position,
+        items = CryptoTabType.getAll(),
         onClick = {
-            index.value = it
-            onTabClick.invoke(it)
+            currentItem.value = when (it.position) {
+                CryptoTabType.TabBTC.position -> CryptoTabType.TabBTC
+                CryptoTabType.TabETH.position -> CryptoTabType.TabETH
+                CryptoTabType.TabADA.position -> CryptoTabType.TabADA
+                else -> CryptoTabType.TabBTC
+            }
+            onTabClick.invoke(currentItem.value.position)
         }
     )
 }

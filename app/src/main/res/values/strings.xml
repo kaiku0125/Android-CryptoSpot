@@ -6,4 +6,13 @@
     <string name="spinner_item_eth">下拉選單ETH</string>
     <string name="spinner_item_ada">下拉選單ADA</string>
 
+    <string name="tab_item_btc">比特幣</string>
+    <string name="tab_item_eth">以太幣</string>
+    <string name="tab_item_ada">阿達幣</string>
+
+    <string name="tab_item_one">一</string>
+    <string name="tab_item_two">二</string>
+    <string name="tab_item_three">三</string>
+    <string name="tab_item_four">四</string>
+
 </resources>
