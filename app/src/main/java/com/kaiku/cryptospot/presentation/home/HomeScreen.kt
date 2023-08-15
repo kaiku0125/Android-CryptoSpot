@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.customView.dialog.CustomDialog
+import com.kaiku.cryptospot.customView.dialog.EdmDialog
 import com.kaiku.cryptospot.customView.topappbar.ScaffoldTopAppBarWithBackNavComponent
 import com.kaiku.cryptospot.navigation.FindCryptoDestination
 import com.kaiku.cryptospot.navigation.PocketHomeworkDestination
@@ -82,14 +83,18 @@ fun HomeScreen() {
 
             val showDialog = remember { mutableStateOf(false) }
             if (showDialog.value) {
-                CustomDialog(
-                    value = "",
-                    setShowDialog = {
-                        showDialog.value = it
-                    },
-                    setValue = {
-                        Timber.e("set value : $it")
-                    }
+//                CustomDialog(
+//                    value = "",
+//                    setShowDialog = {
+//                        showDialog.value = it
+//                    },
+//                    setValue = {
+//                        Timber.e("set value : $it")
+//                    }
+//                )
+                EdmDialog(
+                    onNotRemind = {},
+                    onDismiss = {showDialog.value = false}
                 )
             }
             Button(
