@@ -7,19 +7,16 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
@@ -39,8 +36,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -48,7 +45,6 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.kaiku.cryptospot.R
-import com.kaiku.cryptospot.customView.text.TextWithIcon
 import timber.log.Timber
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -74,7 +70,7 @@ fun EdmDialog(
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Magenta)
+//                .background(Color.Magenta)
                 .onGloballyPositioned {
                     screenWidth = it.size.width
                     screenHeight = it.size.height
@@ -84,7 +80,7 @@ fun EdmDialog(
                 }
         ) {
 
-            val (cancel, mainBox, mainView, checkView) = createRefs()
+            val (cancel, mainBox, checkView) = createRefs()
 
             Box(
                 modifier = Modifier
@@ -105,7 +101,7 @@ fun EdmDialog(
                         heightRatio = screenHeight / mainHeight.toFloat()
                         Timber.e("倍率width = ${widthRatio}, 倍率height = ${heightRatio}")
                     }
-                    .background(Color.Yellow)
+//                    .background(Color.Yellow)
             ) {
                 Image(
                     modifier = Modifier.fillMaxSize(),
@@ -125,7 +121,7 @@ fun EdmDialog(
 
                     val topGuide = createGuidelineFromTop(0.2f)
 
-                    val item1Top = createGuidelineFromTop(0.28f)
+                    val item1Top = createGuidelineFromTop(0.3f)
                     val item1Bottom = createGuidelineFromTop(0.5f)
 
                     val item2Top = createGuidelineFromTop(0.5f)
@@ -136,6 +132,7 @@ fun EdmDialog(
 
                     val (titleText, item1, item2, item3) = createRefs()
 
+
                     TitleText(
                         modifier = Modifier.constrainAs(titleText) {
                             top.linkTo(topGuide)
@@ -145,37 +142,40 @@ fun EdmDialog(
                     )
 
                     EdmItemComponent(
-                        modifier = Modifier.constrainAs(item1){
+                        modifier = Modifier.constrainAs(item1) {
                             top.linkTo(item1Top)
                             start.linkTo(startGuide)
                             end.linkTo(endGuide)
                             bottom.linkTo(item1Bottom)
-                            height = Dimension.fillToConstraints
                         },
+                        text = "抽抽抽 &8000",
                         needCloud = true,
-                        needGift = false
+                        needGift = false,
                     )
 
                     EdmItemComponent(
-                        modifier = Modifier.constrainAs(item2){
+                        modifier = Modifier.constrainAs(item2) {
                             top.linkTo(item2Top)
                             start.linkTo(startGuide)
                             end.linkTo(endGuide)
                             bottom.linkTo(item2Bottom)
                         },
+                        text = "抽抽抽 &8000 君悅年菜組 ! 抽抽抽 ",
                         needCloud = false,
-                        needGift = true
+                        needGift = true,
                     )
 
+
                     EdmItemComponent(
-                        modifier = Modifier.constrainAs(item3){
+                        modifier = Modifier.constrainAs(item3) {
                             top.linkTo(item3Top)
                             start.linkTo(startGuide)
                             end.linkTo(endGuide)
                             bottom.linkTo(item3Bottom)
                         },
+                        text = "抽抽抽 &8000 君悅年菜組 ! 抽抽抽 &8000 君悅年菜組 ! 抽抽抽 &8000 君悅年菜組 ! ",
                         needCloud = false,
-                        needGift = false
+                        needGift = false,
                     )
 
                 }
@@ -203,11 +203,12 @@ fun EdmDialog(
                         start.linkTo(parent.start)
                         end.linkTo(parent.end)
                     },
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.Top
             ) {
                 val isChecked = remember { mutableStateOf(false) }
 
                 Checkbox(
+                    modifier = Modifier.size(22.dp),
                     checked = isChecked.value,
                     onCheckedChange = {
                         isChecked.value = it
@@ -216,6 +217,7 @@ fun EdmDialog(
                         }
                     }
                 )
+                Spacer(modifier = Modifier.width(5.dp))
                 Text(text = "今日不再顯示")
             }
 
@@ -313,7 +315,8 @@ private fun EdmItemTitle(
 @Preview
 @Composable
 private fun EdmItemMain(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    text: String = "抽抽抽 &8000 君悅年菜組 抽抽抽 &8000 君悅年菜組"
 ) {
     Box(
         modifier = modifier
@@ -321,30 +324,36 @@ private fun EdmItemMain(
                 color = Color(0xFF557AFF),
                 shape = RoundedCornerShape(size = 15.dp)
             )
-            .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp)
+            .padding(start = 10.dp, top = 20.dp, end = 10.dp, bottom = 20.dp)
             .border(
                 width = 1.5.dp,
-                color = Color(0xFF3450B2),
+//                color = Color(0xFF3450B2),
+                color = Color.Transparent,
                 shape = RoundedCornerShape(size = 15.dp)
-            )
+            ),
+        contentAlignment = Alignment.Center
     ) {
 
         Row(
             modifier = Modifier
                 .background(
-                    color = Color.Cyan,
+//                    color = Color.Cyan,
+                    color = Color.Transparent,
                     shape = RoundedCornerShape(size = 15.dp)
                 )
-                .padding(5.dp),
+                .padding(5.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
             Text(
-                text = "抽抽抽 &8000 君悅年菜組！",
+                text = text,
+                modifier = Modifier.widthIn(max = 160.dp),
+                overflow = TextOverflow.Ellipsis,
                 maxLines = 2,
                 style = TextStyle(
-                    fontSize = 15.sp,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight(500),
                     color = Color(0xFFFFFFFF),
                 )
@@ -377,11 +386,13 @@ private fun EdmItemMain(
 @Composable
 fun EdmItemComponent(
     modifier: Modifier = Modifier,
+    text : String = "抽抽抽 &8000 君悅年菜組",
     needCloud: Boolean = true,
-    needGift: Boolean = true
+    needGift: Boolean = true,
 ) {
     ConstraintLayout(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
+
     ) {
         val (main, title, cloud, gift) = createRefs()
 
@@ -389,15 +400,15 @@ fun EdmItemComponent(
 
         val endGuide = createGuidelineFromEnd(0.15f)
 
-        val cloudEnd = createGuidelineFromEnd(0.08f)
-
         EdmItemMain(
             modifier = Modifier.constrainAs(main) {
                 top.linkTo(parent.top, margin = 14.dp)
                 start.linkTo(startGuide)
                 end.linkTo(endGuide)
                 bottom.linkTo(parent.bottom, margin = 14.dp)
-            }
+                width = Dimension.fillToConstraints
+            },
+            text = text,
         )
 
         EdmItemTitle(
@@ -416,7 +427,8 @@ fun EdmItemComponent(
                     .height(39.dp)
                     .constrainAs(cloud) {
                         top.linkTo(main.top)
-                        end.linkTo(cloudEnd)
+                        end.linkTo(main.end)
+                        start.linkTo(main.end)
                         bottom.linkTo(main.top)
                     },
                 painter = painterResource(id = R.drawable.ic_cloud),
