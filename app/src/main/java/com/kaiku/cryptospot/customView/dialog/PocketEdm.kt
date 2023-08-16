@@ -1,7 +1,6 @@
 package com.kaiku.cryptospot.customView.dialog
 
 import android.graphics.Color.parseColor
-import android.widget.CheckBox
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,19 +15,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,26 +34,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.kaiku.cryptospot.R
 import com.kaiku.cryptospot.customView.text.TextWithIcon
 import timber.log.Timber
-
-
-private val ITEM_HEIGHT = 77.dp
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -68,8 +60,8 @@ fun EdmDialog(
     var screenWidth by remember { mutableStateOf(0) }
     var screenHeight by remember { mutableStateOf(0) }
 
-    var mainWidth by remember{ mutableStateOf(0) }
-    var mainHeight by remember{ mutableStateOf(0) }
+    var mainWidth by remember { mutableStateOf(0) }
+    var mainHeight by remember { mutableStateOf(0) }
 
     var widthRatio by remember { mutableStateOf(1f) }
     var heightRatio by remember { mutableStateOf(1f) }
@@ -92,7 +84,7 @@ fun EdmDialog(
                 }
         ) {
 
-            val (cancel, mainBox, checkView) = createRefs()
+            val (cancel, mainBox, mainView, checkView) = createRefs()
 
             Box(
                 modifier = Modifier
@@ -121,33 +113,71 @@ fun EdmDialog(
                     contentDescription = null
                 )
 
-                Column(
+                ConstraintLayout(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = ((screenHeight - mainHeight) / 2).dp,
-//                            top = 130.dp,
-                            start = 20.dp
-                        ),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .width(mainWidth.dp)
+                        .height(mainHeight.dp)
+//                        .background(Color.Green)
                 ) {
-                    TitleText()
-                    Spacer(modifier = Modifier.height((10 * heightRatio).dp))
+                    val startGuide = createGuidelineFromStart(0.17f)
+
+                    val endGuide = createGuidelineFromEnd(0.15f)
+
+                    val topGuide = createGuidelineFromTop(0.2f)
+
+                    val item1Top = createGuidelineFromTop(0.28f)
+                    val item1Bottom = createGuidelineFromTop(0.5f)
+
+                    val item2Top = createGuidelineFromTop(0.5f)
+                    val item2Bottom = createGuidelineFromTop(0.7f)
+
+                    val item3Top = createGuidelineFromTop(0.7f)
+                    val item3Bottom = createGuidelineFromTop(0.9f)
+
+                    val (titleText, item1, item2, item3) = createRefs()
+
+                    TitleText(
+                        modifier = Modifier.constrainAs(titleText) {
+                            top.linkTo(topGuide)
+                            start.linkTo(startGuide)
+                            end.linkTo(endGuide)
+                        }
+                    )
 
                     EdmItemComponent(
-                        needCloud = false,
-                        needGift = false
-                    )
-                    Spacer(modifier = Modifier.height((15 * heightRatio).dp))
-                    EdmItemComponent(
+                        modifier = Modifier.constrainAs(item1){
+                            top.linkTo(item1Top)
+                            start.linkTo(startGuide)
+                            end.linkTo(endGuide)
+                            bottom.linkTo(item1Bottom)
+                            height = Dimension.fillToConstraints
+                        },
                         needCloud = true,
                         needGift = false
                     )
-                    Spacer(modifier = Modifier.height((15 * heightRatio).dp))
+
                     EdmItemComponent(
+                        modifier = Modifier.constrainAs(item2){
+                            top.linkTo(item2Top)
+                            start.linkTo(startGuide)
+                            end.linkTo(endGuide)
+                            bottom.linkTo(item2Bottom)
+                        },
                         needCloud = false,
                         needGift = true
                     )
+
+                    EdmItemComponent(
+                        modifier = Modifier.constrainAs(item3){
+                            top.linkTo(item3Top)
+                            start.linkTo(startGuide)
+                            end.linkTo(endGuide)
+                            bottom.linkTo(item3Bottom)
+                        },
+                        needCloud = false,
+                        needGift = false
+                    )
+
                 }
 
             }
@@ -241,7 +271,7 @@ private fun TitleText(
 @Preview
 @Composable
 private fun EdmItemTitle(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
@@ -257,10 +287,16 @@ private fun EdmItemTitle(
             ),
         contentAlignment = Alignment.Center
     ) {
-        TextWithIcon(
-            modifier = modifier.padding(5.dp),
-            drawableStart = R.drawable.ic_congratulation
+
+        Row(
+            modifier = Modifier.padding(start = 5.dp, end = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            Image(
+                modifier = Modifier.size(20.dp),
+                painter = painterResource(id = R.drawable.ic_congratulation),
+                contentDescription = null
+            )
             Text(
                 text = "開戶活動",
                 style = TextStyle(
@@ -281,15 +317,11 @@ private fun EdmItemMain(
 ) {
     Box(
         modifier = modifier
-            .width(279.dp)
-            .height(ITEM_HEIGHT)
-            .background(color = Color(0xFF557AFF), shape = RoundedCornerShape(size = 15.dp))
+            .background(
+                color = Color(0xFF557AFF),
+                shape = RoundedCornerShape(size = 15.dp)
+            )
             .padding(start = 16.dp, top = 20.dp, end = 16.dp, bottom = 20.dp)
-//            .shadow(
-//                elevation = 1.dp,
-//                spotColor = Color(0xFF1F3275),
-//                ambientColor = Color(0xFF1F3275)
-//            )
             .border(
                 width = 1.5.dp,
                 color = Color(0xFF3450B2),
@@ -303,9 +335,9 @@ private fun EdmItemMain(
                     color = Color.Cyan,
                     shape = RoundedCornerShape(size = 15.dp)
                 )
-                .padding(5.dp)
-                .fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
             Text(
@@ -349,15 +381,21 @@ fun EdmItemComponent(
     needGift: Boolean = true
 ) {
     ConstraintLayout(
-        modifier = Modifier.height(ITEM_HEIGHT + 30.dp)
+        modifier = modifier.fillMaxWidth(),
     ) {
-        val (title, main, cloud, gift) = createRefs()
+        val (main, title, cloud, gift) = createRefs()
+
+        val startGuide = createGuidelineFromStart(0.17f)
+
+        val endGuide = createGuidelineFromEnd(0.15f)
+
+        val cloudEnd = createGuidelineFromEnd(0.08f)
 
         EdmItemMain(
             modifier = Modifier.constrainAs(main) {
                 top.linkTo(parent.top, margin = 14.dp)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end, margin = 14.dp)
+                start.linkTo(startGuide)
+                end.linkTo(endGuide)
                 bottom.linkTo(parent.bottom, margin = 14.dp)
             }
         )
@@ -365,8 +403,9 @@ fun EdmItemComponent(
         EdmItemTitle(
             modifier = Modifier
                 .constrainAs(title) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start, margin = 20.dp)
+                    top.linkTo(main.top)
+                    start.linkTo(main.start, margin = 20.dp)
+                    bottom.linkTo(main.top)
                 }
         )
 
@@ -374,10 +413,11 @@ fun EdmItemComponent(
             Image(
                 modifier = Modifier
                     .width(50.dp)
-                    .height(37.dp)
+                    .height(39.dp)
                     .constrainAs(cloud) {
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
+                        top.linkTo(main.top)
+                        end.linkTo(cloudEnd)
+                        bottom.linkTo(main.top)
                     },
                 painter = painterResource(id = R.drawable.ic_cloud),
                 contentDescription = null
@@ -390,8 +430,9 @@ fun EdmItemComponent(
                     .width(35.dp)
                     .height(32.dp)
                     .constrainAs(gift) {
-                        bottom.linkTo(parent.bottom)
-                        end.linkTo(parent.end, margin = 14.dp)
+                        bottom.linkTo(main.bottom)
+                        top.linkTo(main.bottom, margin = 5.dp)
+                        end.linkTo(main.end)
                     },
                 painter = painterResource(id = R.drawable.ic_gift),
                 contentDescription = null
