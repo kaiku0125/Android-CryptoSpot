@@ -17,7 +17,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.kaiku.cryptospot.R
@@ -27,6 +29,8 @@ import com.kaiku.cryptospot.customView.tab.CryptoTabFillMaxWidthComponent
 import com.kaiku.cryptospot.customView.tab.CryptoTabWithBadgeComponent
 import com.kaiku.cryptospot.customView.tab.data.BadgeTabType
 import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
+import com.kaiku.cryptospot.customView.text.AutoResizeText
+import com.kaiku.cryptospot.customView.text.FontSizeRange
 import com.kaiku.cryptospot.customView.topappbar.ScaffoldTopAppBarWithBackNavComponent
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
@@ -74,6 +78,8 @@ fun PocketHomeworkScreen() {
 
             val (tabSmallRegion, tabSwitchRegion, firstRegion, secondRegion) = createRefs()
 
+            val (plus, undo , autoText) = createRefs()
+
             var currentItem by remember { mutableStateOf(BadgeTabType.getAll()[0]) }
 
             CryptoTabWithBadgeComponent(
@@ -96,12 +102,63 @@ fun PocketHomeworkScreen() {
             )
 
 
+            val text = remember { mutableStateOf("喝了搖曳") }
+
+            val update = remember{
+                mutableStateOf(false)
+            }
+
+            Button(
+                modifier = Modifier.constrainAs(plus) {
+                    top.linkTo(tabSmallRegion.bottom)
+                },
+                onClick = {
+                    text.value = buildString {
+                        append(text.value)
+                        append("喝了搖曳")
+                    }
+                }
+            ) {
+                Text(text = "plus")
+            }
+
+            Button(
+                modifier = Modifier.constrainAs(undo) {
+                    top.linkTo(tabSmallRegion.bottom)
+                    start.linkTo(plus.end)
+                },
+                onClick = {
+                    text.value = "喝了搖曳"
+                    update.value = true
+                }
+            ) {
+                Text(text = "undo")
+            }
+
+            AutoResizeText(
+                modifier = Modifier
+                    .width(200.dp)
+                    .heightIn(max = 50.dp)
+                    .constrainAs(autoText) {
+                        top.linkTo(plus.bottom)
+                    }
+                    .background(Color.Magenta),
+                text = text.value,
+                fontSizeRange = FontSizeRange(10.sp, 28.sp),
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                readyToDraw = false,
+                update = update.value,
+                hasDrawn = {
+                    update.value = false
+                }
+            )
 
             TabView(
                 modifier = Modifier.constrainAs(tabSwitchRegion) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                    top.linkTo(tabSmallRegion.bottom, margin = 10.dp)
+                    top.linkTo(autoText.bottom, margin = 10.dp)
                 }
             ) {
                 scope.launch {
