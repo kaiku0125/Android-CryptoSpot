@@ -96,8 +96,7 @@ fun TabItemWithBadge(
     ) {
         Box(
             modifier = Modifier.fillMaxSize().clickableEffect(
-                noEffectWhenDisable = true,
-                interactionSource = remember{ MutableInteractionSource() },
+                needEffect = false,
                 onClick = {
                     if(isEnable) {
                         onClick.invoke(type)

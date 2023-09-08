@@ -41,3 +41,6 @@ val GreenGrey50 = Color(0xFF52ad76)
 val GreenGrey60 = Color(0xFF74be92)
 val GreenGrey80 = Color(0xFFbadec8)
 val GreenGrey90 = Color(0xFFdcefe4)
+
+val color_pocket_primary = Color(android.graphics.Color.parseColor("#577AF2"))
+val color_pocket_secondary = Color(android.graphics.Color.parseColor("#5856d6"))
