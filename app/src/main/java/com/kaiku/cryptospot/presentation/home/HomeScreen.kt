@@ -138,7 +138,9 @@ fun HomeScreen() {
 
             val scope = rememberCoroutineScope()
 
-            val sheetState = rememberModalBottomSheetState()
+            val sheetState = rememberModalBottomSheetState(
+                skipPartiallyExpanded = true
+            )
 
             val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -158,16 +160,11 @@ fun HomeScreen() {
                     ),
                 enabled = false,
                 value = text.value,
-                onValueChange = {},
-//                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-//                keyboardActions = KeyboardActions(
-//                    onDone = { keyboardController?.hide() }
-//                )
+                onValueChange = {}
             )
 
             if (isSheetOpen) {
                 DigitalKeyboardComponent(
-                    text = text.value,
                     sheetState = sheetState,
                     onConfirm = {
                         scope.launch {

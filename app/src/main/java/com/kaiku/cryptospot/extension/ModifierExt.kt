@@ -53,7 +53,7 @@ fun Modifier.clickableEffect(
 )
 
 fun Modifier.toStyleOfDigitalKeyBoard(
-    height: Dp = 60.dp,
+    height: Dp = 50.dp,
     background: Color = Color.Gray,
     shape : Shape = RoundedCornerShape(12.dp)
 ): Modifier {

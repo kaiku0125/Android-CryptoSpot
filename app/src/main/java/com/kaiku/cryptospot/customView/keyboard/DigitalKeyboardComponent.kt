@@ -14,20 +14,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kaiku.cryptospot.customView.icon.SimpleIconButton
 import com.kaiku.cryptospot.customView.text.SimpleText
 import com.kaiku.cryptospot.extension.toStyleOfDigitalKeyBoard
-import kotlinx.coroutines.launch
 
 private val ITEM_HEIGHT = 60.dp
 
@@ -35,7 +34,6 @@ private val ITEM_HEIGHT = 60.dp
 @Composable
 fun DigitalKeyboardComponent(
     modifier: Modifier = Modifier,
-    text : String = "54879487",
     sheetState: SheetState,
     onConfirm: (String) -> Unit,
     onDismissRequest: () -> Unit
@@ -48,7 +46,6 @@ fun DigitalKeyboardComponent(
     ) {
         DigitalKeyboardContent(
             modifier = modifier,
-            text = text,
             onConfirm = {
                 onConfirm.invoke(it)
             }
@@ -59,35 +56,12 @@ fun DigitalKeyboardComponent(
 @Composable
 private fun DigitalKeyboardContent(
     modifier: Modifier = Modifier,
-    text: String,
     onConfirm: (String) -> Unit
 ) {
 
-//    val vm : viewMOdel = viewModel()
-    val scope = rememberCoroutineScope()
+    val vm : DigitalKeyboardComponentViewModel = viewModel()
 
-    var value by remember { mutableStateOf(text) }
-
-    val textChangedLambda = remember<(String) -> Unit>
-    {
-        {
-            scope.launch {
-                value = buildString {
-                    append("${value}${it}")
-                }
-            }
-        }
-    }
-
-    val backPressLambda = remember<() -> Unit>
-    {
-        {
-            scope.launch {
-                if (value.isNotEmpty())
-                    value = value.substring(0, value.length - 1)
-            }
-        }
-    }
+    val text by vm.textValue.collectAsState()
 
     ConstraintLayout(
         modifier = modifier
@@ -113,7 +87,6 @@ private fun DigitalKeyboardContent(
 
         val line75 = createGuidelineFromStart(0.75f)
 
-
         Box(
             modifier = remember {
                 Modifier
@@ -135,7 +108,7 @@ private fun DigitalKeyboardContent(
                         height = 50.dp,
                         background = Color.DarkGray
                     ),
-                text = value
+                text = text
             )
         }
 
@@ -150,7 +123,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("1")
+                        vm.appendValue("1")
                     }
             },
             text = "1"
@@ -167,7 +140,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("2")
+                        vm.appendValue("2")
                     }
             },
             text = "2"
@@ -184,13 +157,13 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("3")
+                        vm.appendValue("3")
                     }
             },
             text = "3"
         )
 
-        Box(
+        SimpleIconButton(
             modifier = remember {
                 Modifier
                     .toStyleOfDigitalKeyBoard()
@@ -201,16 +174,37 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        backPressLambda.invoke()
+                        vm.subValue()
                     }
             },
-            contentAlignment = Alignment.Center
+            imageVector = Icons.Filled.KeyboardArrowLeft,
+            tint = Color.White
         ) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowLeft,
-                contentDescription = null
-            )
+            vm.subValue()
         }
+
+//        Box(
+//            modifier = remember {
+//                Modifier
+//                    .toStyleOfDigitalKeyBoard()
+//                    .constrainAs(backPress) {
+//                        top.linkTo(editText.bottom, margin = 5.dp)
+//                        start.linkTo(line75, margin = 3.dp)
+//                        end.linkTo(parent.end, margin = 3.dp)
+//                        width = Dimension.fillToConstraints
+//                    }
+//                    .clickable {
+//                        vm.subValue()
+//                    }
+//            },
+//            contentAlignment = Alignment.Center
+//        ) {
+//            Icon(
+//                imageVector = Icons.Filled.KeyboardArrowLeft,
+//                contentDescription = null,
+//                tint = Color.White
+//            )
+//        }
 
         SimpleText(
             modifier = remember {
@@ -223,7 +217,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("4")
+                        vm.appendValue("4")
                     }
             },
             text = "4"
@@ -240,7 +234,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("5")
+                        vm.appendValue("5")
                     }
             },
             text = "5"
@@ -257,7 +251,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("6")
+                        vm.appendValue("6")
                     }
             },
             text = "6"
@@ -274,7 +268,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("7")
+                        vm.appendValue("7")
                     }
             },
             text = "7"
@@ -291,7 +285,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("8")
+                        vm.appendValue("8")
                     }
             },
             text = "8"
@@ -308,7 +302,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("9")
+                        vm.appendValue("9")
                     }
             },
             text = "9"
@@ -325,7 +319,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        value = ""
+                        vm.clearValue()
                     }
             },
             text = "清除"
@@ -342,7 +336,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke("0")
+                        vm.appendValue("0")
                     }
             },
             text = "0"
@@ -359,7 +353,7 @@ private fun DigitalKeyboardContent(
                         width = Dimension.fillToConstraints
                     }
                     .clickable {
-                        textChangedLambda.invoke(".")
+                        vm.appendValue(".")
                     }
             },
             text = "."
@@ -390,18 +384,11 @@ private fun DigitalKeyboardContent(
                         height = Dimension.fillToConstraints
                     }
                     .clickable {
-                        onConfirm.invoke(value)
+                        onConfirm.invoke(text)
                     }
             },
             text = "確認"
         )
 
     }
-
 }
-
-
-data class KeyBoardViewState(
-    val isShown: Boolean = false,
-)
-
