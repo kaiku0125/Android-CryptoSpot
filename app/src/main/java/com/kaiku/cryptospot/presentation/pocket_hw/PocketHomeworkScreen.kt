@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +32,7 @@ import com.kaiku.cryptospot.customView.tab.data.BadgeTabType
 import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
 import com.kaiku.cryptospot.customView.text.AutoResizeText
 import com.kaiku.cryptospot.customView.text.FontSizeRange
+import com.kaiku.cryptospot.customView.text.SimpleText
 import com.kaiku.cryptospot.customView.topappbar.ScaffoldTopAppBarWithBackNavComponent
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
@@ -39,7 +41,6 @@ import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnrememberedMutableState")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PocketHomeworkScreen() {
     Scaffold(
@@ -68,17 +69,21 @@ fun PocketHomeworkScreen() {
         val scope = rememberCoroutineScope()
         var index by remember { mutableStateOf(0) }
 
+        var backColor by remember { mutableStateOf(Color.White) }
 
         ConstraintLayout(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(10.dp)
                 .fillMaxSize()
+                .background(backColor)
         ) {
 
             val (tabSmallRegion, tabSwitchRegion, firstRegion, secondRegion) = createRefs()
 
-            val (plus, undo , autoText) = createRefs()
+            val (cardTest, cardTest2) = createRefs()
+
+            val (plus, undo, autoText) = createRefs()
 
             var currentItem by remember { mutableStateOf(BadgeTabType.getAll()[0]) }
 
@@ -104,7 +109,7 @@ fun PocketHomeworkScreen() {
 
             val text = remember { mutableStateOf("喝了搖曳") }
 
-            val update = remember{
+            val update = remember {
                 mutableStateOf(false)
             }
 
@@ -130,6 +135,12 @@ fun PocketHomeworkScreen() {
                 onClick = {
                     text.value = "喝了搖曳"
                     update.value = true
+
+                    backColor = if (backColor == Color.Black) {
+                        Color.White
+                    } else {
+                        Color.Black
+                    }
                 }
             ) {
                 Text(text = "undo")
@@ -154,11 +165,38 @@ fun PocketHomeworkScreen() {
                 }
             )
 
+            TestCard(
+                modifier = Modifier
+                    .constrainAs(cardTest) {
+                        start.linkTo(parent.start, margin = 10.dp)
+                        top.linkTo(autoText.bottom, margin = 10.dp)
+                    }
+            )
+
+            Card(
+                modifier = Modifier
+                    .constrainAs(cardTest2) {
+                        start.linkTo(cardTest.end, margin = 10.dp)
+                        end.linkTo(parent.end, margin = 10.dp)
+                        top.linkTo(autoText.bottom, margin = 10.dp)
+                    }
+//                    .shadow(
+//                        spotColor = Color.Green,
+//                        elevation = 18.dp
+//                    )
+            ) {
+                SimpleText(
+                    modifier = Modifier.size(60.dp),
+                    text = "7777",
+                    textColor = Color.Black
+                )
+            }
+
             TabView(
                 modifier = Modifier.constrainAs(tabSwitchRegion) {
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                    top.linkTo(autoText.bottom, margin = 10.dp)
+                    top.linkTo(cardTest.bottom, margin = 10.dp)
                 }
             ) {
                 scope.launch {
@@ -343,5 +381,28 @@ fun ChoseCryptoSpinnerWithTextFieldView() {
 
     }
 }
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TestCard(
+    modifier: Modifier = Modifier,
+) {
+    ElevatedCard(
+        modifier = modifier,
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 10.dp
+        ),
+        onClick = { /*TODO*/ }
+    ) {
+        SimpleText(
+            modifier = Modifier.size(60.dp),
+            text = "5487",
+            textColor = Color.Black
+        )
+    }
+}
+
+
 
 

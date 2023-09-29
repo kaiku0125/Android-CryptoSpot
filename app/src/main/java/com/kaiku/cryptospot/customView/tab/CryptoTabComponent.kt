@@ -20,20 +20,21 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.common.Debug.isCustomTab
 import com.kaiku.cryptospot.common.recomposeHighlighter
+import com.kaiku.cryptospot.customView.BasicType
 import com.kaiku.cryptospot.customView.tab.data.BadgeTabType
 import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
-import com.kaiku.cryptospot.customView.tab.data.TabType
+import com.kaiku.cryptospot.presentation.theme.color_414141
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @Composable
 fun CryptoTabComponent(
     selectedItemIndex: Int,
-    items: List<TabType>,
+    items: List<BasicType>,
     modifier: Modifier = Modifier,
     tabWidth: Dp = 100.dp,
     shape: Shape = RoundedCornerShape(8.dp),
-    onClick: (TabType) -> Unit,
+    onClick: (BasicType) -> Unit,
 ) {
     val indicatorOffset: Dp by animateDpAsState(
         targetValue = tabWidth * selectedItemIndex,
@@ -41,6 +42,7 @@ fun CryptoTabComponent(
             easing = LinearEasing,
             durationMillis = 200
         ),
+        label = ""
     )
 
     Box(
@@ -79,10 +81,10 @@ fun CryptoTabComponent(
 @Composable
 fun CryptoTabFillMaxWidthComponent(
     selectedItemIndex: Int,
-    items: List<TabType>,
+    items: List<BasicType>,
     modifier: Modifier = Modifier,
     shape: Shape = RoundedCornerShape(8.dp),
-    onClick: (TabType) -> Unit,
+    onClick: (BasicType) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val density = LocalDensity.current
@@ -151,11 +153,11 @@ fun CryptoTabFillMaxWidthComponent(
 fun CryptoTabWithBadgeComponent(
     modifier: Modifier = Modifier,
     selectedItemIndex: Int,
-    items: List<TabType>,
+    items: List<BasicType>,
     tabWidth: Dp = 45.dp,
     tabHeight : Dp = 30.dp,
     shape: Shape = RoundedCornerShape(8.dp),
-    onClick: (TabType) -> Unit,
+    onClick: (BasicType) -> Unit,
 ) {
 
     val indicatorOffset: Dp by animateDpAsState(
@@ -205,6 +207,92 @@ fun CryptoTabWithBadgeComponent(
                         type = type,
                         isBadgeLight = (type as BadgeTabType).isBadgeLight,
                         isEnable = type.isEnable
+                    ) {
+                        onClick.invoke(it)
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+@Composable
+fun CryptoTabWithDividerFillMaxWidthComponent(
+    modifier: Modifier = Modifier,
+    selectedItemIndex: Int,
+    items: List<BasicType>,
+    tabHeight : Dp = 30.dp,
+    shape: Shape = RoundedCornerShape(8.dp),
+    onClick: (BasicType) -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    val density = LocalDensity.current
+    var wholeWidth by remember { mutableStateOf(0.dp) }
+    val tabWidth = wholeWidth / items.size
+
+
+    val calculate = remember<(LayoutCoordinates) -> Unit> {
+        {
+            scope.launch {
+                wholeWidth = with(density) {
+                    it.size.width.toDp()
+                }
+            }
+        }
+
+    }
+
+    val indicatorOffset: Dp by animateDpAsState(
+        targetValue = (tabWidth + 1.dp) * selectedItemIndex,
+        animationSpec = tween(
+            easing = LinearEasing,
+            durationMillis = 200
+        ),
+        label = ""
+    )
+
+    Box(
+        modifier = modifier
+            .clip(shape)
+            .background(color_414141)
+            .height(intrinsicSize = IntrinsicSize.Min)
+            .fillMaxWidth()
+            .onGloballyPositioned {
+                calculate.invoke(it)
+            },
+    ) {
+        MyTabIndicator(
+            indicatorWidth = tabWidth,
+            indicatorOffset = indicatorOffset,
+            indicatorColor = Color.White,
+            shape = shape
+        )
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .clip(shape)
+                .height(tabHeight)
+        ) {
+            items.mapIndexed { index, type ->
+                Row() {
+                    if (index != 0) {
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .padding(vertical = 5.dp)
+                                .width(1.dp),
+                            color = Color.Gray
+                        )
+                    }
+                    TabItemWithBadge(
+                        isSelected = index == selectedItemIndex,
+                        shape = shape,
+                        tabWidth = tabWidth,
+                        type = type,
+                        isBadgeLight = if (type is BadgeTabType) type.isBadgeLight else false,
+                        isEnable = if (type is BadgeTabType) type.isEnable else true
                     ) {
                         onClick.invoke(it)
                     }
@@ -278,3 +366,16 @@ private fun CryptoTabWithBadgePreview(){
     )
 }
 
+@Preview(showBackground = true)
+@Composable
+private fun CryptoTabWithDividerFillMaxWidthComponentPreview(){
+    CryptoTabWithDividerFillMaxWidthComponent(
+        modifier = Modifier.fillMaxWidth(),
+        selectedItemIndex = 1,
+        items = CryptoTabType.getAll(),
+        tabHeight = 35.dp,
+        onClick = {
+
+        }
+    )
+}

@@ -2,12 +2,13 @@ package com.kaiku.cryptospot.customView.tab.data
 
 import androidx.annotation.StringRes
 import com.kaiku.cryptospot.R
+import com.kaiku.cryptospot.customView.BasicType
 
 sealed class CryptoTabType(
     override val position: Int,
     @StringRes override val description: Int,
     override val tag: String
-) : TabType{
+) : BasicType {
 
     object TabBTC: CryptoTabType(
         position = 0,

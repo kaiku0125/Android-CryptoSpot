@@ -1,7 +1,6 @@
 package com.kaiku.cryptospot.customView.spinner
 
 import android.graphics.Color.parseColor
-import android.widget.Spinner
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -14,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,8 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.kaiku.cryptospot.common.Debug.isSpinner
 import com.kaiku.cryptospot.common.recomposeHighlighter
+import com.kaiku.cryptospot.customView.BasicType
 import com.kaiku.cryptospot.customView.spinner.data.CryptoSpinnerType
-import com.kaiku.cryptospot.customView.spinner.data.SpinnerType
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -38,9 +36,9 @@ import timber.log.Timber
 @Composable
 fun SpinnerComponent(
     modifier: Modifier = Modifier,
-    list: List<SpinnerType>,
-    currentItem : SpinnerType = list[0],
-    onTypeChange: (SpinnerType) -> Unit
+    list: List<BasicType>,
+    currentItem : BasicType = list[0],
+    onTypeChange: (BasicType) -> Unit
 ) {
     val density = LocalDensity.current
     val scope = rememberCoroutineScope()
@@ -69,6 +67,7 @@ fun SpinnerComponent(
         animationSpec = tween(
             easing = LinearEasing
         )
+        , label = ""
     )
 
     val foldAnimation = animateFloatAsState(
@@ -76,6 +75,7 @@ fun SpinnerComponent(
         animationSpec = tween(
             easing = FastOutSlowInEasing
         )
+        , label = ""
     )
 
     Column(

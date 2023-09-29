@@ -20,11 +20,12 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PocketTextField(
+fun PocketOutlinedTextField(
     icon: ImageVector = Icons.Default.Email,
     labelText: String = "LabelText",
     placeholder: String = "placeHolder",
@@ -116,4 +117,18 @@ fun OutlinedTextFieldBackground(
         // OutlineTextField will be the content...
         content()
     }
+}
+
+@Preview
+@Composable
+private fun PocketTextFieldPreview() {
+    PocketOutlinedTextField(
+        icon = Icons.Default.Email,
+        labelText = "LabelText",
+        placeholder = "placeHolder",
+        hideKeyboard = true,
+        onFocusClear = {
+
+        }
+    )
 }

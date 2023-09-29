@@ -1,6 +1,6 @@
-package com.kaiku.cryptospot.customView.tab.data
+package com.kaiku.cryptospot.customView
 
-interface TabType {
+interface BasicType {
     val position: Int
     val description: Int
     val tag: String

@@ -5,7 +5,6 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -18,7 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,8 +30,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kaiku.cryptospot.customView.BasicType
 import com.kaiku.cryptospot.customView.tab.data.BadgeTabType
-import com.kaiku.cryptospot.customView.tab.data.TabType
 import com.kaiku.cryptospot.extension.clickableEffect
 
 @Composable
@@ -41,8 +39,8 @@ fun TabItem(
     isSelected: Boolean,
     shape: Shape,
     tabWidth: Dp,
-    type: TabType,
-    onClick: (TabType) -> Unit
+    type: BasicType,
+    onClick: (BasicType) -> Unit
 ) {
     val tabTextColor: Color by animateColorAsState(
         targetValue = if (isSelected) {
@@ -75,10 +73,10 @@ fun TabItemWithBadge(
     isSelected: Boolean,
     shape: Shape,
     tabWidth: Dp,
-    type: TabType,
+    type: BasicType,
     isBadgeLight: Boolean,
     isEnable: Boolean,
-    onClick: (TabType) -> Unit
+    onClick: (BasicType) -> Unit
 ) {
     val tabTextColor: Color by animateColorAsState(
         targetValue = if (isSelected) {

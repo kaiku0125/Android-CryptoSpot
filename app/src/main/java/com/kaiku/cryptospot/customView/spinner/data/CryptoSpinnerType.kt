@@ -2,12 +2,13 @@ package com.kaiku.cryptospot.customView.spinner.data
 
 import androidx.annotation.StringRes
 import com.kaiku.cryptospot.R
+import com.kaiku.cryptospot.customView.BasicType
 
 sealed class CryptoSpinnerType(
     override val position: Int,
     @StringRes override val description: Int,
     override val tag: String
-) : SpinnerType{
+) : BasicType {
 
     object SpinnerBTC : CryptoSpinnerType(
         position = 0,

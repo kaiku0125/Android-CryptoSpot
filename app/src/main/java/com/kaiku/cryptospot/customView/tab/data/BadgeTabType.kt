@@ -2,6 +2,7 @@ package com.kaiku.cryptospot.customView.tab.data
 
 import androidx.annotation.StringRes
 import com.kaiku.cryptospot.R
+import com.kaiku.cryptospot.customView.BasicType
 
 sealed class BadgeTabType(
     override val position: Int,
@@ -9,7 +10,7 @@ sealed class BadgeTabType(
     override val tag: String,
     val isBadgeLight: Boolean,
     val isEnable : Boolean
-) : TabType{
+) : BasicType {
 
     object TabOne: BadgeTabType(
         position = 0,

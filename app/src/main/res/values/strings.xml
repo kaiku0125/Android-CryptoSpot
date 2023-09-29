@@ -6,6 +6,16 @@
     <string name="spinner_item_eth">下拉選單ETH</string>
     <string name="spinner_item_ada">下拉選單ADA</string>
 
+    <string name="spinner_item_flash_deal_price">成交價</string>
+    <string name="spinner_item_flash_buy_price">買價</string>
+
+    <string name="spinner_item_larger_equal_than">大於等於</string>
+    <string name="spinner_item_less_equal_than">小於等於</string>
+
+
+    <string name="ratio_item_normal_order">一般單</string>
+    <string name="ratio_item_condition_order">觸價單</string>
+
     <string name="tab_item_btc">比特幣</string>
     <string name="tab_item_eth">以太幣</string>
     <string name="tab_item_ada">阿達幣</string>
@@ -14,5 +24,7 @@
     <string name="tab_item_two">二</string>
     <string name="tab_item_three">三</string>
     <string name="tab_item_four">四</string>
+
+
 
 </resources>
