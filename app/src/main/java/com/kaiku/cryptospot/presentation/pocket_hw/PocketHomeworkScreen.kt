@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -34,8 +33,8 @@ import com.kaiku.cryptospot.customView.text.AutoResizeText
 import com.kaiku.cryptospot.customView.text.FontSizeRange
 import com.kaiku.cryptospot.customView.text.SimpleText
 import com.kaiku.cryptospot.customView.topappbar.ScaffoldTopAppBarWithBackNavComponent
-import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
+import com.kaiku.cryptospot.navigation.TestDestination
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
 import kotlinx.coroutines.launch
@@ -61,7 +60,7 @@ fun PocketHomeworkScreen() {
                     }
                 },
                 onNavigationClick = {
-                    ScreenNavigator.back(HomeDestination.route)
+                    ScreenNavigator.back(TestDestination.route)
                 }
             )
         }

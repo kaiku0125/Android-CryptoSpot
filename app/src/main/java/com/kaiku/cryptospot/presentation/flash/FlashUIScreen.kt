@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.presentation.test
+package com.kaiku.cryptospot.presentation.flash
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -31,13 +31,13 @@ import com.kaiku.cryptospot.customView.tab.CryptoTabWithDividerFillMaxWidthCompo
 import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
 import com.kaiku.cryptospot.customView.text.SimpleText
 import com.kaiku.cryptospot.customView.textfield.PlusMinusTextFieldComponent
-import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
+import com.kaiku.cryptospot.navigation.TestDestination
 import com.kaiku.cryptospot.presentation.theme.text_15sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TestScreen(
+fun FlashUIScreen(
     channelID: String,
     score: Int,
     isTesting: Boolean
@@ -46,12 +46,12 @@ fun TestScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "test")
+                    Text(text = "flash order 測試")
                 },
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            ScreenNavigator.back(HomeDestination.route)
+                            ScreenNavigator.back(TestDestination.route)
                         }
                     ) {
                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -227,7 +227,7 @@ private fun FlashOrderSettingItem(
 }
 
 
-object TestScreenTag {
+object FlashUIScreenTag {
     const val CHANNEL_ID = "channel_id"
     const val SCORE = "score"
     const val IS_TESTING = "is_testing"

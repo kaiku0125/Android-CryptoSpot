@@ -17,10 +17,11 @@ import com.kaiku.cryptospot.BuildConfig
 import com.kaiku.cryptospot.MultiTagTree
 import com.kaiku.cryptospot.navigation.*
 import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreen
-import com.kaiku.cryptospot.presentation.home.HomeScreen
+import com.kaiku.cryptospot.presentation.test.TestScreen
 import com.kaiku.cryptospot.presentation.login.LoginScreen
 import com.kaiku.cryptospot.presentation.pocket_hw.PocketHomeworkScreen
-import com.kaiku.cryptospot.presentation.test.*
+import com.kaiku.cryptospot.presentation.flash.*
+import com.kaiku.cryptospot.presentation.home.HomeScreen
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
@@ -80,13 +81,20 @@ fun NavScreenGraph() {
     NavigationEffect(
         startDestination = if (hasApiKey.value) HomeDestination.route else LoginDestination.route
     ) {
-
         composable(
             route = HomeDestination.route,
             enterTransition = { screenSlideEnter(fromLeft = true) },
             exitTransition = { screenSlideExit(toLeft = true) }
         ) {
             HomeScreen()
+        }
+
+        composable(
+            route = TestDestination.route,
+            enterTransition = { screenSlideEnter(fromLeft = false) },
+            exitTransition = { screenSlideExit(toLeft = false) }
+        ) {
+            TestScreen()
         }
         composable(LoginDestination.route) {
             LoginScreen()
@@ -100,15 +108,15 @@ fun NavScreenGraph() {
         }
 
         composable(
-            route = TestDestination.route,
-            arguments = TestDestination.arguments,
+            route = FlashUIDestination.route,
+            arguments = FlashUIDestination.arguments,
             enterTransition = { screenSlideEnter(fromLeft = false) },
             exitTransition = { screenSlideExit(toLeft = false) }
         ) {
-            val channelID = it.arguments?.getString(TestScreenTag.CHANNEL_ID) ?: return@composable
-            val score = it.arguments?.getInt(TestScreenTag.SCORE) ?: return@composable
-            val isTesting = it.arguments?.getBoolean(TestScreenTag.IS_TESTING) ?: return@composable
-            TestScreen(
+            val channelID = it.arguments?.getString(FlashUIScreenTag.CHANNEL_ID) ?: return@composable
+            val score = it.arguments?.getInt(FlashUIScreenTag.SCORE) ?: return@composable
+            val isTesting = it.arguments?.getBoolean(FlashUIScreenTag.IS_TESTING) ?: return@composable
+            FlashUIScreen(
                 channelID = channelID,
                 score = score,
                 isTesting = isTesting

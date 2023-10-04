@@ -4,7 +4,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.kaiku.cryptospot.extension.appendArguments
-import com.kaiku.cryptospot.presentation.test.TestScreenTag
+import com.kaiku.cryptospot.presentation.flash.FlashUIScreenTag
 import timber.log.Timber
 
 abstract class Destination(
@@ -16,22 +16,26 @@ abstract class Destination(
 
 object HomeDestination : Destination("home")
 
+
+
 object LoginDestination : Destination("login")
 
 object FindCryptoDestination : Destination("find_crypto")
 
 object PocketHomeworkDestination : Destination("pocket_hw")
 
-object TestDestination : Destination(
-    path = "test",
+object TestDestination : Destination(path = "test")
+
+object FlashUIDestination : Destination(
+    path = "flash",
     arguments = listOf(
-        navArgument(TestScreenTag.CHANNEL_ID){
+        navArgument(FlashUIScreenTag.CHANNEL_ID){
             type = NavType.StringType
         },
-        navArgument(TestScreenTag.SCORE){
+        navArgument(FlashUIScreenTag.SCORE){
             type = NavType.IntType
         },
-        navArgument(TestScreenTag.IS_TESTING){
+        navArgument(FlashUIScreenTag.IS_TESTING){
             type = NavType.BoolType
         }
     )
