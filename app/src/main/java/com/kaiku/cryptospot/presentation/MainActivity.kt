@@ -9,23 +9,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.composable
-import com.kaiku.cryptospot.BuildConfig
-import com.kaiku.cryptospot.MultiTagTree
 import com.kaiku.cryptospot.navigation.*
 import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreen
 import com.kaiku.cryptospot.presentation.test.TestScreen
-import com.kaiku.cryptospot.presentation.login.LoginScreen
 import com.kaiku.cryptospot.presentation.pocket_hw.PocketHomeworkScreen
 import com.kaiku.cryptospot.presentation.flash.*
 import com.kaiku.cryptospot.presentation.home.HomeScreen
+import com.kaiku.cryptospot.presentation.login.LoginScreenRoot
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
-import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
@@ -34,7 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            CryptoSpotTheme() {
+            CryptoSpotTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -68,13 +63,8 @@ class MainActivity : ComponentActivity() {
 fun NavScreenGraph() {
     Timber.e("Init nav screen graph")
 
-    val hasApiKey = remember {
-        mutableStateOf(Prefs.apiKey.isNotBlank())
-    }
-    Timber.e("Does user has key ? ${hasApiKey.value}")
-
     NavigationEffect(
-        startDestination = if (hasApiKey.value) HomeDestination.route else LoginDestination.route
+        startDestination = HomeDestination.route
     ) {
         composable(
             route = HomeDestination.route,
@@ -92,7 +82,7 @@ fun NavScreenGraph() {
             TestScreen()
         }
         composable(LoginDestination.route) {
-            LoginScreen()
+            LoginScreenRoot()
         }
         composable(
             route = FindCryptoDestination.route,

@@ -14,28 +14,51 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
-import org.amobile.mqtt_k.prefs.Prefs
+import com.kaiku.cryptospot.presentation.login.data.LoginViewState
+import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 
-private const val API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
+@Composable
+fun LoginScreenRoot(
+    viewModel: LoginViewModel = koinViewModel()
+) {
+
+    val viewState by viewModel.viewState.collectAsState()
+
+    LoginScreen(
+        viewState = viewState,
+        onEnterApiKey = {
+            viewModel.updateApiKey(it)
+        }
+    )
+}
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    viewState: LoginViewState,
+    onEnterApiKey: (String) -> Unit
+) {
     Scaffold(topBar = { LoginTopBar() }) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            UserInputAPI()
+            LoginScreenContent(
+                viewState = viewState,
+                onEnterApiKey = onEnterApiKey
+            )
         }
     }
 }
 
 @Composable
-fun UserInputAPI() {
-    val ctx = LocalContext.current
-    var textValue by remember { mutableStateOf(Prefs.apiKey) }
+fun LoginScreenContent(
+    viewState: LoginViewState,
+    onEnterApiKey: (String) -> Unit
+) {
+    var textValue by remember { mutableStateOf(viewState.apiKey) }
+
     Column {
         TextField(
             value = textValue,
@@ -47,13 +70,14 @@ fun UserInputAPI() {
             },
             label = { Text("輸入您的CoinMarketCap API 私鑰") }
         )
-        OutlinedButton(onClick = {
-            Timber.d("User entered: $textValue")
-            Prefs.apiKey = textValue
-            Prefs.save(ctx)
-            ScreenNavigator.to(HomeDestination.route)
-//            nav.navigate("HomeView")
-        }, shape = RoundedCornerShape(10.dp)) {
+        OutlinedButton(
+            onClick = {
+                Timber.d("User entered: $textValue")
+                onEnterApiKey(textValue)
+                ScreenNavigator.to(HomeDestination.route)
+            },
+            shape = RoundedCornerShape(10.dp)
+        ) {
             Text("完成")
         }
     }

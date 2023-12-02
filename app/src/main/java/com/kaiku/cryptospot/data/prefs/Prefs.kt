@@ -1,31 +1,30 @@
-package org.amobile.mqtt_k.prefs
+package com.kaiku.cryptospot.data.prefs
 
 import android.content.Context
-import android.util.Log
-import timber.log.Timber
+import android.content.SharedPreferences
+import androidx.core.content.edit
 
-private const val KEY_APIKEY: String = "apiKey"
+class Prefs(context: Context) {
 
+    private val sharedPreferences: SharedPreferences
 
-class Prefs {
-    companion object {
-        private const val TAG = "Prefs"
-
-        var apiKey: String = ""
-
-
-        fun load(ctx: Context) {
-            apiKey = Shared.get(ctx, KEY_APIKEY, apiKey)
-            Timber.e("Load user prefs: \n\t\tAPI key ➔ $apiKey")
-
-        }
-
-        fun save(ctx: Context) {
-            Shared.put(ctx, KEY_APIKEY, apiKey)
-
-        }
-
+    init {
+        sharedPreferences = context.getSharedPreferences(TAG, Context.MODE_PRIVATE)
     }
 
+    var apiKey: String
+        get() = sharedPreferences.getString(KEY_APIKEY, DEFAULT_API_KEY)!!
+        set(value) {
+            sharedPreferences.edit {
+                putString(KEY_APIKEY, value)
+            }
+        }
 
+
+    companion object {
+        private const val TAG = "Prefs"
+        private const val DEFAULT_API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
+
+        const val KEY_APIKEY: String = "key_apiKey"
+    }
 }

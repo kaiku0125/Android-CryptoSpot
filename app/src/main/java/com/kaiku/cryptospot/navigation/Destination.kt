@@ -17,7 +17,6 @@ abstract class Destination(
 object HomeDestination : Destination("home")
 
 
-
 object LoginDestination : Destination("login")
 
 object FindCryptoDestination : Destination("find_crypto")
