@@ -33,14 +33,13 @@ import com.kaiku.cryptospot.navigation.PocketHomeworkDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.navigation.FlashUIDestination
 import com.kaiku.cryptospot.navigation.HomeDestination
-import com.kaiku.cryptospot.presentation.theme.text_15sp
-import com.kaiku.cryptospot.presentation.theme.text_16ssp_bold
+import com.kaiku.cryptospot.presentation.theme.text_15sp_400weight
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun TestScreen() {
-    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             ScaffoldTopAppBarWithBackNavComponent(
@@ -78,7 +77,7 @@ fun TestScreen() {
             ) {
                 Text(
                     text = "Nav bundle測試",
-                    style = MaterialTheme.typography.text_15sp
+                    style = MaterialTheme.typography.text_15sp_400weight
                 )
             }
 
@@ -90,7 +89,7 @@ fun TestScreen() {
             ) {
                 Text(
                     text = "Tab與Spinner實作",
-                    style = MaterialTheme.typography.text_16ssp_bold
+                    style = MaterialTheme.typography.text_15sp_400weight
                 )
             }
 
@@ -109,7 +108,7 @@ fun TestScreen() {
             ) {
                 Text(
                     text = "Dialog測試",
-                    style = MaterialTheme.typography.text_16ssp_bold
+                    style = MaterialTheme.typography.text_15sp_400weight
                 )
             }
 

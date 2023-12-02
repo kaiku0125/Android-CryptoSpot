@@ -26,6 +26,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kaiku.cryptospot.customView.icon.SimpleIconButton
 import com.kaiku.cryptospot.customView.text.SimpleText
+import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
 import com.kaiku.cryptospot.extension.toStyleOfDigitalKeyBoard
 
 private val ITEM_HEIGHT = 60.dp
@@ -108,7 +109,9 @@ private fun DigitalKeyboardContent(
                         height = 50.dp,
                         background = Color.DarkGray
                     ),
-                text = text
+                config = SimpleTextConfig(
+                    value = text
+                )
             )
         }
 
@@ -126,7 +129,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("1")
                     }
             },
-            text = "1"
+            config = SimpleTextConfig(
+                value = "1"
+            )
         )
 
         SimpleText(
@@ -143,7 +148,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("2")
                     }
             },
-            text = "2"
+            config = SimpleTextConfig(
+                value = "2"
+            )
         )
 
         SimpleText(
@@ -160,7 +167,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("3")
                     }
             },
-            text = "3"
+            config = SimpleTextConfig(
+                value = "3"
+            )
         )
 
         SimpleIconButton(
@@ -220,7 +229,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("4")
                     }
             },
-            text = "4"
+            config = SimpleTextConfig(
+                value = "4"
+            )
         )
 
         SimpleText(
@@ -237,7 +248,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("5")
                     }
             },
-            text = "5"
+            config = SimpleTextConfig(
+                value = "5"
+            )
         )
 
         SimpleText(
@@ -254,7 +267,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("6")
                     }
             },
-            text = "6"
+            config = SimpleTextConfig(
+                value = "6"
+            )
         )
 
         SimpleText(
@@ -271,7 +286,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("7")
                     }
             },
-            text = "7"
+            config = SimpleTextConfig(
+                value = "7"
+            )
         )
 
         SimpleText(
@@ -288,7 +305,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("8")
                     }
             },
-            text = "8"
+            config = SimpleTextConfig(
+                value = "8"
+            )
         )
 
         SimpleText(
@@ -305,7 +324,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("9")
                     }
             },
-            text = "9"
+            config = SimpleTextConfig(
+                value = "9"
+            )
         )
 
         SimpleText(
@@ -322,7 +343,9 @@ private fun DigitalKeyboardContent(
                         vm.clearValue()
                     }
             },
-            text = "清除"
+            config = SimpleTextConfig(
+                value = "清除"
+            )
         )
 
         SimpleText(
@@ -339,7 +362,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue("0")
                     }
             },
-            text = "0"
+            config = SimpleTextConfig(
+                value = "0"
+            )
         )
 
         SimpleText(
@@ -356,7 +381,9 @@ private fun DigitalKeyboardContent(
                         vm.appendValue(".")
                     }
             },
-            text = "."
+            config = SimpleTextConfig(
+                value = "."
+            )
         )
 
         Spacer(
@@ -387,7 +414,9 @@ private fun DigitalKeyboardContent(
                         onConfirm.invoke(text)
                     }
             },
-            text = "確認"
+            config = SimpleTextConfig(
+                value = "確認"
+            )
         )
 
     }

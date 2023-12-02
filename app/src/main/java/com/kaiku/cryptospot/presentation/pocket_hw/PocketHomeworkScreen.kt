@@ -32,6 +32,7 @@ import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
 import com.kaiku.cryptospot.customView.text.AutoResizeText
 import com.kaiku.cryptospot.customView.text.FontSizeRange
 import com.kaiku.cryptospot.customView.text.SimpleText
+import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
 import com.kaiku.cryptospot.customView.topappbar.ScaffoldTopAppBarWithBackNavComponent
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.navigation.TestDestination
@@ -186,8 +187,10 @@ fun PocketHomeworkScreen() {
             ) {
                 SimpleText(
                     modifier = Modifier.size(60.dp),
-                    text = "7777",
-                    textColor = Color.Black
+                    config = SimpleTextConfig(
+                        value = "7777",
+                        textColor = Color.Black
+                    )
                 )
             }
 
@@ -396,8 +399,10 @@ private fun TestCard(
     ) {
         SimpleText(
             modifier = Modifier.size(60.dp),
-            text = "5487",
-            textColor = Color.Black
+            config = SimpleTextConfig(
+                value = "5487",
+                textColor = Color.Black
+            )
         )
     }
 }

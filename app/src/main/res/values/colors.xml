@@ -7,4 +7,79 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="pocket_color_000000">#000000</color>
+    <color name="pocket_color_ffffff">#ffffff</color>
+    <color name="pocket_color_f95868">#f95868</color>
+    <color name="pocket_color_e95356">#e95356</color>
+    <color name="pocket_color_ec0b43">#ec0b43</color>
+    <color name="pocket_color_ec6d81">#ec6d81</color>
+    <color name="pocket_color_e60039">#e60039</color>
+    <color name="pocket_color_a30129">#a30129</color>
+    <color name="pocket_color_8e8e93">#8e8e93</color>
+    <color name="pocket_color_636366">#636366</color>
+    <color name="pocket_color_3a3a3c">#3a3a3c</color>
+    <color name="pocket_color_aeaeb2">#aeaeb2</color>
+    <color name="pocket_color_1c1c1e">#1c1c1e</color>
+    <color name="pocket_color_39b54a">#39b54a</color>
+    <color name="pocket_color_226C2C">#226C2C</color>
+    <color name="pocket_color_5856d6">#5856d6</color>
+    <color name="pocket_color_414141">#414141</color>
+    <color name="pocket_color_979797">#979797</color>
+    <color name="pocket_color_424242">#424242</color>
+    <color name="pocket_color_333333">#333333</color>
+    <color name="pocket_color_999999">#999999</color>
+    <color name="pocket_color_9e9e9f">#9e9e9f</color>
+    <color name="pocket_color_292929">#292929</color>
+    <color name="pocket_color_252525">#252525</color>
+    <color name="pocket_color_80000000">#80000000</color>
+    <color name="pocket_color_1e1e1e">#1e1e1e</color>
+    <color name="pocket_color_4c4c4c">#4c4c4c</color>
+    <color name="pocket_color_c4c4c4">#c4c4c4</color>
+    <color name="pocket_color_f9a516">#f9a516</color>
+    <color name="pocket_color_262626">#262626</color>
+    <color name="pocket_color_636363">#636363</color>
+    <color name="pocket_color_717071">#717071</color>
+    <color name="pocket_color_a9a9a9">#a9a9a9</color>
+    <color name="pocket_color_ffa902">#ffa902</color>
+    <color name="pocket_color_e95b33">#e95b33</color>
+    <color name="pocket_color_9f5ebb">#9f5ebb</color>
+    <color name="pocket_color_3196c1">#3196c1</color>
+    <color name="pocket_color_ff3566">#ff3566</color>
+    <color name="pocket_color_ff9023">#ff9023</color>
+    <color name="pocket_color_ffaa00">#ffaa00</color>
+    <color name="pocket_order_card">#fad7d7</color>
+    <color name="pocket_color_fe7636c">#e7636c</color>
+    <color name="pocket_color_f5df19">#f5df19</color>
+    <color name="pocket_color_f1f1f1">#f1f1f1</color>
+    <color name="pocket_color_fed305">#fed305</color>
+    <color name="pocket_color_fad7d7">#fad7d7</color>
+    <color name="pocket_color_fdd11a">#fdd11a</color>
+    <color name="pocket_color_ffcb47">#FFCB47</color>
+    <color name="pocket_color_FFCE51">#FFCE51</color>
+    <color name="pocket_color_3C3629">#3C3629</color>
+    <color name="pocket_color_gradient_dark">#66000000</color>
+    <color name="pocket_color_dark_grey">#AAAAAA</color>
+    <color name="pocket_color_919191">#919191</color>
+    <color name="pocket_color_383838">#383838</color>
+    <color name="pocket_flash_background">#4c4c4c</color>
+    <color name="pocket_color_9b9b9b">#9b9b9b</color>
+
+    <color name="pocket_color_e95465">#e95465</color>
+
+    <color name="price_up">#e60039</color>
+    <color name="price_down">#39B54A</color>
+    <color name="price_market">#FFCB47</color>
+
+    <color name="operator_greater">#FF4141</color>
+    <color name="operator_less">#48E45E</color>
+
+    <color name="commodity_detail_header">#333333</color>
+
+    <color name="pocket_color_ff0e0e0e">#FF0E0E0E</color>
+    <color name="pocket_color_ffe1e1e1">#ffe1e1e1</color>
+    <color name="pocket_color_b2000000">#b2000000</color>
+
+    <color name="pocket_color_transparent">#00FFFFFF</color>
+
 </resources>

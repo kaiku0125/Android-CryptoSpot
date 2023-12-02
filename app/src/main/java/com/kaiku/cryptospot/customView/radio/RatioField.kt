@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.customView.ratiofield.data
+package com.kaiku.cryptospot.customView.radio.data
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.customView.BasicType
 import com.kaiku.cryptospot.customView.dialog.data.FlashRatioType
 import com.kaiku.cryptospot.customView.text.SimpleText
-import com.kaiku.cryptospot.presentation.theme.text_15sp
+import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
 
 @Composable
 fun RatioField(
@@ -43,8 +41,10 @@ fun RatioField(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 SimpleText(
-                    text = stringResource(id = type.description),
-                    alignment = Alignment.CenterStart
+                    config = SimpleTextConfig(
+                        value = stringResource(id = type.description),
+                        alignment = Alignment.CenterStart
+                    )
                 )
 
                 RadioButton(

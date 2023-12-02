@@ -11,8 +11,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.kaiku.cryptospot.customView.BasicType
 import com.kaiku.cryptospot.customView.dialog.data.FlashRatioType
-import com.kaiku.cryptospot.customView.ratiofield.data.RatioField
+import com.kaiku.cryptospot.customView.radio.data.RatioField
 import com.kaiku.cryptospot.customView.text.SimpleText
+import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
 
 @Composable
 fun RatioDialogComponent(
@@ -36,7 +37,9 @@ fun RatioDialogComponent(
         ) {
             SimpleText(
                 modifier = Modifier.fillMaxWidth().height(50.dp),
-                text = title,
+                config = SimpleTextConfig(
+                    value = title
+                )
             )
 
             RatioField(

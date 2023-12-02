@@ -30,10 +30,11 @@ import com.kaiku.cryptospot.customView.spinner.data.FlashConditionTriggerType
 import com.kaiku.cryptospot.customView.tab.CryptoTabWithDividerFillMaxWidthComponent
 import com.kaiku.cryptospot.customView.tab.data.CryptoTabType
 import com.kaiku.cryptospot.customView.text.SimpleText
+import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
 import com.kaiku.cryptospot.customView.textfield.PlusMinusTextFieldComponent
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.navigation.TestDestination
-import com.kaiku.cryptospot.presentation.theme.text_15sp
+import com.kaiku.cryptospot.presentation.theme.text_15sp_400weight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +75,7 @@ fun FlashUIScreen(
                     end.linkTo(parent.end)
                 },
                 text = "$channelID,__ $score,__ $isTesting",
-                style = MaterialTheme.typography.text_15sp
+                style = MaterialTheme.typography.text_15sp_400weight
             )
 
             FlashOrderView(
@@ -218,8 +219,10 @@ private fun FlashOrderSettingItem(
     ) {
         SimpleText(
             modifier = Modifier.weight(30f),
-            alignment = Alignment.CenterStart,
-            text = title
+            config = SimpleTextConfig(
+                value = title,
+                alignment = Alignment.CenterStart
+            )
         )
 
         content?.invoke(this)

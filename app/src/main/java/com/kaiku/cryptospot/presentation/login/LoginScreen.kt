@@ -19,7 +19,6 @@ import timber.log.Timber
 
 private const val API_KEY = "2f33263a-ee2a-40ff-8795-066fd9e38167"
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen() {
     Scaffold(topBar = { LoginTopBar() }) { paddingValues ->
@@ -33,7 +32,6 @@ fun LoginScreen() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserInputAPI() {
     val ctx = LocalContext.current
@@ -42,8 +40,8 @@ fun UserInputAPI() {
         TextField(
             value = textValue,
             onValueChange = { newValue ->
-                if(newValue.matches("^[a-zA-Z0-9.-]*$".toRegex())){
-                    Timber.e( "EnterAPIView: is valid")
+                if (newValue.matches("^[a-zA-Z0-9.-]*$".toRegex())) {
+                    Timber.e("EnterAPIView: is valid")
                     textValue = newValue
                 }
             },

@@ -16,43 +16,134 @@ val Typography = Typography(
     )
 )
 
-val Typography.text_11sp: TextStyle
+val Typography.text_11sp_400weight: TextStyle
     get() {
         return TextStyle(
-            fontSize = 11.sp
+                fontSize = 12.sp,
+                fontWeight = FontWeight(400),
+                color = Color.White
+        )
+    }
+
+val Typography.text_12sp_400weight: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 12.sp,
+                fontWeight = FontWeight(400),
+                color = Color.White
+        )
+    }
+
+val Typography.text_12sp_500weight: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 12.sp,
+                fontWeight = FontWeight(500),
+                color = Color.White
         )
     }
 
 val Typography.text_13sp_400weight: TextStyle
     get() {
         return TextStyle(
-            fontSize = 13.sp,
-            fontWeight = FontWeight(400),
-            color = Color.White
+                fontSize = 13.sp,
+                fontWeight = FontWeight(400),
+                color = Color.White
         )
     }
 
-val Typography.text_15sp: TextStyle
+val Typography.text_13sp_500weight: TextStyle
     get() {
         return TextStyle(
-            fontSize = 15.sp
+                fontSize = 13.sp,
+                fontWeight = FontWeight(500),
+                color = Color.White
+        )
+    }
+
+val Typography.text_14sp_400weight: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight(400)
         )
     }
 
 val Typography.text_15sp_400weight: TextStyle
     get() {
         return TextStyle(
-            fontSize = 15.sp,
-            fontWeight = FontWeight(400),
-            color = color_717071
+                fontSize = 15.sp,
+                fontWeight = FontWeight(400),
+                color = color_717071
         )
     }
 
-val Typography.text_16ssp_bold: TextStyle
+val Typography.text_15sp_500weight: TextStyle
     get() {
         return TextStyle(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold
+                fontSize = 15.sp,
+                fontWeight = FontWeight(500)
+        )
+    }
+
+val Typography.text_15sp_normal: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Normal
+        )
+    }
+
+val Typography.text_15sp_bold: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold
+        )
+    }
+
+val Typography.text_17sp_400weight: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 17.sp,
+                fontWeight = FontWeight(400),
+                color = Color.White
+        )
+    }
+
+val Typography.text_17sp_500weight : TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 17.sp,
+                fontWeight = FontWeight(500),
+                color = Color.White
+        )
+    }
+
+val Typography.text_19sp_500weight: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 19.sp,
+                fontWeight = FontWeight(500),
+                color = Color.White
+        )
+    }
+
+val Typography.text_20sp_600weight: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 20.sp,
+                fontWeight = FontWeight(600),
+                color = Color.White
+        )
+    }
+
+val Typography.text_28sp_500weight: TextStyle
+    get() {
+        return TextStyle(
+                fontSize = 28.sp,
+                fontWeight = FontWeight(500),
+                color = Color.White
         )
     }
 

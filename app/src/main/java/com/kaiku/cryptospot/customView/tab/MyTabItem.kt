@@ -32,7 +32,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.customView.BasicType
 import com.kaiku.cryptospot.customView.tab.data.BadgeTabType
-import com.kaiku.cryptospot.extension.clickableEffect
+import com.kaiku.cryptospot.extension.clickableEffectConfig
+import com.kaiku.cryptospot.extension.data.ClickableConfig
 
 @Composable
 fun TabItem(
@@ -49,6 +50,7 @@ fun TabItem(
             White
         },
         animationSpec = tween(easing = LinearEasing),
+        label = ""
     )
     Text(
         modifier = Modifier
@@ -85,6 +87,7 @@ fun TabItemWithBadge(
             White
         },
         animationSpec = tween(easing = LinearEasing),
+        label = ""
     )
 
     Box(
@@ -93,8 +96,10 @@ fun TabItemWithBadge(
             .width(tabWidth)
     ) {
         Box(
-            modifier = Modifier.fillMaxSize().clickableEffect(
-                needEffect = false,
+            modifier = Modifier.fillMaxSize().clickableEffectConfig(
+                config = ClickableConfig(
+                    needRipple = false
+                ),
                 onClick = {
                     if(isEnable) {
                         onClick.invoke(type)

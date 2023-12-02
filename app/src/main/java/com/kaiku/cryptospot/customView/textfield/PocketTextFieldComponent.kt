@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.customView.text.SimpleText
+import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
 import com.kaiku.cryptospot.presentation.theme.color_333333
 import com.kaiku.cryptospot.presentation.theme.color_9e9e9f
 import com.kaiku.cryptospot.presentation.theme.text_13sp_400weight
@@ -68,9 +69,11 @@ fun PocketTextFieldComponent(
             placeholder = {
                 SimpleText(
                     modifier = Modifier.fillMaxWidth(),
-                    text = hint,
-                    style = MaterialTheme.typography.text_13sp_400weight,
-                    textColor = color_9e9e9f
+                    config = SimpleTextConfig(
+                        value = hint,
+                        style = MaterialTheme.typography.text_13sp_400weight,
+                        textColor = color_9e9e9f
+                    )
                 )
             },
             interactionSource = remember { MutableInteractionSource() },

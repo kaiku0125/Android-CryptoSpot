@@ -8,8 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.kaiku.cryptospot.presentation.theme.text_11sp
-import com.kaiku.cryptospot.presentation.theme.text_15sp
+import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
+import com.kaiku.cryptospot.presentation.theme.text_11sp_400weight
+import com.kaiku.cryptospot.presentation.theme.text_15sp_400weight
+
 
 @Composable
 fun SimpleTextWithHint(
@@ -18,8 +20,8 @@ fun SimpleTextWithHint(
     hintAlignment: Alignment = Alignment.Center,
     content: String,
     hint: String,
-    contentStyle: TextStyle = MaterialTheme.typography.text_15sp,
-    hintStyle : TextStyle = MaterialTheme.typography.text_11sp,
+    contentStyle: TextStyle = MaterialTheme.typography.text_15sp_400weight,
+    hintStyle : TextStyle = MaterialTheme.typography.text_11sp_400weight,
     @ColorRes contentTextColor: Color = Color.White,
     @ColorRes hintTextColor: Color = Color.LightGray,
 ) {
@@ -36,10 +38,12 @@ fun SimpleTextWithHint(
                 start.linkTo(parent.start)
                 bottom.linkTo(parent.bottom)
             },
-            alignment = contentAlignment,
-            text = content,
-            style = contentStyle,
-            textColor = contentTextColor
+            config = SimpleTextConfig(
+                value = content,
+                alignment = contentAlignment,
+                style = contentStyle,
+                textColor = contentTextColor
+            )
         )
 
         SimpleText(
@@ -47,10 +51,12 @@ fun SimpleTextWithHint(
                 top.linkTo(contentRegion.bottom)
                 start.linkTo(parent.start)
             },
-            alignment = hintAlignment,
-            text = hint,
-            style = hintStyle,
-            textColor = hintTextColor
+            config = SimpleTextConfig(
+                value = hint,
+                alignment = hintAlignment,
+                style = hintStyle,
+                textColor = hintTextColor
+            )
         )
 
     }
