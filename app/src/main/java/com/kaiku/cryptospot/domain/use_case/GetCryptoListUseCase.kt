@@ -9,9 +9,8 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
-import javax.inject.Inject
 
-class GetCryptoListUseCase @Inject constructor(
+class GetCryptoListUseCase (
     private val mainRepository: MainRepository
 ) {
 //    operator fun invoke() : Flow<Resource<List<String>>> = flow {

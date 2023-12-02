@@ -5,6 +5,11 @@ object Versions {
     const val KOTLIN = "1.8.0"
 
     /**
+     * koin
+     */
+    const val KOIN = "3.2.1"
+
+    /**
      * Compose ui
      */
     const val COMPOSE = "1.3.1"

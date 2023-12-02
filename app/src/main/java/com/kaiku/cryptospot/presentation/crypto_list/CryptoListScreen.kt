@@ -19,12 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
+import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 
 private const val TAG = "FindCrypto"
@@ -32,8 +32,9 @@ private const val TAG = "FindCrypto"
 // TODO: Screen rotate maybe failed
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CryptoListScreen() {
-    val viewModel: CryptoListViewModel = hiltViewModel()
+fun CryptoListScreen(
+    viewModel: CryptoListViewModel = koinViewModel()
+) {
     val listState = viewModel.apiCryptoListState.value
 
     OnLifecycleEvent(

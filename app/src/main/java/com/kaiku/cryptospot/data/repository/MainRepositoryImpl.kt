@@ -4,9 +4,8 @@ import com.kaiku.cryptospot.data.remote.CoinMarketCapApi
 import com.kaiku.cryptospot.data.remote.dto.crypto_list.CryptoListResponse
 import com.kaiku.cryptospot.domain.repository.MainRepository
 import timber.log.Timber
-import javax.inject.Inject
 
-class MainRepositoryImpl @Inject constructor(
+class MainRepositoryImpl(
     private val api: CoinMarketCapApi
 ) : MainRepository{
 

@@ -4,6 +4,11 @@ object Dependencies {
      */
     const val KOTLIN_CORE = "androidx.core:core-ktx:${Versions.KOTLIN}"
 
+    /**
+     * koin
+     */
+    const val KOIN_CORE = "io.insert-koin:koin-core:${Versions.KOIN}"
+    const val KOIN_ANDROID = "io.insert-koin:koin-android:${Versions.KOIN}"
 
     /**
      * Compose ui
@@ -12,6 +17,8 @@ object Dependencies {
     const val COMPOSE_UI_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
     const val COMPOSE_LIVEDATA = "androidx.compose.runtime:runtime-livedata:${Versions.COMPOSE}"
     const val COMPOSE_NAV_ANIMATION = "com.google.accompanist:accompanist-navigation-animation:${Versions.NAV_ANIMATION}"
+    const val COMPOSE_KOIN = "io.insert-koin:koin-androidx-compose:${Versions.KOIN}"
+
     /**
      * Compose ui test
      */

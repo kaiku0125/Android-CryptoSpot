@@ -25,18 +25,13 @@ import com.kaiku.cryptospot.presentation.home.HomeScreen
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
-import dagger.hilt.android.AndroidEntryPoint
 import org.amobile.mqtt_k.prefs.Prefs
 import timber.log.Timber
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (BuildConfig.DEBUG)
-            Timber.plant(MultiTagTree())
-        Prefs.load(this)
 
         setContent {
             CryptoSpotTheme() {

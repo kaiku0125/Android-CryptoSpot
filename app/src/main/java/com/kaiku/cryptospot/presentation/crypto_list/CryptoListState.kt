@@ -6,5 +6,4 @@ data class CryptoListState(
     val isLoading : Boolean = false,
     val cryptoList : List<CryptoListingData> = emptyList(),
     val error : String = ""
-
 )
