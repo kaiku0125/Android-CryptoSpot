@@ -13,26 +13,17 @@ object Dependencies {
     /**
      * Compose ui
      */
-    const val COMPOSE_UI = "androidx.compose.ui:ui:${Versions.COMPOSE}"
-    const val COMPOSE_UI_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.COMPOSE}"
-    const val COMPOSE_LIVEDATA = "androidx.compose.runtime:runtime-livedata:${Versions.COMPOSE}"
+    const val COMPOSE_BOM = "androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"
+    const val COMPOSE_LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.COMPOSE_LIFECYCLE_RUNTIME}"
     const val COMPOSE_NAV_ANIMATION = "com.google.accompanist:accompanist-navigation-animation:${Versions.NAV_ANIMATION}"
+    const val COMPOSE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.COMPOSE_VIEWMODEL}"
     const val COMPOSE_KOIN = "io.insert-koin:koin-androidx-compose:${Versions.KOIN}"
-
-    /**
-     * Compose ui test
-     */
-    const val COMPOSE_UI_TEST = "androidx.compose.ui:ui-test-junit4:${Versions.COMPOSE}"
-    const val COMPOSE_UI_TEST_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
-    const val COMPOSE_UI_TEST_MANIFEST = "androidx.compose.ui:ui-test-manifest:${Versions.COMPOSE}"
+    const val COMPOSE_COIL = "io.coil-kt:coil-compose:${Versions.COMPOSE_COIL}"
 
     /**
      * Material 3
      */
-    const val COMPOSE_MATERIAL =  "androidx.compose.material:material:${Versions.COMPOSE_MATERIAL}"
     const val COMPOSE_MATERIAL3 = "androidx.compose.material3:material3:${Versions.COMPOSE_MATERIAL3}"
     const val COMPOSE_MATERIAL3_WINDOW = "androidx.compose.material3:material3-window-size-class:${Versions.COMPOSE_MATERIAL3}"
-
-
 
 }
