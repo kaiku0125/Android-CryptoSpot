@@ -26,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
+import com.kaiku.cryptospot.customView.circular.CircularPercentageComponent
+import com.kaiku.cryptospot.customView.circular.CircularPercentageConfig
 import com.kaiku.cryptospot.customView.dialog.EdmDialog
 import com.kaiku.cryptospot.customView.icon.SimpleIconButton
 import com.kaiku.cryptospot.customView.keyboard.DigitalKeyboardComponent
@@ -62,6 +64,7 @@ fun TestScreen() {
             )
         }
     ) { innerPadding ->
+        val scope = rememberCoroutineScope()
 
         Column(
             modifier = Modifier.padding(innerPadding)
@@ -115,8 +118,6 @@ fun TestScreen() {
                 )
             }
 
-            val scope = rememberCoroutineScope()
-
             val sheetState = rememberModalBottomSheetState(
                 skipPartiallyExpanded = true
             )
@@ -157,6 +158,12 @@ fun TestScreen() {
                     }
                 )
             }
+
+            CircularPercentageComponent(
+                config = CircularPercentageConfig(
+                    percentage = 0.8f
+                )
+            )
 
         }
 
