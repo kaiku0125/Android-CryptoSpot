@@ -11,10 +11,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
@@ -22,32 +24,47 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.customView.text.SimpleText
 import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
-import com.kaiku.cryptospot.presentation.theme.color_333333
+import com.kaiku.cryptospot.presentation.theme.color_414141
 import com.kaiku.cryptospot.presentation.theme.color_9e9e9f
 import com.kaiku.cryptospot.presentation.theme.text_13sp_400weight
+import com.kaiku.cryptospot.presentation.theme.text_15sp_400weight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PocketTextFieldComponent(
     modifier: Modifier = Modifier,
     value: String,
+    valueAlignment: TextAlign = TextAlign.Center,
+    valueStyle: TextStyle = MaterialTheme.typography.text_15sp_400weight,
     hint: String,
+    hintAlignment: Alignment =  Alignment.Center,
+    hintStyle: TextStyle = MaterialTheme.typography.text_13sp_400weight,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Decimal,
+        imeAction = ImeAction.Done
+    ),
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onTextChange: (String) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
+
+    val lambda = remember<(String) -> Unit>{
+        {
+            onTextChange.invoke(it)
+        }
+    }
+
+
     BasicTextField(
         modifier = modifier,
         value = value,
-        onValueChange = { inputValue ->
-            onTextChange(inputValue)
-        },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Decimal,
-            imeAction = ImeAction.Done
-        ),
+        onValueChange = lambda,
+        keyboardOptions = keyboardOptions,
         textStyle = LocalTextStyle.current.copy(
             color = Color.White,
-            textAlign = TextAlign.Center
+            textAlign = valueAlignment,
+            fontSize = valueStyle.fontSize,
+            fontWeight = valueStyle.fontWeight
         ),
         singleLine = true,
         keyboardActions = KeyboardActions(
@@ -55,42 +72,34 @@ fun PocketTextFieldComponent(
                 focusManager.clearFocus()
             }
         ),
+        visualTransformation = visualTransformation,
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary)
     ) {
-        val containerColor = color_333333
-
-
+        val containerColor = color_414141
         TextFieldDefaults.DecorationBox(
             value = value,
             innerTextField = it,
             singleLine = true,
             enabled = true,
-            visualTransformation = VisualTransformation.None,
+            visualTransformation = visualTransformation,
             placeholder = {
                 SimpleText(
                     modifier = Modifier.fillMaxWidth(),
                     config = SimpleTextConfig(
                         value = hint,
-                        style = MaterialTheme.typography.text_13sp_400weight,
-                        textColor = color_9e9e9f
+                        style = hintStyle,
+                        textColor = color_9e9e9f,
+                        alignment = hintAlignment,
                     )
                 )
             },
             interactionSource = remember { MutableInteractionSource() },
             // keep horizontal paddings but change the vertical
-            contentPadding = TextFieldDefaults.textFieldWithoutLabelPadding(
+            contentPadding = TextFieldDefaults.contentPaddingWithoutLabel(
                 top = 0.dp, bottom = 0.dp, start = 0.dp, end = 0.dp
             ),
-//            colors = TextFieldDefaults.textFieldColors(
-//                containerColor = color_333333,
-//                textColor = Color.Gray,
-//                disabledTextColor = Color.Transparent,
-//                focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-//                unfocusedIndicatorColor = MaterialTheme.colorScheme.primary,
-//                disabledIndicatorColor = MaterialTheme.colorScheme.primary
-//            ),
             colors = TextFieldDefaults.colors(
-                focusedTextColor = Color.Gray,
+                focusedTextColor = Color.White,
                 disabledTextColor = Color.Transparent,
                 focusedContainerColor = containerColor,
                 unfocusedContainerColor = containerColor,
@@ -99,7 +108,6 @@ fun PocketTextFieldComponent(
                 unfocusedIndicatorColor = containerColor,
                 disabledIndicatorColor = containerColor,
             )
-
         )
     }
 }
