@@ -101,4 +101,5 @@ dependencies {
 
     implementation libs.timber
 
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 }
