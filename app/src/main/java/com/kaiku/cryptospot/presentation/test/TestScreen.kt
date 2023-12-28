@@ -1,8 +1,18 @@
 package com.kaiku.cryptospot.presentation.test
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -23,6 +33,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
@@ -37,6 +48,13 @@ import com.kaiku.cryptospot.navigation.FlashUIDestination
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.presentation.theme.text_15sp_400weight
 import kotlinx.coroutines.launch
+import org.burnoutcrew.android.ui.reorderlist.ReorderGrid
+import org.burnoutcrew.reorderable.NoDragCancelledAnimation
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyGridState
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
@@ -64,7 +82,9 @@ fun TestScreen() {
         val scope = rememberCoroutineScope()
 
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .padding(innerPadding)
+                .verticalScroll(rememberScrollState())
         ) {
             Button(
                 modifier = Modifier.padding(start = 20.dp, top = 10.dp),
@@ -161,6 +181,8 @@ fun TestScreen() {
                     percentage = 0.8f
                 )
             )
+
+            ReorderGrid()
 
         }
 

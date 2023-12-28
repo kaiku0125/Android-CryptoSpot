@@ -93,4 +93,6 @@ dependencies {
     //koin
     implementation(Dependencies.KOIN_CORE)
     implementation(Dependencies.KOIN_ANDROID)
+
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 }
