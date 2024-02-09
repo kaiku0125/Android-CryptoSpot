@@ -28,24 +28,24 @@ object TestDestination : Destination(path = "test")
 object FlashUIDestination : Destination(
     path = "flash",
     arguments = listOf(
-        navArgument(FlashUIScreenTag.CHANNEL_ID){
+        navArgument(FlashUIScreenTag.CHANNEL_ID) {
             type = NavType.StringType
         },
-        navArgument(FlashUIScreenTag.SCORE){
+        navArgument(FlashUIScreenTag.SCORE) {
             type = NavType.IntType
         },
-        navArgument(FlashUIScreenTag.IS_TESTING){
+        navArgument(FlashUIScreenTag.IS_TESTING) {
             type = NavType.BoolType
         }
     )
-){
+) {
 
     operator fun invoke(
         invokeString: String,
-        invokeInt :Int,
-        invokeBoolean :Boolean
+        invokeInt: Int,
+        invokeBoolean: Boolean
     ): String {
-        arguments.forEach{
+        arguments.forEach {
             Timber.e("arguments : ${it.name}")
 
         }

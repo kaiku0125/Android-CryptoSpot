@@ -12,11 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.navigation.animation.composable
 import com.kaiku.cryptospot.navigation.*
-import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreen
+import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreenRoot
 import com.kaiku.cryptospot.presentation.test.TestScreen
 import com.kaiku.cryptospot.presentation.pocket_hw.PocketHomeworkScreen
 import com.kaiku.cryptospot.presentation.flash.*
-import com.kaiku.cryptospot.presentation.home.HomeScreen
+import com.kaiku.cryptospot.presentation.home.HomeScreenRoot
 import com.kaiku.cryptospot.presentation.login.LoginScreenRoot
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
@@ -71,7 +71,7 @@ fun NavScreenGraph() {
             enterTransition = { screenSlideEnter(fromLeft = true) },
             exitTransition = { screenSlideExit(toLeft = true) }
         ) {
-            HomeScreen()
+            HomeScreenRoot()
         }
 
         composable(
@@ -89,7 +89,7 @@ fun NavScreenGraph() {
             enterTransition = { screenSlideEnter(fromLeft = false) },
             exitTransition = { screenSlideExit(toLeft = false) }
         ) {
-            CryptoListScreen()
+            CryptoListScreenRoot()
         }
 
         composable(

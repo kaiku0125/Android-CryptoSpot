@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,13 +19,15 @@ import androidx.compose.ui.unit.dp
 fun SimpleIconButton(
     modifier: Modifier = Modifier,
     @DrawableRes drawableRes: Int,
-    tint : Color = Color.Unspecified,
-    iconSize : Dp = 17.dp,
+    tint: Color = MaterialTheme.colorScheme.onBackground,
+    iconSize: Dp = 17.dp,
     onIconClick: () -> Unit
 ) {
     Box(modifier = modifier) {
         IconButton(
-            modifier = Modifier.fillMaxSize().size(iconSize),
+            modifier = Modifier
+                .fillMaxSize()
+                .size(iconSize),
             onClick = { onIconClick.invoke() }
         ) {
             Icon(
@@ -42,13 +45,15 @@ fun SimpleIconButton(
 fun SimpleIconButton(
     modifier: Modifier = Modifier,
     imageVector: ImageVector,
-    tint : Color = Color.Unspecified,
-    iconSize : Dp = 17.dp,
+    tint: Color = MaterialTheme.colorScheme.onBackground,
+    iconSize: Dp = 17.dp,
     onIconClick: () -> Unit
 ) {
     Box(modifier = modifier) {
         IconButton(
-            modifier = Modifier.fillMaxSize().size(iconSize),
+            modifier = Modifier
+                .fillMaxSize()
+                .size(iconSize),
             onClick = { onIconClick.invoke() }
         ) {
             Icon(

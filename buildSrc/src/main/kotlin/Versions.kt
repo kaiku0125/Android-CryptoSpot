@@ -19,4 +19,15 @@ object Versions {
     const val NAV_ANIMATION = "0.28.0"
     const val COMPOSE_COIL = "2.0.0"
 
+    /**
+     * Compose paging
+     */
+    const val COMPOSE_PAGING = "1.0.0-alpha20"
+    const val COMPOSE_PAGING_RUNTIME = "3.2.0-alpha06"
+
+    /**
+     * Room
+     */
+    const val COMPOSE_ROOM = "2.5.1"
+
 }

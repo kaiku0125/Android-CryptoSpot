@@ -47,7 +47,9 @@ fun PocketHomeworkScreen() {
         modifier = Modifier.fillMaxSize(),
         topBar = {
             ScaffoldTopAppBarWithBackNavComponent(
-                titleText = "口袋作業",
+                textConfig = SimpleTextConfig(
+                    value = "口袋作業",
+                ),
                 needInformation = true,
                 actions = {
                     IconButton(

@@ -55,9 +55,6 @@ fun EdmDialog(
                 .onGloballyPositioned {
                     screenWidth = it.size.width
                     screenHeight = it.size.height
-
-                    Timber.e("外框width = ${screenWidth}, 外框height = ${screenHeight}")
-
                 }
         ) {
 
@@ -78,11 +75,8 @@ fun EdmDialog(
                         mainWidth = it.size.width
                         mainHeight = it.size.height
 
-                        Timber.e("主體width = $mainWidth, 主體height = $mainHeight")
-
                         widthRatio = screenWidth / mainWidth.toFloat()
                         heightRatio = screenHeight / mainHeight.toFloat()
-                        Timber.e("倍率width = ${widthRatio}, 倍率height = ${heightRatio}")
                     }
 //                    .background(Color.Yellow)
             ) {

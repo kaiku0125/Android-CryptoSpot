@@ -27,7 +27,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.customView.dialog.EdmDialog
+import com.kaiku.cryptospot.customView.icon.SimpleIconButton
 import com.kaiku.cryptospot.customView.keyboard.DigitalKeyboardComponent
+import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
 import com.kaiku.cryptospot.customView.topappbar.ScaffoldTopAppBarWithBackNavComponent
 import com.kaiku.cryptospot.navigation.PocketHomeworkDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
@@ -43,13 +45,14 @@ fun TestScreen() {
     Scaffold(
         topBar = {
             ScaffoldTopAppBarWithBackNavComponent(
-                titleText = "測試區域",
+                textConfig = SimpleTextConfig(
+                    value = "測試區域"
+                ),
                 actions = {
-                    IconButton(
-                        onClick = {}
-                    ) {
-                        Icon(Icons.Default.Add, contentDescription = "Add")
-                    }
+                    SimpleIconButton(
+                        imageVector = Icons.Default.Add,
+                        onIconClick = {}
+                    )
                 },
                 onNavigationClick = {
                     ScreenNavigator.back(

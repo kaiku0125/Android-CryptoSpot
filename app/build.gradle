@@ -50,14 +50,31 @@ android {
 dependencies {
     implementation(Dependencies.KOTLIN_CORE)
     implementation(Dependencies.COMPOSE_BOM)
+    implementation(Dependencies.COMPOSE_LIFECYCLE_RUNTIME)
+    implementation(Dependencies.COMPOSE_UI_TOOLING)
+    implementation(Dependencies.COMPOSE_UI_PREVIEW)
     implementation(Dependencies.COMPOSE_MATERIAL3)
     implementation(Dependencies.COMPOSE_VIEWMODEL)
     implementation(Dependencies.COMPOSE_KOIN)
     implementation(Dependencies.COMPOSE_NAV_ANIMATION)
-    implementation "androidx.compose.ui:ui-tooling-preview"
+
+    // Paging
+    implementation(Dependencies.COMPOSE_PAGING_RUNTIME)
+    implementation(Dependencies.COMPOSE_PAGING)
+
+    // Koin
+    implementation(Dependencies.KOIN_CORE)
+    implementation(Dependencies.KOIN_ANDROID)
+
+    // Room
+    implementation(Dependencies.ROOM_KTX)
+    kapt(Dependencies.ROOM_COMPILER)
+    implementation(Dependencies.ROOM_PAGING)
 
     // Test
     androidTestImplementation (Dependencies.COMPOSE_BOM)
+    debugImplementation(Dependencies.COMPOSE_UI_TOOLING)
+    debugImplementation(Dependencies.COMPOSE_UI_PREVIEW)
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4"
 
@@ -84,8 +101,4 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     implementation 'com.jakewharton.timber:timber:4.7.1'
-
-    //koin
-    implementation(Dependencies.KOIN_CORE)
-    implementation(Dependencies.KOIN_ANDROID)
 }

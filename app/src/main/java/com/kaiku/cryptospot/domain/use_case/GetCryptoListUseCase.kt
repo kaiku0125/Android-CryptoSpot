@@ -30,8 +30,8 @@ class GetCryptoListUseCase (
     operator fun invoke(): Flow<Resource<List<CryptoListingData>>> = flow {
         try {
             Timber.e("invoke start")
-            emit(Resource.Loading<List<CryptoListingData>>())
-            val mResponse = mainRepository.requestCryptoList2()
+            emit(Resource.Loading())
+            val mResponse = mainRepository.requestCryptoList()
             Timber.e("onResponse: body ➔ $mResponse")
 
             val mCryptoList = mResponse.data.map { it.toPoint() }

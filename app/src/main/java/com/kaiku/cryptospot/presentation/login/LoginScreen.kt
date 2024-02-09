@@ -11,10 +11,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.presentation.login.data.LoginViewState
+import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 
@@ -23,7 +26,7 @@ fun LoginScreenRoot(
     viewModel: LoginViewModel = koinViewModel()
 ) {
 
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     LoginScreen(
         viewState = viewState,
@@ -83,38 +86,6 @@ fun LoginScreenContent(
     }
 }
 
-@Composable
-fun Test1() {
-    var checkedValue by remember { mutableStateOf(false) }
-    Column {
-        Checkbox(
-            checked = checkedValue,
-            onCheckedChange = { checkedValue = it }
-        )
-        Button(onClick = { Timber.d("User checked: $checkedValue") }) {
-            Text("Submit")
-        }
-    }
-}
-
-@Composable
-fun Test2() {
-    var selectedValue by remember { mutableStateOf("") }
-    Column {
-        RadioButton(
-            selected = selectedValue == "Option 1",
-            onClick = { selectedValue = "Option 1" }
-        )
-        RadioButton(
-            selected = selectedValue == "Option 2",
-            onClick = { selectedValue = "Option 2" }
-        )
-        Button(onClick = { Timber.d("User selected: $selectedValue") }) {
-            Text("Submit")
-        }
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginTopBar() {
@@ -128,4 +99,15 @@ fun LoginTopBar() {
         },
         modifier = Modifier.fillMaxWidth()
     )
+}
+
+@Preview
+@Composable
+private fun LoginScreenPreview() {
+    CryptoSpotTheme(darkTheme = true) {
+        LoginScreen(
+            viewState = LoginViewState(),
+            onEnterApiKey = {}
+        )
+    }
 }

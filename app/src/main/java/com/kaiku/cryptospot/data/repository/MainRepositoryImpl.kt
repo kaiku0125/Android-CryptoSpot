@@ -9,8 +9,6 @@ class MainRepositoryImpl(
     private val api: CoinMarketCapApi
 ) : MainRepository{
 
-    var cryptoList: List<String> = emptyList()
-
 //    suspend fun requestCryptoList(): List<String> {
 //
 //        CoroutineScope(Dispatchers.IO).launch {
@@ -52,25 +50,8 @@ class MainRepositoryImpl(
 //        return cryptoList
 //    }
 
-    override suspend fun requestCryptoList(): List<String> {
-        Timber.e("Method start")
-        val response = api.getCryptoListings()
-
-        Timber.e("onResponse: body ➔ ${response.toString()}")
-
-        val cryptoListings = response.data
-        val cryptoSymbols = cryptoListings.map { it.symbol }
-
-        cryptoList = cryptoSymbols
-        Timber.e("getList: symbols ➔ $cryptoSymbols , size ➔ ${cryptoSymbols.size}")
-
-
-        Timber.e("Method end")
-        return cryptoList
-    }
-
-    override suspend fun requestCryptoList2(): CryptoListResponse {
-        return  api.getCryptoListings()
+    override suspend fun requestCryptoList(): CryptoListResponse {
+        return api.getCryptoListings()
     }
 
     override suspend fun requestObserverList(symbol: String) {
