@@ -53,6 +53,7 @@ dependencies {
     implementation(Dependencies.COMPOSE_LIFECYCLE_RUNTIME)
     implementation(Dependencies.COMPOSE_UI_TOOLING)
     implementation(Dependencies.COMPOSE_UI_PREVIEW)
+    implementation(Dependencies.COMPOSE_MATERIAL)
     implementation(Dependencies.COMPOSE_MATERIAL3)
     implementation(Dependencies.COMPOSE_VIEWMODEL)
     implementation(Dependencies.COMPOSE_KOIN)

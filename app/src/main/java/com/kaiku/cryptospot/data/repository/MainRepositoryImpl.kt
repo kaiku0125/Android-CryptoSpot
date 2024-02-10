@@ -51,7 +51,10 @@ class MainRepositoryImpl(
 //    }
 
     override suspend fun requestCryptoList(): CryptoListResponse {
-        return api.getCryptoListings()
+        return api.getCryptoListings(
+            start = 1,
+            limit = 10
+        )
     }
 
     override suspend fun requestObserverList(symbol: String) {

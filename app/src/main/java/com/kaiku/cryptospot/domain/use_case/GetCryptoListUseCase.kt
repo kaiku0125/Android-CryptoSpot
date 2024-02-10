@@ -39,16 +39,16 @@ class GetCryptoListUseCase (
             Timber.e("mCryptoList -> $mCryptoList , size -> ${mCryptoList.size}")
             Timber.e("msg : errorCode -> ${mStatus.errorCode}, errorMessage -> ${mStatus.errorMessage}")
 
-            emit(Resource.Success<List<CryptoListingData>>(mCryptoList))
+            emit(Resource.Success(mCryptoList))
             Timber.e("invoke end")
         } catch (e: HttpException) {
             emit(
-                Resource.Error<List<CryptoListingData>>(
+                Resource.Error(
                     message = e.localizedMessage ?: "An unexpected error occurred"
                 )
             )
         } catch (e: IOException) {
-            emit(Resource.Error<List<CryptoListingData>>(message = "Couldn't reach server. Check your internet connection."))
+            emit(Resource.Error(message = "Couldn't reach server. Check your internet connection."))
         }
     }
 

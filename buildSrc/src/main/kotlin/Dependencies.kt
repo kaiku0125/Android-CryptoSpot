@@ -14,6 +14,7 @@ object Dependencies {
      * Compose ui
      */
     const val COMPOSE_BOM = "androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"
+    const val COMPOSE_MATERIAL = "androidx.compose.material:material"
     const val COMPOSE_LIFECYCLE_RUNTIME = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.COMPOSE_LIFECYCLE_RUNTIME}"
     const val COMPOSE_UI_TOOLING = "androidx.compose.ui:ui-tooling"
     const val COMPOSE_UI_PREVIEW = "androidx.compose.ui:ui-tooling-preview"
