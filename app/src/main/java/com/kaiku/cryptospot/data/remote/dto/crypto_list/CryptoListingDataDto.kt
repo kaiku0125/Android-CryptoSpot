@@ -1,9 +1,8 @@
 package com.kaiku.cryptospot.data.remote.dto.crypto_list
 
 import com.google.gson.annotations.SerializedName
-import com.kaiku.cryptospot.data.db.CryptoListingEntity
+import com.kaiku.cryptospot.data.db.cryptolisting.CryptoListingEntity
 import com.kaiku.cryptospot.domain.model.CryptoListingData
-import timber.log.Timber
 
 data class CryptoListingDataDto(
     val id: Int,

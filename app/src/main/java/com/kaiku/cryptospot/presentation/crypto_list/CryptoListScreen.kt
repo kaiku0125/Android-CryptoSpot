@@ -57,7 +57,10 @@ fun CryptoListScreenRoot(
 
     CryptoListScreen(
         viewState = viewState,
-        cryptos = cryptos
+        cryptos = cryptos,
+        onLoading = {
+            viewModel.onLoading()
+        }
     )
 }
 
@@ -67,6 +70,7 @@ fun CryptoListScreenRoot(
 private fun CryptoListScreen(
     viewState: CryptoListState,
     cryptos: LazyPagingItems<CryptoListingData>,
+    onLoading: () -> Unit
 ) {
 
     Scaffold(
@@ -91,6 +95,7 @@ private fun CryptoListScreen(
                 .fillMaxSize(),
             viewState = viewState,
             cryptos = cryptos,
+            onLoading = onLoading
         )
 
     }
@@ -103,14 +108,15 @@ private fun LazyPagingCrypto(
     modifier: Modifier = Modifier,
     viewState: CryptoListState,
     cryptos: LazyPagingItems<CryptoListingData>,
+    onLoading: () -> Unit
 ) {
+    val context = LocalContext.current
     val refreshState = rememberPullRefreshState(
         refreshing = viewState.isLoading,
         onRefresh = {
             cryptos.refresh()
         }
     )
-    val context = LocalContext.current
     LaunchedEffect(cryptos.loadState) {
         when(cryptos.loadState.refresh) {
             is LoadState.Error -> {
@@ -121,7 +127,9 @@ private fun LazyPagingCrypto(
                 ).show()
             }
 
-            else -> Unit
+            else -> {
+                onLoading.invoke()
+            }
         }
     }
 
@@ -172,14 +180,14 @@ private fun LazyPagingCrypto(
                             }
                         }
                     }
-                    PullRefreshIndicator(
-                        refreshing = viewState.isLoading,
-                        state = refreshState,
-                        modifier = Modifier.align(Alignment.TopCenter)
-                    )
                 }
             }
         }
+        PullRefreshIndicator(
+            refreshing = viewState.isLoading,
+            state = refreshState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 
 }
@@ -242,7 +250,10 @@ private fun CryptoListScreenPreview() {
                 isLoading = false,
                 cryptoList = list,
             ),
-            cryptos = lazyItems
+            cryptos = lazyItems,
+            onLoading = {
+
+            }
         )
     }
 }

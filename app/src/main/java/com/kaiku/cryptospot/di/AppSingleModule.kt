@@ -5,8 +5,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.kaiku.cryptospot.data.CryptoListingMediator
-import com.kaiku.cryptospot.data.db.CryptoListingDatabase
-import com.kaiku.cryptospot.data.db.CryptoListingEntity
+import com.kaiku.cryptospot.data.db.cryptolisting.CryptoListPagingSource
+import com.kaiku.cryptospot.data.db.CryptoSpotDatabase
+import com.kaiku.cryptospot.data.db.cryptolisting.CryptoListingEntity
 import com.kaiku.cryptospot.data.prefs.Prefs
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -18,15 +19,15 @@ val appSingleModule = module {
             context = androidContext()
         )
     }
-    single<CryptoListingDatabase> {
+    single<CryptoSpotDatabase> {
         Room.databaseBuilder(
             androidContext(),
-            CryptoListingDatabase::class.java,
+            CryptoSpotDatabase::class.java,
             "crypto_listing_db"
         ).build()
     }
     single<Pager<Int, CryptoListingEntity>> {
-        val db = get<CryptoListingDatabase>()
+        val db = get<CryptoSpotDatabase>()
         Pager(
             config = PagingConfig(
                 pageSize = 25,
@@ -38,6 +39,7 @@ val appSingleModule = module {
             ),
             pagingSourceFactory = {
                 db.dao.pagingSource()
+//                CryptoListPagingSource(api = get())
             }
         )
     }

@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.data.db
+package com.kaiku.cryptospot.data.db.cryptolisting
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
