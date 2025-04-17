@@ -1,12 +1,12 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace 'com.kaiku.cryptospot'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.kaiku.cryptospot"
@@ -95,7 +95,8 @@ dependencies {
     implementation libs.okhttp
 
     //navigation-compose
-    implementation libs.androidx.navigation.compose
+    implementation libs.android.navigation.ui
+    implementation libs.android.navigation.compose
 
     //Coroutines
     implementation libs.coroutines.core

@@ -1,6 +1,5 @@
 package com.kaiku.cryptospot.presentation
 
-//import androidx.navigation.compose.composable
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.google.accompanist.navigation.animation.composable
+import androidx.navigation.compose.composable
 import com.kaiku.cryptospot.navigation.*
 import com.kaiku.cryptospot.presentation.crypto_list.CryptoListScreenRoot
 import com.kaiku.cryptospot.presentation.test.TestScreen
@@ -58,7 +57,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavScreenGraph() {
     Timber.e("Init nav screen graph")

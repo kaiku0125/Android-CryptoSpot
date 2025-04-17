@@ -1,20 +1,18 @@
 package com.kaiku.cryptospot.navigation
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
-import timber.log.Timber
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.kaiku.cryptospot.common.Debug
+import timber.log.Timber
 import com.kaiku.cryptospot.extension.handleComposeNavigationIntent
+import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalAnimationApi::class)
+@SuppressLint("RestrictedApi")
 @Composable
 fun NavigationEffect(
     startDestination: String,
@@ -22,7 +20,7 @@ fun NavigationEffect(
     builder: NavGraphBuilder.() -> Unit,
 ) {
     val navController = if (isAnimated) {
-        rememberAnimatedNavController()
+        rememberNavController()
     } else {
         rememberNavController()
     }
@@ -35,14 +33,21 @@ fun NavigationEffect(
                 return@collect
             }
             navController.handleComposeNavigationIntent(it)
-            navController.backQueue.forEachIndexed { index, navBackStackEntry ->
-                if (Debug.isNAv) Timber.e("【NavStack】 index = $index, screen = ${navBackStackEntry.destination.route}")
-            }
+
         }
     }
 
+    LaunchedEffect(Unit) {
+        navController.currentBackStack.collectLatest {
+            it.forEachIndexed { index, navBackStackEntry ->
+                Timber.d("【NavStack】 index = $index, screen = ${navBackStackEntry.destination.route}")
+            }
+        }
+
+    }
+
     if (isAnimated) {
-        AnimatedNavHost(
+        NavHost(
             navController = navController,
             startDestination = startDestination,
             builder = builder

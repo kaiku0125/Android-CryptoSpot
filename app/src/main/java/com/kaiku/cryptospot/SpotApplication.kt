@@ -1,6 +1,7 @@
 package com.kaiku.cryptospot
 
 import android.app.Application
+import com.kaiku.cryptospot.di.appDatabaseModule
 import com.kaiku.cryptospot.di.appNetworkModule
 import com.kaiku.cryptospot.di.appRepositoryModule
 import com.kaiku.cryptospot.di.appSingleModule
@@ -15,9 +16,10 @@ class SpotApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(MultiTagTree())
-        }
+//        if (BuildConfig.DEBUG) {
+//            Timber.plant(MultiTagTree())
+//        }
+        Timber.plant(MultiTagTree())
 
         startKoin {
             androidContext(this@SpotApplication)
@@ -25,6 +27,7 @@ class SpotApplication : Application() {
                 listOf(
                     appSingleModule,
                     appNetworkModule,
+                    appDatabaseModule,
                     appViewModelModule,
                     appUseCaseModule,
                     appRepositoryModule

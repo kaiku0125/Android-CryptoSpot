@@ -97,7 +97,7 @@ fun CustomDialog(
                                 ),
                                 shape = RoundedCornerShape(50)
                             ),
-                        colors = TextFieldDefaults.textFieldColors(
+                        colors = TextFieldDefaults.colors(
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent
                         ),

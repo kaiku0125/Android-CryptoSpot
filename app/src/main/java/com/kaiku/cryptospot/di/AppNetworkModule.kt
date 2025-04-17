@@ -23,7 +23,7 @@ private fun createCoinMarketCapApi(prefs: Prefs): CoinMarketCapApi {
     val interceptor = Interceptor { chain ->
         val request = chain.request()
 //        Timber.e("Provide : apiKey : ${prefs.apiKey}")
-        val newUrl = request.url().newBuilder()
+        val newUrl = request.url.newBuilder()
             .addQueryParameter("CMC_PRO_API_KEY", prefs.apiKey)
             .build()
         val newRequest = request.newBuilder()

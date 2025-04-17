@@ -83,8 +83,9 @@ fun PocketOutlinedTextField(
         keyboardActions = KeyboardActions(onDone = {
             focusManager.clearFocus()
         }),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            containerColor = Color.DarkGray
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.DarkGray,
+            unfocusedTextColor = Color.DarkGray
         )
 
     )
