@@ -11,7 +11,7 @@ compose-coil = "2.0.0"
 compose-paging = "1.0.0-alpha20"
 compose-paging-runtime = "3.2.0-alpha06"
 compose-room = "2.5.1"
-constraintlayout-compose = "1.0.0-rc01"
+constraintlayout-compose = "1.0.1"
 coroutines = "1.2.1"
 androidx-navigation = "2.7.7"
 reorderable = "0.9.6"
@@ -46,6 +46,8 @@ compose-viewmodel = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-c
 compose-koin = {group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin"}
 android-navigation-ui = {group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "androidx-navigation" }
 android-navigation-compose = {group = "androidx.navigation", name = "navigation-compose", version.ref = "androidx-navigation" }
+compose-page = {group = "com.google.accompanist", name = "accompanist-pager", version = "0.18.0" }
+
 
 # paging
 compose-paging = {group = "androidx.paging", name = "paging-compose", version.ref = "compose-paging"}
@@ -81,11 +83,15 @@ androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junit-vers
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist-systemuicontroller" }
 
 # third party library
+sdp-android = {group = "com.intuit.sdp", name = "sdp-android", version = "1.1.0" }
+ssp-android = {group = "com.intuit.ssp", name = "ssp-android", version = "1.1.0" }
 timber = {group = "com.jakewharton.timber", name = "timber", version.ref = "timber-version"}
 reorderable = { module = "org.burnoutcrew.composereorderable:reorderable", version.ref = "reorderable" }
+compose-pullrefresh = {group = "com.github.fengdai.compose", name = "pulltorefresh", version = "0.2.0" }
 
 [plugins]
 android-application = {id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = {id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-parcelize = {id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }

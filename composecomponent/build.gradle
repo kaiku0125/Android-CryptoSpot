@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -43,6 +44,7 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.compose.viewmodel)
     implementation(libs.compose.koin)
+    implementation(libs.compose.page)
 
     // Paging
     implementation libs.compose.paging
@@ -91,6 +93,9 @@ dependencies {
     implementation(libs.coil.svg)
 
     // Third party
+    implementation libs.sdp.android
+    implementation libs.ssp.android
     implementation libs.timber
     implementation libs.reorderable
+    implementation libs.compose.pullrefresh
 }
