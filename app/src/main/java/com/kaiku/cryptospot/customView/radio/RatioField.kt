@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.customView.radio.data
+package com.kaiku.cryptospot.customView.radio
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.kaiku.cryptospot.customView.BasicType
-import com.kaiku.cryptospot.customView.dialog.data.FlashRatioType
+import com.kaiku.cryptospot.customView.radio.data.FlashRatioType
 import com.kaiku.cryptospot.customView.text.SimpleText
 import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
 

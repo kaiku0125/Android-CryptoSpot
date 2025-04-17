@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.kaiku.cryptospot.customView.checkboxfield.CheckBoxFieldComponent
 import com.kaiku.cryptospot.customView.dialog.RatioDialogComponent
-import com.kaiku.cryptospot.customView.dialog.data.FlashRatioType
+import com.kaiku.cryptospot.customView.radio.data.FlashRatioType
 import com.kaiku.cryptospot.customView.spinner.SpinnerComponent
 import com.kaiku.cryptospot.customView.spinner.data.FlashConditionJudgeType
 import com.kaiku.cryptospot.customView.spinner.data.FlashConditionTriggerType

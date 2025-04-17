@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.customView.dialog.data
+package com.kaiku.cryptospot.customView.radio.data
 
 import androidx.annotation.StringRes
 import com.kaiku.cryptospot.R
