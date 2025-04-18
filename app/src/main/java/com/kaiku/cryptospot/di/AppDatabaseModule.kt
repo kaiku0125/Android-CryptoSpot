@@ -13,30 +13,5 @@ import org.koin.dsl.module
 
 @OptIn(ExperimentalPagingApi::class)
 val appDatabaseModule = module {
-    single<CryptoSpotDatabase> {
-        Room.databaseBuilder(
-            androidContext(),
-            CryptoSpotDatabase::class.java,
-            "crypto_listing_db"
-        ).build()
-    }
 
-    single<Pager<Int, CryptoListingEntity>> {
-        val db: CryptoSpotDatabase = get()
-        val api: CoinMarketCapApi = get()
-
-        Pager(
-            config = PagingConfig(
-                pageSize = 25,
-                initialLoadSize = 50
-            ),
-            remoteMediator = CryptoListingMediator(
-                db = db,
-                api = api
-            ),
-            pagingSourceFactory = {
-                db.dao.pagingSource()
-            }
-        )
-    }
 }

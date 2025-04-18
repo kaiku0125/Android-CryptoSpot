@@ -1,12 +1,7 @@
 package com.kaiku.cryptospot
 
 import android.app.Application
-import com.kaiku.cryptospot.di.appDatabaseModule
-import com.kaiku.cryptospot.di.appNetworkModule
-import com.kaiku.cryptospot.di.appRepositoryModule
-import com.kaiku.cryptospot.di.appSingleModule
-import com.kaiku.cryptospot.di.appUseCaseModule
-import com.kaiku.cryptospot.di.appViewModelModule
+import com.kaiku.cryptospot.di.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
@@ -25,12 +20,12 @@ class SpotApplication : Application() {
             androidContext(this@SpotApplication)
             loadKoinModules(
                 listOf(
-                    appSingleModule,
-                    appNetworkModule,
-                    appDatabaseModule,
-                    appViewModelModule,
-                    appUseCaseModule,
-                    appRepositoryModule
+                    appSingleModule,      // Prefs
+                    appDatabaseModule,    // Database
+                    appNetworkModule,     // API
+                    appRepositoryModule,  // Repositories
+                    appUseCaseModule,     // Use Cases
+                    appViewModelModule    // ViewModels
                 )
             )
         }
