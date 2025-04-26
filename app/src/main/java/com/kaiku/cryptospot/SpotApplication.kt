@@ -21,7 +21,6 @@ class SpotApplication : Application() {
             loadKoinModules(
                 listOf(
                     appSingleModule,      // Prefs
-                    appDatabaseModule,    // Database
                     appNetworkModule,     // API
                     appRepositoryModule,  // Repositories
                     appUseCaseModule,     // Use Cases

@@ -10,6 +10,7 @@ import com.kaiku.cryptospot.data.db.cachetime.CacheTimeEntity
 import com.kaiku.cryptospot.data.db.cryptolisting.CryptoListingEntity
 import com.kaiku.cryptospot.data.remote.CoinMarketCapApi
 import com.kaiku.cryptospot.data.remote.dto.crypto_list.toEntity
+import kotlinx.coroutines.delay
 import retrofit2.HttpException
 import timber.log.Timber
 import java.io.IOException
@@ -45,7 +46,13 @@ class CryptoListingMediator(
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
-                LoadType.REFRESH -> 1
+                LoadType.REFRESH -> {
+                    // TODO: 不確定是否能這樣做 
+                    db.withTransaction {
+                        db.dao.pagingSource().invalidate()
+                    }
+                    1
+                }
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()

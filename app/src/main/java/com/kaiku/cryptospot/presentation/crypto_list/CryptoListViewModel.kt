@@ -4,12 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.cachedIn
+import androidx.paging.liveData
 import androidx.paging.map
 import com.kaiku.cryptospot.common.Resource
 import com.kaiku.cryptospot.data.db.cryptolisting.CryptoListingEntity
 import com.kaiku.cryptospot.data.remote.dto.crypto_list.toData
 import com.kaiku.cryptospot.domain.use_case.GetCryptoListUseCase
-import kotlinx.coroutines.CancellationException
+import com.kaiku.cryptospot.presentation.crypto_list.data.CryptoListViewAction
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -38,6 +39,10 @@ class CryptoListViewModel(
         .map { pagingData ->
             pagingData.map { it.toData() }
         }
+        .onEach {
+
+        }
+
         .flowOn(dispatcher)
         .cachedIn(viewModelScope)
 
@@ -81,6 +86,29 @@ class CryptoListViewModel(
             }
         }.launchIn(viewModelScope)
 
+    }
+
+    fun dispatch(action: CryptoListViewAction) {
+        viewModelScope.launch(dispatcher) {
+            when(action) {
+                CryptoListViewAction.OnPullRefreshAction -> {
+                    _viewState.update {
+                        it.copy(
+                            isLoading = true
+                        )
+                    }
+                }
+                CryptoListViewAction.OnLoadedAction -> {
+                    _viewState.update {
+                        it.copy(
+                            isLoading = false
+                        )
+                    }
+                }
+
+                else -> Unit
+            }
+        }
     }
 
     private var job: Job? = null
