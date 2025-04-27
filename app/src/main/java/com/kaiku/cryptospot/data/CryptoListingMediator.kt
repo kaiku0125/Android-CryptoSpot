@@ -29,13 +29,13 @@ class CryptoListingMediator(
         {
             // Cached data is up-to-date, so there is no need to re-fetch
             // from the network.
-            Timber.tag("wtf").e("SKIP_INITIAL_REFRESH")
+            Timber.tag("wtf").d("SKIP_INITIAL_REFRESH")
             InitializeAction.SKIP_INITIAL_REFRESH
         } else {
             // Need to refresh cached data from network; returning
             // LAUNCH_INITIAL_REFRESH here will also block RemoteMediator's
             // APPEND and PREPEND from running until REFRESH succeeds.
-            Timber.tag("wtf").e("LAUNCH_INITIAL_REFRESH")
+            Timber.tag("wtf").d("LAUNCH_INITIAL_REFRESH")
             InitializeAction.LAUNCH_INITIAL_REFRESH
         }
     }
@@ -64,9 +64,9 @@ class CryptoListingMediator(
                 }
             }
 
-            Timber.tag("wtf").e("start = $loadKey, limit = ${state.config.pageSize}")
+            Timber.tag("wtf").d("start = $loadKey, limit = ${state.config.pageSize}")
             val response = api.getCryptoListings(start = loadKey, limit = state.config.pageSize)
-            Timber.tag("wtf").e("response ➔ ${response.data}")
+            Timber.tag("wtf").d("response ➔ ${response.data}")
 
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {

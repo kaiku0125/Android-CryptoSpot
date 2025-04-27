@@ -132,13 +132,13 @@ private fun VerticalGrid(
                     isItemDragging = isDragging
                     LaunchedEffect(isItemDragging){
                         if (isItemDragging) {
-                            Timber.tag("wtf").e("some one isDragging")
+                            Timber.tag("wtf").d("some one isDragging")
                             (context.getSystemService(Context.AUDIO_SERVICE) as AudioManager)
                                 .playSoundEffect(AudioManager.FX_KEY_CLICK)
 
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         } else {
-                            Timber.tag("wtf").e("not drag...")
+                            Timber.tag("wtf").d("not drag...")
                         }
                     }
 

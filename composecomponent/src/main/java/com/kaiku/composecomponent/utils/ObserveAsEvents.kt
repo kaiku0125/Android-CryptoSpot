@@ -13,7 +13,7 @@ fun <T> ObserveAsEvents(
     flow: Flow<T>,
     onEvent: (T) -> Unit
 ) {
-    val owner = LocalLifecycleOwner.current
+    val owner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     LaunchedEffect(flow, owner.lifecycle) {
         owner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             flow.collectLatest { onEvent.invoke(it) }

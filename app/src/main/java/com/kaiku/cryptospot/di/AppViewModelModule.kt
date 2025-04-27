@@ -16,7 +16,8 @@ val appViewModelModule = module {
     viewModel {
         CryptoListViewModel(
             getCryptoListUseCase = get(),
-            pager = get()
+            pager = get(),
+            addHoldingUseCase = get()
         )
     }
 }

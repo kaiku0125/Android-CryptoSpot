@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.domain.use_case
+package com.kaiku.cryptospot.domain.usecase
 
 import com.kaiku.cryptospot.common.Resource
 import com.kaiku.cryptospot.data.remote.dto.crypto_list.toPoint

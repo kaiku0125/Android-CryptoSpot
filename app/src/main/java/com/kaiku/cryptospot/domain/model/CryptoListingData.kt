@@ -5,4 +5,13 @@ data class CryptoListingData(
     val id: Int,
     val symbol: String,
     val price: Double,
-)
+) {
+    companion object {
+        val PREVIEW = CryptoListingData(
+            rank = 1,
+            id = 1,
+            symbol = "BTC",
+            price = 94153.68
+        )
+    }
+}

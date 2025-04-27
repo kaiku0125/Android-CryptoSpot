@@ -11,9 +11,6 @@ class SpotApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-//        if (BuildConfig.DEBUG) {
-//            Timber.plant(MultiTagTree())
-//        }
         Timber.plant(MultiTagTree())
 
         startKoin {
@@ -21,6 +18,7 @@ class SpotApplication : Application() {
             loadKoinModules(
                 listOf(
                     appSingleModule,      // Prefs
+                    appDatabaseModule,    // Database
                     appNetworkModule,     // API
                     appRepositoryModule,  // Repositories
                     appUseCaseModule,     // Use Cases

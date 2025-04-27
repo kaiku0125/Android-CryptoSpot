@@ -4,19 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.cachedIn
-import androidx.paging.liveData
 import androidx.paging.map
 import com.kaiku.cryptospot.common.Resource
 import com.kaiku.cryptospot.data.db.cryptolisting.CryptoListingEntity
 import com.kaiku.cryptospot.data.remote.dto.crypto_list.toData
-import com.kaiku.cryptospot.domain.use_case.GetCryptoListUseCase
+import com.kaiku.cryptospot.domain.usecase.AddHoldingUseCase
+import com.kaiku.cryptospot.domain.usecase.GetCryptoListUseCase
 import com.kaiku.cryptospot.presentation.crypto_list.data.CryptoListViewAction
+import com.kaiku.cryptospot.presentation.crypto_list.data.CryptoListViewEvent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -29,11 +29,15 @@ import timber.log.Timber
 class CryptoListViewModel(
     private val getCryptoListUseCase: GetCryptoListUseCase,
     private val pager: Pager<Int, CryptoListingEntity>,
+    private val addHoldingUseCase: AddHoldingUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(CryptoListState())
     val viewState = _viewState.asStateFlow()
+
+    private val _viewEvent = MutableSharedFlow<CryptoListViewEvent?>()
+    val viewEvent = _viewEvent.asSharedFlow()
 
     val pagerFlow = pager.flow
         .map { pagingData ->
@@ -91,19 +95,28 @@ class CryptoListViewModel(
     fun dispatch(action: CryptoListViewAction) {
         viewModelScope.launch(dispatcher) {
             when(action) {
-                CryptoListViewAction.OnPullRefreshAction -> {
-                    _viewState.update {
-                        it.copy(
-                            isLoading = true
-                        )
-                    }
+                is CryptoListViewAction.OnCardClickAction -> {
+                    _viewEvent.emit(
+                        CryptoListViewEvent.ShowAddUserHoldingsDialog(action.data)
+                    )
                 }
-                CryptoListViewAction.OnLoadedAction -> {
-                    _viewState.update {
-                        it.copy(
-                            isLoading = false
-                        )
-                    }
+
+                is CryptoListViewAction.ResetDialogAction -> {
+                    _viewEvent.emit(CryptoListViewEvent.HideDialog)
+                }
+
+                is CryptoListViewAction.AddHoldingAction -> {
+                    addHoldingUseCase.invoke(holding = action.holding).fold(
+                        onSuccess = { holding ->
+                            holding?.let {
+                                Timber.tag("wtf").d("[${it.symbol}]: ${it.amount}, ${it.cost}")
+                            }
+                            _viewEvent.emit(CryptoListViewEvent.HideDialog)
+                        },
+                        onFailure = {
+                            Timber.tag("wtf").e("addHoldingUseCase error: ${it.message}")
+                        }
+                    )
                 }
 
                 else -> Unit
@@ -111,25 +124,6 @@ class CryptoListViewModel(
         }
     }
 
-    private var job: Job? = null
-    fun onLoading() {
-        job?.cancel()
-        job = viewModelScope.launch(dispatcher) {
-            _viewState.update {
-                it.copy(
-                    isLoading = true
-                )
-            }
-            delay(3000)
-            ensureActive()
-            Timber.tag("wtf").e("update to false")
-            _viewState.update {
-                it.copy(
-                    isLoading = false
-                )
-            }
-        }
-    }
 
     companion object {
         private const val TAG = "CryptoListViewModel"

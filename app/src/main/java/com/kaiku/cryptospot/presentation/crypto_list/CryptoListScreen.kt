@@ -39,7 +39,9 @@ import com.kaiku.composecomponent.component.loading.PocketPullRefreshIndicator
 import com.kaiku.composecomponent.component.spacer.PocketSpacer
 import com.kaiku.composecomponent.component.text.PocketText
 import com.kaiku.composecomponent.component.text.PocketTextConfig
+import com.kaiku.composecomponent.extension.clickableEffectConfig
 import com.kaiku.composecomponent.extension.pocketPadding
+import com.kaiku.composecomponent.utils.ObserveAsEvents
 import com.kaiku.composecomponent.utils.isPreviewMode
 import com.kaiku.composecomponent.utils.sdp
 import com.kaiku.composecomponent.utils.text14Sp
@@ -52,25 +54,26 @@ import com.kaiku.cryptospot.domain.model.CryptoListingData
 import com.kaiku.cryptospot.navigation.HomeDestination
 import com.kaiku.cryptospot.navigation.ScreenNavigator
 import com.kaiku.cryptospot.presentation.crypto_list.data.CryptoListViewAction
+import com.kaiku.cryptospot.presentation.crypto_list.data.CryptoListViewEvent
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.flowOf
 import org.koin.androidx.compose.koinViewModel
-import timber.log.Timber
 
 @Composable
 fun CryptoListScreenRoot(
     viewModel: CryptoListViewModel = koinViewModel()
 ) {
-    val viewState = viewModel.viewState.collectAsStateWithLifecycle().value
-
-    val cryptos = viewModel.pagerFlow.collectAsLazyPagingItems()
 
     CryptoListScreen(
-        viewState = viewState,
-        cryptos = cryptos,
-        action = { action ->
-            viewModel.dispatch(action = action)
-        }
+        viewState = viewModel.viewState.collectAsStateWithLifecycle().value,
+        cryptos = viewModel.pagerFlow.collectAsLazyPagingItems(),
+        action = viewModel::dispatch
+    )
+
+    Dialogs(
+        viewEvent = viewModel.viewEvent,
+        action = viewModel::dispatch
     )
 }
 
@@ -88,7 +91,7 @@ private fun CryptoListScreen(
         topBar = {
             ScaffoldTopAppBarWithBackNavComponent(
                 textConfig = SimpleTextConfig(
-                    value = "添加觀察幣種",
+                    value = "搜尋幣種",
                     textColor = Color.Unspecified,
                     style = MaterialTheme.typography.titleLarge
                 ),
@@ -213,7 +216,12 @@ private fun LazyPagingCrypto(
                                 item?.let {
                                     InfoItem(
                                         rank = it.rank,
-                                        info = it.symbol
+                                        info = it.symbol,
+                                        onItemClick = {
+                                            action.invoke(
+                                                CryptoListViewAction.OnCardClickAction(it)
+                                            )
+                                        }
                                     )
                                 }
                             }
@@ -241,11 +249,18 @@ private fun LazyPagingCrypto(
 }
 
 @Composable
-fun InfoItem(rank: Int, info: String) {
+fun InfoItem(
+    rank: Int,
+    info: String,
+    onItemClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.sdp(), horizontal = 4.sdp()),
+            .padding(vertical = 8.sdp(), horizontal = 4.sdp())
+            .clickableEffectConfig {
+                onItemClick.invoke()
+            },
         shape = RoundedCornerShape(8.sdp()),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.sdp()
@@ -268,6 +283,41 @@ fun InfoItem(rank: Int, info: String) {
 
             )
         }
+    }
+}
+
+@Composable
+private fun Dialogs(
+    viewEvent: SharedFlow<CryptoListViewEvent?>,
+    action: (CryptoListViewAction) -> Unit
+) {
+    var dialogState by remember { mutableStateOf<CryptoListViewEvent>(CryptoListViewEvent.HideDialog) }
+
+    ObserveAsEvents(viewEvent) { event ->
+        when (event) {
+            is CryptoListViewEvent.ShowAddUserHoldingsDialog -> {
+                dialogState = CryptoListViewEvent.ShowAddUserHoldingsDialog(event.data)
+            }
+
+            else -> dialogState = CryptoListViewEvent.HideDialog
+        }
+    }
+
+    when (val state = dialogState) {
+        is CryptoListViewEvent.ShowAddUserHoldingsDialog -> {
+            AddUserHoldingsDialog(
+                data = state.data,
+                onConfirm = {
+                    action.invoke(
+                        CryptoListViewAction.AddHoldingAction(it)
+                    )
+                },
+                onDismiss = {
+                    action.invoke(CryptoListViewAction.ResetDialogAction)
+                }
+            )
+        }
+        CryptoListViewEvent.HideDialog -> Unit
     }
 }
 
