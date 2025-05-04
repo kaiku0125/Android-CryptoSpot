@@ -10,6 +10,7 @@ import com.kaiku.cryptospot.data.db.cachetime.CacheTimeEntity
 import com.kaiku.cryptospot.data.db.cryptolisting.CryptoListingEntity
 import com.kaiku.cryptospot.data.remote.CoinMarketCapApi
 import com.kaiku.cryptospot.data.remote.dto.crypto_list.toEntity
+import com.kaiku.cryptospot.domain.repository.MainRepository
 import kotlinx.coroutines.delay
 import retrofit2.HttpException
 import timber.log.Timber

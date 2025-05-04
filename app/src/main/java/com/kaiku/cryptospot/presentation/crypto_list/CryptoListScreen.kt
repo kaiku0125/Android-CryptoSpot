@@ -294,12 +294,12 @@ private fun Dialogs(
     var dialogState by remember { mutableStateOf<CryptoListViewEvent>(CryptoListViewEvent.HideDialog) }
 
     ObserveAsEvents(viewEvent) { event ->
-        when (event) {
+        dialogState = when (event) {
             is CryptoListViewEvent.ShowAddUserHoldingsDialog -> {
-                dialogState = CryptoListViewEvent.ShowAddUserHoldingsDialog(event.data)
+                CryptoListViewEvent.ShowAddUserHoldingsDialog(event.data)
             }
 
-            else -> dialogState = CryptoListViewEvent.HideDialog
+            else -> CryptoListViewEvent.HideDialog
         }
     }
 

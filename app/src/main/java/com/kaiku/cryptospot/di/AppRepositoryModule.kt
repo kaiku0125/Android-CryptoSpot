@@ -9,7 +9,8 @@ import org.koin.dsl.module
 val appRepositoryModule = module {
     factory<MainRepository> {
         MainRepositoryImpl(
-            api = get()
+            api = get(),
+            db = get()
         )
     }
 

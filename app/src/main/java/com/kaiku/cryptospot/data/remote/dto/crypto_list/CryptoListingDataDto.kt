@@ -42,7 +42,7 @@ data class QuoteInfo(
 )
 
 
-fun CryptoListingDataDto.toPoint() : CryptoListingData{
+fun CryptoListingDataDto.toData() : CryptoListingData{
     return CryptoListingData(
         rank = cmc_rank,
         id = id,

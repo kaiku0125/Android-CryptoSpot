@@ -14,9 +14,9 @@ interface CryptoListingDao {
     @Upsert
     suspend fun upsertAll(cryptos: List<CryptoListingEntity>)
 
-    @Query("SELECT * FROM CryptoListingEntity")
+    @Query("SELECT * FROM ${CryptoListingEntity.TABLE_NAME}")
     fun pagingSource(): PagingSource<Int, CryptoListingEntity>
 
-    @Query("DELETE FROM CryptoListingEntity")
+    @Query("DELETE FROM ${CryptoListingEntity.TABLE_NAME}")
     suspend fun deleteAll()
 }

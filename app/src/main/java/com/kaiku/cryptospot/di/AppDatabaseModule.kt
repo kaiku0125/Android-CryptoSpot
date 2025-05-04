@@ -31,10 +31,11 @@ val appDatabaseModule = module {
                 pageSize = 25,
                 initialLoadSize = 50
             ),
-            remoteMediator = CryptoListingMediator(
-                db = db,
-                api = api
-            ),
+            // 先使用DB 5000筆快取資料
+//            remoteMediator = CryptoListingMediator(
+//                db = db,
+//                api = api
+//            ),
             pagingSourceFactory = {
                 db.dao.pagingSource()
             }

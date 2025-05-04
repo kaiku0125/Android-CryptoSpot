@@ -1,4 +1,4 @@
-package com.kaiku.cryptospot.data.remote.dto.crypto_list
+package com.kaiku.cryptospot.data.remote.dto
 
 import com.kaiku.cryptospot.domain.model.Status
 
@@ -11,7 +11,7 @@ data class StatusDto(
 )
 
 
-fun StatusDto.toPoint() : Status {
+fun StatusDto.toData() : Status {
     return Status(
         errorCode = error_code,
         errorMessage = error_message

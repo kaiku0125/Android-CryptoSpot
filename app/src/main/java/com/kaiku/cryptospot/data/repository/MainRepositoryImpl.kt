@@ -1,64 +1,50 @@
 package com.kaiku.cryptospot.data.repository
 
+import androidx.room.withTransaction
+import com.kaiku.cryptospot.data.db.CryptoSpotDatabase
+import com.kaiku.cryptospot.data.db.cachetime.CacheTimeEntity
+import com.kaiku.cryptospot.data.db.cryptolisting.CryptoListingEntity
 import com.kaiku.cryptospot.data.remote.CoinMarketCapApi
 import com.kaiku.cryptospot.data.remote.dto.crypto_list.CryptoListResponse
 import com.kaiku.cryptospot.domain.repository.MainRepository
-import timber.log.Timber
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withTimeout
+import java.util.concurrent.TimeUnit
 
 class MainRepositoryImpl(
-    private val api: CoinMarketCapApi
-) : MainRepository{
+    private val api: CoinMarketCapApi,
+    private val db: CryptoSpotDatabase,
+) : MainRepository {
 
-//    suspend fun requestCryptoList(): List<String> {
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//
-//            val response = api.getCryptoListings().awaitResponse()
-//
-//            if (response.isSuccessful) {
-//                val body = response.body()!!
-//                Log.e(TAG, "onResponse: body ➔ ${body.toString()}")
-//
-//                val cryptoListings = body.data
-//                val cryptoSymbols = cryptoListings.map { it.symbol }
-//
-//                cryptoList = cryptoSymbols
-//                Log.e(TAG, "getList: symbols ➔ $cryptoSymbols , size ➔ ${cryptoSymbols.size}")
-//            }
-//
-//        }
-//        Log.e(TAG, "requestCryptoList: end scope")
-//        return cryptoList
-//    }
-
-//    suspend fun requestCryptoList(): List<String> {
-//        Timber.e("Method start")
-//        val response = api.getCryptoListings()
-//
-//        if (response.isSuccessful) {
-//            val body = response.body()!!
-//            Timber.e("onResponse: body ➔ ${body.toString()}")
-//
-//            val cryptoListings = body.data
-//            val cryptoSymbols = cryptoListings.map { it.symbol }
-//
-//            cryptoList = cryptoSymbols
-//            Timber.e("getList: symbols ➔ $cryptoSymbols , size ➔ ${cryptoSymbols.size}")
-//        }
-//
-//        Timber.e("Method end")
-//        return cryptoList
-//    }
-
-    override suspend fun requestCryptoList(): CryptoListResponse {
-        return api.getCryptoListings(
-            start = 1,
-            limit = 10
-        )
+    override suspend fun requestCryptoList(start: Int, limit: Int): Result<CryptoListResponse> {
+        return withTimeout(5000L) {
+            runCatching {
+                api.getCryptoListings(
+                    start = start,
+                    limit = limit
+                )
+            }
+        }
     }
 
-    override suspend fun requestObserverList(symbol: String) {
+    override suspend fun isCryptoListCacheExpired(): Boolean {
+        val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
+        val cacheTime = db.cacheTimeDao.getByTag("crypto_list").firstOrNull()?.expiredTime ?: 0L
 
+        return System.currentTimeMillis() - cacheTime > cacheTimeout
     }
 
+    override suspend fun updateAllCryptoList(entities: List<CryptoListingEntity>) {
+        db.withTransaction {
+            db.dao.deleteAll()
+            db.dao.upsertAll(entities)
+            db.cacheTimeDao.upsert(
+                CacheTimeEntity(
+                    tag = "crypto_list",
+                    expiredTime = System.currentTimeMillis()
+                )
+            )
+        }
+    }
 }

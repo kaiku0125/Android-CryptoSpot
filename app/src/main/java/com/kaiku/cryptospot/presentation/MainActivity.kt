@@ -3,6 +3,7 @@ package com.kaiku.cryptospot.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -20,9 +21,12 @@ import com.kaiku.cryptospot.presentation.login.LoginScreenRoot
 import com.kaiku.cryptospot.presentation.theme.CryptoSpotTheme
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideEnter
 import com.kaiku.cryptospot.utils.ScreenAnimation.screenSlideExit
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel by viewModel<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +47,13 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         Timber.e("main activity onResume")
+        viewModel.onResume()
     }
 
     override fun onPause() {
         Timber.e("main onPause")
         super.onPause()
+        viewModel.onPause()
     }
 
     override fun onBackPressed() {
