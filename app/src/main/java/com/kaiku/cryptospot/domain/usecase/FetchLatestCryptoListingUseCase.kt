@@ -1,15 +1,11 @@
 package com.kaiku.cryptospot.domain.usecase
 
-import androidx.room.withTransaction
-import com.kaiku.cryptospot.data.db.CryptoSpotDatabase
-import com.kaiku.cryptospot.data.db.cachetime.CacheTimeEntity
 import com.kaiku.cryptospot.data.remote.dto.crypto_list.toEntity
 import com.kaiku.cryptospot.domain.repository.MainRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class FetchLatestCryptoListingUseCase(
     private val mainRepository: MainRepository,

@@ -17,6 +17,12 @@ interface CryptoListingDao {
     @Query("SELECT * FROM ${CryptoListingEntity.TABLE_NAME}")
     fun pagingSource(): PagingSource<Int, CryptoListingEntity>
 
+    @Query("""
+        SELECT * FROM ${CryptoListingEntity.TABLE_NAME} 
+        WHERE symbol LIKE :query || '%'
+    """)
+    fun pagingSource(query: String): PagingSource<Int, CryptoListingEntity>
+
     @Query("DELETE FROM ${CryptoListingEntity.TABLE_NAME}")
     suspend fun deleteAll()
 }

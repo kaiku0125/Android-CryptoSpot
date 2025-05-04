@@ -1,5 +1,7 @@
 package com.kaiku.cryptospot.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.room.withTransaction
 import com.kaiku.cryptospot.data.db.CryptoSpotDatabase
 import com.kaiku.cryptospot.data.db.cachetime.CacheTimeEntity
@@ -46,5 +48,15 @@ class MainRepositoryImpl(
                 )
             )
         }
+    }
+
+    override fun getPagerByQuery(query: String): Pager<Int, CryptoListingEntity> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 25,
+                initialLoadSize = 50
+            ),
+            pagingSourceFactory = { db.dao.pagingSource(query) }
+        )
     }
 }

@@ -14,4 +14,8 @@ sealed class CryptoListViewAction {
     data class AddHoldingAction(
         val holding: Holding
     ): CryptoListViewAction()
+
+    data class InputSearchTextAction(
+        val text: String
+    ): CryptoListViewAction()
 }

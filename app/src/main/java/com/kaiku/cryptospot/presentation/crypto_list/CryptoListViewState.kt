@@ -1,10 +1,14 @@
 package com.kaiku.cryptospot.presentation.crypto_list
 
-import androidx.paging.compose.LazyPagingItems
 import com.kaiku.cryptospot.domain.model.CryptoListingData
 
-data class CryptoListState(
-    val isLoading : Boolean = false,
+data class CryptoListViewState(
+    val searchText: String = "",
     val cryptoList : List<CryptoListingData> = emptyList(),
-    val errorMsg : String = ""
-)
+) {
+    companion object {
+        val INIT by lazy {
+            CryptoListViewState()
+        }
+    }
+}

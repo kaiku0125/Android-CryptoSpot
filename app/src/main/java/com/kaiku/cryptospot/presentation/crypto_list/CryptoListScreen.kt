@@ -5,6 +5,8 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -21,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -35,17 +38,22 @@ import androidx.paging.compose.itemContentType
 import com.github.fengdai.compose.pulltorefresh.PullToRefresh
 import com.github.fengdai.compose.pulltorefresh.rememberPullToRefreshState
 import com.kaiku.composecomponent.LocalProvider
+import com.kaiku.composecomponent.color_9e9e9f
 import com.kaiku.composecomponent.component.loading.PocketPullRefreshIndicator
 import com.kaiku.composecomponent.component.spacer.PocketSpacer
 import com.kaiku.composecomponent.component.text.PocketText
 import com.kaiku.composecomponent.component.text.PocketTextConfig
+import com.kaiku.composecomponent.component.textfield.PocketSearchField
 import com.kaiku.composecomponent.extension.clickableEffectConfig
 import com.kaiku.composecomponent.extension.pocketPadding
 import com.kaiku.composecomponent.utils.ObserveAsEvents
 import com.kaiku.composecomponent.utils.isPreviewMode
 import com.kaiku.composecomponent.utils.sdp
+import com.kaiku.composecomponent.utils.text13Sp
 import com.kaiku.composecomponent.utils.text14Sp
+import com.kaiku.composecomponent.utils.text15Sp
 import com.kaiku.composecomponent.utils.text16Sp
+import com.kaiku.cryptospot.common.Global
 import com.kaiku.cryptospot.customView.loading.CircularProgressLoader
 import com.kaiku.cryptospot.customView.text.SimpleText
 import com.kaiku.cryptospot.customView.text.data.SimpleTextConfig
@@ -81,7 +89,7 @@ fun CryptoListScreenRoot(
 // TODO: Screen rotate maybe failed
 @Composable
 private fun CryptoListScreen(
-    viewState: CryptoListState,
+    viewState: CryptoListViewState,
     cryptos: LazyPagingItems<CryptoListingData>,
     action: (CryptoListViewAction) -> Unit
 ) {
@@ -102,23 +110,68 @@ private fun CryptoListScreen(
         }
     ) { paddingValues ->
 
-        LazyPagingCrypto(
+        Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize(),
-            viewState = viewState,
-            cryptos = cryptos,
-            action = action
-        )
+                .fillMaxSize()
+        ) {
+
+            SearchContent(
+                viewState = viewState,
+                action = action
+            )
+
+            PocketSpacer(height = 4)
+
+            LazyPagingCrypto(
+                viewState = viewState,
+                cryptos = cryptos,
+                action = action
+            )
+        }
+
 
     }
 
 }
 
 @Composable
+fun SearchContent(
+    modifier: Modifier = Modifier,
+    viewState: CryptoListViewState,
+    action: (CryptoListViewAction) -> Unit
+) {
+
+    PocketSearchField(
+        modifier = modifier
+            .heightIn(min = 35.sdp())
+            .padding(horizontal = 4.sdp()),
+        isEditable = true,
+        textConfig = PocketTextConfig(
+            value = viewState.searchText,
+            style = text16Sp(),
+            alignment = Alignment.CenterStart
+        ),
+        hintConfig = PocketTextConfig(
+            value = "輸入幣種名稱",
+            style = text13Sp(),
+            textColor = color_9e9e9f,
+            alignment = Alignment.CenterStart
+        ),
+        background = MaterialTheme.colorScheme.surfaceContainer,
+        onTextChange = {
+            action.invoke(
+                CryptoListViewAction.InputSearchTextAction(it)
+            )
+        },
+        onFocusChange = {}
+    )
+}
+
+@Composable
 private fun LazyPagingCrypto(
     modifier: Modifier = Modifier,
-    viewState: CryptoListState,
+    viewState: CryptoListViewState,
     cryptos: LazyPagingItems<CryptoListingData>,
     action: (CryptoListViewAction) -> Unit
 ) {
@@ -277,7 +330,7 @@ fun InfoItem(
             PocketSpacer(height = 4)
             PocketText(
                 config = PocketTextConfig(
-                    value = "幣種 -> $info",
+                    value = "幣種 ➔ $info",
                     style = text14Sp()
                 )
 
@@ -358,8 +411,8 @@ private fun CryptoListScreenPreview() {
 
         CompositionLocalProvider(LocalProvider.LocalSpacerIndicator provides false) {
             CryptoListScreen(
-                viewState = CryptoListState(
-                    isLoading = false,
+                viewState = CryptoListViewState(
+                    searchText = "",
                     cryptoList = list,
                 ),
                 cryptos = lazyItems,
